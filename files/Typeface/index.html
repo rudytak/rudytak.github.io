@@ -1,0 +1,102 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type Face</title>
+
+    <link rel="stylesheet" href="css.css">
+
+    <script src="libs/clmtrackr.js"></script>
+    <script src="libs/model_pca_20_svm.js"></script>
+    <script src="libs/p5.js"></script>
+    <script src="libs/p5.dom.js"></script>
+    <script src="libs/emotion_classifier.js"></script>
+    <script src="libs/emotionmodel.js"></script>
+    <script src="libs/workshop-utils.js"></script>
+    <script src="libs/textFit.js"></script>
+</head>
+
+<body>
+    <div class="content" style="z-index: 0; left: 0%; top: 0%;">
+        <div class="RealText" contenteditable="false">
+            <span style="z-index: 1;" id="_txt" contenteditable="false">Type Face...</span>
+        </div>
+        <span style=" color: white; position: absolute; width: 170px; top:63%; left: 3%;">Enable video control
+        <input type="checkbox" id="myCheck" style="position: absolute; top: 2%; left: 85%;" checked=true></input>
+        <script>
+            document.getElementById("myCheck").checked = true;
+        </script>
+    </span>
+        <div class="slidecontainer">
+            <div style="height: 22px;">
+                <span class="slider-left" style="width: 60px;text-align: right;margin-right: 10px;float: left;">
+                <span id="slider-reset" class="slider-reset" style="color: white;">Weight</span>
+                </span>
+                <span class="slider-center">
+                <input type="range" min="100" max="1000" value="100" class="slider1" id="myRange1">
+            </span>
+            </div>
+            <div style="height: 22px;">
+                <span class="slider-left" style="width: 60px;text-align: right;margin-right: 10px;float: left;">
+                <span id="slider-reset" class="slider-reset" style="color: white;">Width</span>
+                </span>
+                <span class="slider-center">
+                <input type="range" min="50" max="150" value="100" class="slider2" id="myRange2">
+            </span>
+            </div>
+            <div style="height: 22px;">
+                <span class="slider-left" style="width: 60px;text-align: right;margin-right: 10px;float: left;">
+                <span id="slider-reset" class="slider-reset" style="color: white;">Italics</span>
+                </span>
+                <span class="slider-center">
+                <input type="range" min="0" max="10" value="0" class="slider3" id="myRange3">
+            </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info" style="z-index: 1000; width: 100%; height: 40; background: black; border-bottom: white 1px solid; opacity: 1; position: fixed;overflow-y: hidden; cursor: pointer; overflow:hidden;" onclick="infoDivOver();">
+        <span style="position: absolute; color: white; margin:auto; top: 7.5px; text-align: center; width: 100%;" class="about">
+            ABOUT
+        </span>
+        <span style="position: absolute; color: white; margin: auto; top: 7.5px;text-align: center; width: 100%;" class="type_face">
+            TYPE FACE
+        </span>
+        <span style="position: absolute; color: white; margin: auto; top: 7.5px; text-align: center; width: 100%;" class="contacts">
+            CONTACT
+        </span>
+        <br>
+        <br>
+        <br>
+        <div style="align-content: center;">
+            <div style="width: 30%; float: left; padding: 10px; text-indent: -1.7vw;">
+                <span style="text-align: left; color: white; padding: 5%;font-size: 1.7vw;">Type Face is a typographic exploration into the synergy of variable typefaces and facial recognitions systems. Through the motion of the users features, the typeface can be controlled and manipulated to explore its full range of variables. Version One is a rudimentary creation which has been launched in attempt to better understand the possibilities within the space of the concept. Any feedback, improvements, ideas or suggestions are warmly welcome. <br><br> Concept and design by Ewan Leslie. <br><br> A special thanks to Ollie Bromham and Joe Atkins for their continued support throughout the project.
+                </span>
+            </div>
+            <div style="width: 30%; float: left; padding: 10px; text-indent: -1.7vw; left: 33%;">
+                <span style="text-align: left; color: white; padding: 5%;font-size: 1.7vw;">
+                    Taking inspiration from Stephenson Blake type foundry’s Grotesque series, the variable typeface has been designed in attempt to incorporate the wide varieties of the family. The letter forms feel familiar yet distinctive, with wide and angled terminals offering the typeface some unique qualities to contrast the otherwise recognisable sans serif from. The design takes elements from across the series, however focuses on the condensed forms of GrotesqueNo. 6, the Regular weights from Grotesque No. 10, and the extended family of Grotesque No. 9. Despite the series never introducing an italic version, italics has been introduced as an additional variable.
+                </span>
+            </div>
+            <div style="width: 30%;float: left; padding: 10px; text-indent: -1.7vw; left: 66%;">
+                <span style="text-align: left; color: white; padding: 5%; font-size: 1.7vw;">
+                    For any questions or enquiries please contact Ewan Leslie via email or mobile: 
+                    <br>
+                    <br>hello@ewanleslie.com
+                    <br>+44 (0) 7908 272 585
+                    </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="foot" style="width: 100%; background: black; z-index: 9999; position: fixed; height: 48px; border-top: white 1px solid; border-bottom:  white 1px solid;">
+        <span style="position: absolute; color: white; left: 0%;text-align: center; width: 100%; margin:auto;" class="footText">
+        Move your face and features to explore the full range of the variable typeface
+        </span>
+    </div>
+</body>
+<script src="sketch.js"></script>
+<script src="fR.js"></script>
+
+</html>

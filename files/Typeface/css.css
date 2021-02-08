@@ -1,0 +1,105 @@
+@font-face {
+    font-family: "Roboto Flex";
+    src: url("https://pixelambacht.nl/remote/RobotoFlex[slnt,wdth,wght,opsz].woff2") format("woff2 supports variations"), url("https://pixelambacht.nl/remote/RobotoFlex[slnt,wdth,wght,opsz].woff2") format("woff2-variations");
+    font-weight: 100 1000;
+    font-stretch: 25% 151%;
+}
+
+@font-face {
+    font-family: 'myFont';
+    src: url('font.ttf') format('truetype');
+}
+
+@keyframes infoLin {
+    0% {
+        left: 40%;
+    }
+    50% {
+        left: 5%;
+    }
+    100% {
+        left: 40%
+    }
+}
+
+@keyframes infoLout {
+    from {
+        left: 5%;
+    }
+    to {
+        left: 40%;
+    }
+}
+
+@keyframes infoRin {
+    from {
+        left: 50%;
+    }
+    to {
+        left: 90%;
+    }
+}
+
+@keyframes infoRout {
+    from {
+        left: 90%;
+    }
+    to {
+        left: 50%;
+    }
+}
+
+body {
+    background-color: black;
+}
+
+body span {
+    font-family: 'myFont';
+}
+
+.RealText {
+    font-family: "Roboto Flex", monospace;
+    text-align: center;
+    display: block;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    top: 15%;
+    left: 0%;
+    width: 100%;
+    height: 70%;
+    position: absolute;
+    color: white;
+}
+
+.slidecontainer {
+    top: 86%;
+    left: 3%;
+    position: absolute;
+    font-family: "myFont";
+}
+
+.RealText #_txt {
+    display: inline-grid;
+    /*  font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width]))); */
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    word-wrap: break-word;
+    width: 66%;
+    height: 100%;
+}
+
+.RealText span {
+    font-family: "Roboto Flex";
+    word-wrap: break-word;
+    overflow-y: hidden;
+}
+
+.RealText #_txt span:empty {
+    padding-top: 200px;
+    padding-bottom: 200px;
+}
+
+[contenteditable="true"]:focus {
+    outline: none;
+}
