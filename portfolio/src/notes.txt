@@ -1,0 +1,32 @@
+site_data.json formats:
+    Project format:
+        "name" => string
+        "description" => string
+        "link" => url or relative path to the website [optional]
+        "secondary_links" => array of urls to secondary websites/mentions [optional]
+        "source_code" => url to the source code [optional]
+        "tech" => array of languages/technologies used [optional]
+        "active" => "true"/"false" whether to display on the site or no [optional; default: true]
+        "secret" => object containing any secret info like try out logins, pins etc.
+
+        {
+            "name": "",
+            "description": "",
+            "link": "",
+            "secondary_links": [],
+            "source_code": "",
+            "tech": [],
+            "active": "",
+            "secret": {}
+        }
+
+    Category/subcategory format:
+        "category_name" => string
+        "projects" => objects of proejct format
+        "sub_categories" => objects of category/subcategory format
+
+        {
+            "category_name": "",
+            "projects":[],
+            "sub_categories": []
+        }
