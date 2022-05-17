@@ -1,7 +1,6 @@
 body {
     margin: 0px;
     overflow-x: hidden;
-    overflow-y: scroll !important;
     font-family: 'Fira Code', monospace;
     font-size: 28px;
 }
@@ -47,6 +46,7 @@ main {
     z-index: 1;
     background: rgba(0, 0, 0, 0.75);
     height: 100%;
+    overflow-y: scroll !important;
 }
 
 .glass {

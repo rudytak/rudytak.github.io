@@ -85,6 +85,7 @@ function render_text() {
         <div class="collapser">
             <div class="collapsible">Contacts</div>
             <div class="collapsed">Email: <a href="mailto: ${settings.contacts.email}" target="_blank">${settings.contacts.email}</a></div>
+            <div class="collapsed">Fiverr: ${linkify(settings.contacts.fiverr)}</div>
             <div class="collapsed">Github: ${linkify(settings.contacts.github)}</div>
         </div>
 
