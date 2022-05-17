@@ -5,20 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://rudytak.github.io">
-    <title>RUDYTAK Portfolio</title>
+    <title>[rudytak Portfolio]</title>
 
     <script src="./libs/p5.min.js"></script>
     <script src="./libs/p5.dom.min.js"></script>
     <script src="./js/helper.js"></script>
     <script src="./js/background.js"></script>
     <script src="./js/sketch.js"></script>
+
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/bootstraps.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+
     <script>
         var settings;
-        function preload(){
+
+        function preload() {
             settings = loadJSON("./src/settings.json")
         }
     </script>
@@ -27,13 +31,69 @@
 <body>
     <main>
         <div id="content" class="glass">
-            <div class="collapser">
-                <div class="collapsible">Test</div>
-                <div class="collapser collapsed">
-                    <div class="collapsible">Test</div>
-                    <div class="collapsed">Test</div>
+            <div class="fs-70px">Ondřej Sedláček</div>
+            <div class="inset">
+                <div class="collapser">
+                    <div class="collapsible">Programmer, Student</div>
+                    <div class="collapsed">Experience: 6+ years</div>
+                    <div class="collapsed tech_icons">Fields: "js", "html", "css", "p5", "nodejs", "web3", "eth", "3D"</div>
                 </div>
-                <div class="collapsed">Test</div>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="collapser">
+                <div class="collapsible">Contacts</div>
+                <div class="collapsed">Email: <a href="mailto: o@aoo.cz" target="_blank">o@aoo.cz</a></div>
+                <div class="collapsed">Github: <a href="https://github.com/rudytak/" target="_blank">https://github.com/rudytak/</a></div>
+            </div>
+
+
+            <div class="collapser">
+                <div class="collapsible">Projects</div>
+                [object Object]
+                <div class="collapser">
+                    <div class="collapsible">WEB3/NFT projects</div>
+                    [object Object]
+                    <div class="collapser collapsed">
+                        <div class="collapsible">ETH Headz</div>
+                        <div class="collapsed">Website creation for an NFT project. Work included generating the images and creating the WEB3 capable website.</div>
+                        <div class="collapsed">
+                            <div class="inset">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="collapser">
+                    <div class="collapsible">Small custom website apps</div>
+                    [object Object]
+                    <div class="collapser collapsed">
+                        <div class="collapsible">Typeface</div>
+                        <div class="collapsed">WEbsite app using posenet AI to create generative font types.</div>
+                        <div class="collapsed">
+                            <div class="inset">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="collapser">
+                    <div class="collapsible">Minor website customizations</div>
+
+
+                    [object Object]
+                </div>
+
             </div>
         </div>
     </main>

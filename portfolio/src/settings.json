@@ -4,6 +4,8 @@
             "#171717",
             "#444444",
             "#00FFF5",
+            "#00CCC4",
+            "#009993",
             "#E5E5E5"
         ]
     },
@@ -11,103 +13,106 @@
         "name": "Ondřej Sedláček",
         "title": "",
         "self_definition": "Programmer, Student",
-        "experince": "6+ years",
+        "experience": "6+ years",
         "fields": ["js", "html", "css", "p5", "nodejs", "web3", "eth", "3D"]
     },
     "contacts":{
         "email": "o@aoo.cz",
         "github": "https://github.com/rudytak/"
     },
-    "project_categories":[
-        {
-            "category_name": "Large-scale/Commercial projects",
-            "projects":[
-                {
-                    "name": "POHL Dachkonfigurator",
-                    "description": "Custom configurtion software for internal use. Work lead by Voyseo to create a full application for a german roof construction company. The product includes many features like full customizability, automatic material list/invoie generation to PDF, 3D obejct generation + export, live sharing etc.",
-                    "link": "../projects/konfig/index.html",
-                    "secondary_links": [
-                        "https://konfigurator.kantmanufaktur.com/#/"
-                    ],
-                    "tech": ["html", "js", "p5", "pdf", "3D"],
-                    "active" : "true",
-                    "secret" : {
-                        "email": "test@gmail.com",
-                        "password": "password"
-                    }
-                }
-            ]          
-        },
-        {
-            "category_name": "WEB3/NFT projects",
-            "projects":[
-                {
-                    "name": "Untitled Token",
-                    "description": "An Ethereum NFT using transfer data and other blockchain data to change the look and evolve through time.",
-                    "link": "https://untitledtoken.io/",
-                    "secondary_links": [
-                        "https://opensea.io/collection/untitled-token",
-                        "https://discord.com/invite/3tDMCcKYKk",
-                        "https://twitter.com/untitledtoken"
-                    ],
-                    "tech": ["html", "js", "p5", "nodejs", "web3", "eth"],
-                    "active" : "true"
-                },
-                {
-                    "name": "ETH Headz",
-                    "description": "Website creation for an NFT project. Work included generating the images and creating the WEB3 capable website.",
-                    "link": "http://eth-headz.xyz/",
-                    "tech": ["html", "js", "p5", "nodejs", "web3", "eth", "ipfs"],
-                    "active" : "true"
-                }
-            ]
-        },
-        {
-            "category_name": "Small custom website apps",
-            "projects":[
-                {
-                    "name": "Sound board",
-                    "description": "A small online 'instrument' to play around with.",
-                    "link": "https://www.gene-seam.com/sound-board",
-                    "tech": ["html", "js", "p5"],
-                    "active" : "true"
-                },
-                {
-                    "name": "Typeface",
-                    "description": "WEbsite app using posenet AI to create generative font types.",
-                    "link": "../projects/typeface/index.html",
-                    "tech": ["html", "js", "p5", "posenet"],
-                    "active" : "true"
-                }
-            ]
-        },
-        {
-            "category_name": "Minor website customizations",
-            "projects":[],
-            "sub_categories": [
-                {
-                    "category_name": "Squarespace",
-                    "projects":[
-                        {
-                            "name": "Kafkka",
-                            "description": "Custom implementation of a loading animation to an existing website.",
-                            "link": "https://www.kafkka.com/",
-                            "tech": ["html", "js"],
-                            "active" : "true"
-                        },
-                        {
-                            "name": "Kafkka",
-                            "description": "Custom image gallery interaction implementation.",
-                            "link": "https://papaya-gardenia-sax2.squarespace.com/",
-                            "tech": ["html", "js"],
-                            "active": "true",
-                            "secret" : {
-                                "pin": "123"
-                            }
+    "projects":{
+        "category_name" : "Projects",
+        "sub_categories" : [
+            {
+                "category_name": "Large-scale/Commercial projects",
+                "projects":[
+                    {
+                        "name": "POHL Dachkonfigurator",
+                        "description": "Custom configuration software for internal use. Work lead by Voyseo to create a full application for a german roof construction company. The product includes many features like full customizability, automatic material list/invoie generation to PDF, 3D obejct generation + export, live sharing etc.",
+                        "link": "../projects/konfig/index.html",
+                        "secondary_links": [
+                            "https://konfigurator.kantmanufaktur.com/#/"
+                        ],
+                        "tech": ["html", "js", "p5", "pdf", "3D"],
+                        "active" : "true",
+                        "secret" : {
+                            "email": "test@gmail.com",
+                            "password": "password"
                         }
-                    ]
-                }
-            ]
-        }
-    ]
+                    }
+                ]          
+            },
+            {
+                "category_name": "WEB3/NFT projects",
+                "projects":[
+                    {
+                        "name": "Untitled Token",
+                        "description": "An Ethereum NFT using transfer data and other blockchain data to change the look and evolve through time.",
+                        "link": "https://untitledtoken.io/",
+                        "secondary_links": [
+                            "https://opensea.io/collection/untitled-token",
+                            "https://discord.com/invite/3tDMCcKYKk",
+                            "https://twitter.com/untitledtoken"
+                        ],
+                        "tech": ["html", "js", "p5", "nodejs", "web3", "eth"],
+                        "active" : "true"
+                    },
+                    {
+                        "name": "ETH Headz",
+                        "description": "Website creation for an NFT project. Work included generating the images and creating the WEB3 capable website.",
+                        "link": "http://eth-headz.xyz/",
+                        "tech": ["html", "js", "p5", "nodejs", "web3", "eth", "ipfs"],
+                        "active" : "true"
+                    }
+                ]
+            },
+            {
+                "category_name": "Small custom website apps",
+                "projects":[
+                    {
+                        "name": "Sound board",
+                        "description": "A small online 'instrument' to play around with.",
+                        "link": "https://www.gene-seam.com/sound-board",
+                        "tech": ["html", "js", "p5"],
+                        "active" : "true"
+                    },
+                    {
+                        "name": "Typeface",
+                        "description": "Website app using posenet AI to create generative font types.",
+                        "link": "../projects/typeface/index.html",
+                        "tech": ["html", "js", "p5", "posenet"],
+                        "active" : "true"
+                    }
+                ]
+            },
+            {
+                "category_name": "Minor website customizations",
+                "projects":[],
+                "sub_categories": [
+                    {
+                        "category_name": "Squarespace",
+                        "projects":[
+                            {
+                                "name": "Kafkka",
+                                "description": "Custom implementation of a loading animation to an existing website.",
+                                "link": "https://www.kafkka.com/",
+                                "tech": ["html", "js"],
+                                "active" : "true"
+                            },
+                            {
+                                "name": "Sam Barnes",
+                                "description": "Custom image gallery interaction implementation.",
+                                "link": "https://papaya-gardenia-sax2.squarespace.com/",
+                                "tech": ["html", "js"],
+                                "active": "true",
+                                "secret" : {
+                                    "pin": "123"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }   
 }
