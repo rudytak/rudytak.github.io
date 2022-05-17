@@ -4,6 +4,7 @@ body {
     overflow-x: hidden;
     overflow-y: scroll !important;
     font-family: 'Fira Code', monospace;
+    font-size: 28px;
 }
 
 body canvas{
@@ -41,18 +42,67 @@ main{
 .collapser .collapsible::after{
     content: url("../src/tri.svg");
     position: absolute;
-    scale: 1;
+    scale: 0.75;
     width: 1em;
     height: 1em;
-    transform: translate(0.2em, 0.2em);
+    transform: translate(0.2em, 0.2em) rotate(-90deg);
+
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+}
+
+@keyframes decollapse {
+    from {
+        transform: translate(1rem, -1em);
+        opacity: 0;
+    }
+    to {
+        transform: translate(1rem, 0%);
+        opacity: 1;
+    }
+}
+
+@keyframes recollapse {
+    to {
+        transform: translate(1rem, -1em);
+        opacity: 0;
+    }
+    from {
+        transform: translate(1rem, 0%);
+        opacity: 1;
+    }
+}
+
+@keyframes recollapse_tri {
+    from {
+        transform: translate(0.2em, 0.2em) rotate(-90deg);
+    }
+    to {
+        transform: translate(0.2em, 0.2em) rotate(0deg);
+    }
+}
+
+@keyframes decollapse_tri {
+    to {
+        transform: translate(0.2em, 0.2em) rotate(-90deg);
+    }
+    from {
+        transform: translate(0.2em, 0.2em) rotate(0deg);
+    }
 }
 
 .collapser .collapsed{
+    font-size: 0.9em;
     transform: translateX(1em);
     display: none;
+
+    animation-name: decollapse;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
 }
 
 .active {
     display: block !important;
 }
-
