@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<!--begin::Head-->
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" charset="utf-8" />
+    <link rel="canonical" href="https://keenthemes.com/metronic" />
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <title>Pohl DWS GmbH | Dashboard</title>
+    <!--end::Fonts-->
+    <!--end::Page Vendors Styles-->
+    <!--begin::Global Theme Styles(used by all pages)-->
+    <link href="./assets/plugins/global/plugins.bundle.css?v=7.2.6" rel="stylesheet" type="text/css" />
+    <link href="./assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.2.6" rel="stylesheet" type="text/css" />
+    <link href="./assets/css/style.bundle.css?v=7.2.6" rel="stylesheet" type="text/css" />
+    <!--end::Global Theme Styles-->
+    <!--begin::Layout Themes(used by all pages)-->
+    <!--
+    <link href="./assets/css/themes/layout/header/base/light.css?v=7.2.6" rel="stylesheet" type="text/css" />
+    <link href="./assets/css/themes/layout/header/menu/light.css?v=7.2.6" rel="stylesheet" type="text/css" />
+    <link href="./assets/css/themes/layout/brand/dark.css?v=7.2.6" rel="stylesheet" type="text/css" />
+    -->
+    <!--end::Layout Themes-->
+    <link rel="stylesheet" type="text/css" href="./assets/css/theme.css" />
+    <link rel="shortcut icon" href="./assets/media/logos/favicon.ico" />
+    <style type="text/css">
+        #projects .card-header:hover .card-toolbar {
+            visibility: visible !important;
+        }
+        
+        .dropdown-menu.show {
+            border: 1px solid #a52a2a4d;
+        }
+        
+        @media (max-width: 991.98px) {
+            #kt_footer .col-12 {
+                text-align: center;
+            }
+            img[alt="Logo"] {
+                width: 35% !important;
+            }
+            .header-logo img[alt="Logo"] {
+                display: flex;
+                margin: auto;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            #kt_footer #developed_by {
+                text-align: right;
+            }
+        }
+    </style>
+    <script>
+        const url_string = location.href;
+        const urlObj = new URL(url_string)
+
+        const url_params = {};
+        for (var p of urlObj.searchParams) {
+            url_params[p[0]] = p[1];
+        }
+
+        history.pushState({}, '', location.origin + location.pathname)
+
+        delete urlObj;
+        delete url_string;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.min.js"></script>
+    <script src="./api.js?u=8"></script>
+    <script src="floorplanManager.js"></script>
+    <script src="dashboard.js?v=4"></script>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<!--begin::Body-->
+
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed page-loading">
+    <!--begin::Main-->
+    <!--begin::Header Mobile-->
+    <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
+        <!--begin::Logo-->
+        <a href="/metronic/demo1/index.html">
+            <img alt="Logo" src="https://konfigurator.kantmanufaktur.com/assets/images/kantmanufaktur.jpg" />
+        </a>
+        <!--end::Logo-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+            <!--begin::Header Menu Mobile Toggle-->
+            <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+                <span></span>
+            </button>
+            <!--end::Header Menu Mobile Toggle-->
+            <!--begin::Topbar Mobile Toggle-->
+            <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
+                <span class="svg-icon svg-icon-xl">
+                    <!--begin::Svg Icon | path:https://preview.keenthemes.com/metronic/theme/html/demo1/dist/assets/media/svg/icons/General/User.svg-->
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <polygon points="0 0 24 0 24 24 0 24" />
+                            <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                            <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>
+            </button>
+            <!--end::Topbar Mobile Toggle-->
+        </div>
+        <!--end::Toolbar-->
+    </div>
+    <!--end::Header Mobile-->
+    <div class="d-flex flex-column flex-root">
+        <!--begin::Page-->
+        <div class="d-flex flex-row flex-column-fluid page">
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                <!--begin::Header-->
+                <div id="kt_header" class="header header-fixed bg-white">
+                    <!--begin::Container-->
+                    <div class="container-fluid d-flex align-items-stretch justify-content-between mx-10">
+                        <!--begin::Header Menu Wrapper-->
+                        <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+                            <!--begin::Header Menu-->
+                            <div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default" style="width: 100%;">
+                                <div class="header-logo">
+                                    <a href="./dashboard.html">
+                                        <img alt="Logo" src="https://konfigurator.kantmanufaktur.com/assets/images/kantmanufaktur.jpg" style="width: 100% !important;" class="logo-sticky max-h-40px mt-3">
+                                    </a>
+                                </div>
+                                <!--begin::Header Nav-->
+                                <ul class="menu-nav">
+                                    <li class="menu-item menu-item-active">
+                                        <a href="./dashboard.html" class="menu-link">
+                                            <span class="menu-text">Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="./app.html" class="menu-link">
+                                            <span class="menu-text">App</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="./login.html" class="menu-link">
+                                            <span class="menu-text">Abmelden</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!--end::Header Nav-->
+                            </div>
+                            <!--end::Header Menu-->
+                        </div>
+                        <!--end::Header Menu Wrapper-->
+                        <!--begin::Topbar-->
+                        <div class="topbar">
+                            <!--begin::User-->
+                            <div class="topbar-item">
+                                <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2">
+                                    <div class="d-flex flex-column text-right pr-3">
+                                        <span class="text-muted font-weight-bold font-size-base d-none d-md-inline" id="userName">Name</span>
+                                        <span class="text-dark-75 font-weight-bolder font-size-base d-none d-md-inline" id="userMail">Subname</span>
+                                    </div>
+                                    <span class="symbol symbol-35 symbol-light-secondary">
+                                                <span class="symbol-label font-size-h5 font-weight-bold text-brown">S</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!--end::User-->
+                        </div>
+                        <!--end::Topbar-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Header-->
+                <!--begin::Content-->
+                <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                    <!--begin::Entry-->
+                    <div class="d-flex flex-column-fluid">
+                        <!--begin::Container-->
+                        <div class="container">
+                            <!--begin::Entry-->
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <div class="row" id="projects">
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <!--begin::Mixed Widget 5-->
+                                    <div class="card card-custom card-sticky zindex-0" id="kt_page_sticky_card">
+                                        <div class="card-header border-0 py-5" id="create">
+                                            <h3 class="card-title font-weight-bolder text-brown mb-5">Create Projekt: </h3>
+                                            <div scroll data-scroll="true" data-height="325" data-mobile-height="200">
+                                                <input type='text' class='form-control' placeholder='Name des Projekts' id="createName" autocomplete="off"> </input>
+                                                <select class="form-control selectpicker" id="createPT">
+                                                        <!-- <option selected="selected" value = "-1">Profiltyp</option> -->
+                                                        <option value="0">Profil 1</option>
+                                                        <option value="1">Profil 2</option>
+                                                        <option value="2">Profil 3</option>
+                                                        <option value="3">Profil 4</option>
+                                                        <option value="4">Profil 5</option>
+                                                    </select>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard Mauerbreite (mm)</span></div>
+                                                    <input class="form-control" id="createWW" type="number" step="25" value="250" id="example-number-input">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard äußerer Versatz (mm)</span></div>
+                                                    <input class="form-control" id="createOut" type="number" step="25" value="50" id="example-number-input">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard innerer Versatz (mm)</span></div>
+                                                    <input class="form-control" id="createInn" type="number" step="25" value="25" id="example-number-input">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard a-Maß (mm)</span></div>
+                                                    <input class="form-control" id="createA" type="number" step="25" value="200" id="example-number-input">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard c-Maß (mm)</span></div>
+                                                    <input class="form-control" id="createC" type="number" step="25" value="100" id="example-number-input">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard Endkappe Hecklänge (mm)</span></div>
+                                                    <input class="form-control" id="createUp" type="number" step="25" value="250" id="example-number-input">
+                                                </div>
+                                                <select class="form-control selectpicker createCol" id="createCol">
+                                                    </select>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard Steigung (°)</span></div>
+                                                    <input class="form-control" id="createAng" type="number" step="0.25" value="3" id="example-number-input">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard Materialstärke (mm)</span></div>
+                                                    <input class="form-control" id="createTh" type="number" step="0.25" value="2" id="example-number-input">
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">Standard Halter (mm)</span></div>
+                                                    <input class="form-control" id="createHA" type="number" step="250" value="1000" id="example-number-input">
+                                                </div>
+                                            </div>
+
+                                            <button type="button" class="btn btn-secondary btn-block mt-2 " onclick="createNew(false)">Neues Projekt erstellen</button>
+                                        </div>
+                                    </div>
+                                    <!--end::Mixed Widget 5-->
+                                </div>
+                            </div>
+                            <!--end::Entry-->
+                        </div>
+                        <!--end::Container-->
+                    </div>
+                    <!--end::Entry-->
+                </div>
+                <!--end::Content-->
+                <div class="footer bg-dark py-4 d-flex flex-lg-column" id="kt_footer" style="background:#1b1a1b !important">
+                    <div class="container-fluid">
+                        <div class="row px-15" style="line-height: 2.3rem;">
+                            <div class="col-12 col-xl-6">
+                                <span style="color:#a0a0a0;">Copyright &copy; <span class="cur_yr"></span>. All rights reserved.</span>
+                            </div>
+                            <div class="col-12 col-xl-6" id="developed_by">
+                                <span class="font-weight-bold" style="color:#a0a0a0;">Developed by <a href="https://voyseo.com"  target="_blank" style="color: #d48b5f;">VOYSEO</a></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Page-->
+    </div>
+    <!--end::Main-->
+    <!--begin::Scrolltop-->
+    <div id="kt_scrolltop" class="scrolltop">
+        <span class="svg-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <polygon points="0 0 24 0 24 24 0 24" />
+                    <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1" />
+                    <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero" />
+                </g>
+            </svg>
+            <!--end::Svg Icon-->
+        </span>
+    </div>
+    <!--end::Scrolltop-->
+
+    <!--begin::Modal-->
+    <div class="modal fade" id="subheader7Modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Location</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="kt_subheader_leaflet" style="height:450px; width: 100%;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancel</button>
+                    <button id="submit" type="button" class="btn btn-primary font-weight-bold" data-dismiss="modal">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="m_modal_1_2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<i aria-hidden="true" class="ki ki-close"></i>
+					</button>
+                </div>
+                <div class="modal-body">
+                    <div class="m-scrollable" scroll data-scroll="true" data-scrollbar-shown="true" data-scrollable="true" data-mobile-height="200" data-height="350"> <select class="form-control selectpicker" id="ecreatePT">
+                                <!-- <option selected="selected" value = "-1">Profiltyp</option> -->
+                                <option value="0">Profil 1</option>
+                                <option value="1">Profil 2</option>
+                                <option value="2">Profil 3</option>
+                                <option value="3">Profil 4</option>
+                                <option value="4">Profil 5</option>
+                            </select>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard Mauerbreite (mm)</span></div>
+                            <input class="form-control" id="ecreateWW" type="number" step="25" value="250">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard äußerer Versatz (mm)</span></div>
+                            <input class="form-control" id="ecreateOut" type="number" step="25" value="50">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard innerer Versatz (mm)</span></div>
+                            <input class="form-control" id="ecreateInn" type="number" step="25" value="25">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard a-Maß (mm)</span></div>
+                            <input class="form-control" id="ecreateA" type="number" step="25" value="200">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard c-Maß (mm)</span></div>
+                            <input class="form-control" id="ecreateC" type="number" step="25" value="100">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard Endkappe Hecklänge (mm)</span></div>
+                            <input class="form-control" id="ecreateUp" type="number" step="25" value="250">
+                        </div>
+                        <select class="form-control selectpicker mb-2" id="ecreateCol1">
+                            </select>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard Steigung (°)</span></div>
+                            <input class="form-control" id="ecreateAng" type="number" step="0.25" value="3">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard Materialstärke (mm)</span></div>
+                            <input class="form-control" id="ecreateTh" type="number" step="0.25" value="2">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend"><span class="input-group-text">Standard Halter (mm)</span></div>
+                            <input class="form-control" id="ecreateHA" type="number" step="250" value="1000">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="updatePjct" class="btn btn-warning" style="background-color: #c8692fa8; border-color: #c8692f24;">Save </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+    <!--begin::Global Config(global config for global JS scripts)-->
+    <script>
+        var KTAppSettings = {
+            "breakpoints": {
+                "sm": 576,
+                "md": 768,
+                "lg": 992,
+                "xl": 1200,
+                "xxl": 1400
+            },
+            "colors": {
+                "theme": {
+                    "base": {
+                        "white": "#ffffff",
+                        "primary": "#3699FF",
+                        "secondary": "#E5EAEE",
+                        "success": "#1BC5BD",
+                        "info": "#8950FC",
+                        "warning": "#FFA800",
+                        "danger": "#F64E60",
+                        "light": "#E4E6EF",
+                        "dark": "#181C32"
+                    },
+                    "light": {
+                        "white": "#ffffff",
+                        "primary": "#E1F0FF",
+                        "secondary": "#EBEDF3",
+                        "success": "#C9F7F5",
+                        "info": "#EEE5FF",
+                        "warning": "#FFF4DE",
+                        "danger": "#FFE2E5",
+                        "light": "#F3F6F9",
+                        "dark": "#D6D6E0"
+                    },
+                    "inverse": {
+                        "white": "#ffffff",
+                        "primary": "#ffffff",
+                        "secondary": "#3F4254",
+                        "success": "#ffffff",
+                        "info": "#ffffff",
+                        "warning": "#ffffff",
+                        "danger": "#ffffff",
+                        "light": "#464E5F",
+                        "dark": "#ffffff"
+                    }
+                },
+                "gray": {
+                    "gray-100": "#F3F6F9",
+                    "gray-200": "#EBEDF3",
+                    "gray-300": "#E4E6EF",
+                    "gray-400": "#D1D3E0",
+                    "gray-500": "#B5B5C3",
+                    "gray-600": "#7E8299",
+                    "gray-700": "#5E6278",
+                    "gray-800": "#3F4254",
+                    "gray-900": "#181C32"
+                }
+            },
+            "font-family": "Poppins"
+        };
+    </script>
+    <!--end::Global Config-->
+    <!--begin::Global Theme Bundle(used by all pages)-->
+    <script src="./assets/plugins/global/plugins.bundle.js?v=7.2.6"></script>
+    <script src="./assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.2.6"></script>
+    <script src="./assets/js/scripts.bundle.js?v=7.2.6"></script>
+    <!--end::Global Theme Bundle-->
+
+    <script>
+        var cp = document.querySelector("#createCol"); //create pjct
+        var cp1 = document.querySelector("#ecreateCol1"); //edit pjct
+        //cp.innerHTML += `<option disabled selected value>Profilfarbe</option>`;
+        for (var co of color_options) {
+            var html = `<option style="color:${co.rgb} !important" value="${co.rgb}">${co.id} ${co.de}</option>`;
+            cp.innerHTML += html;
+            cp1.innerHTML += html;
+        }
+
+        $('#m_modal_1_2').on('hidden.bs.modal', function() {
+            $('#m_modal_1_2 select,#m_modal_1_2 input').val('');
+        })
+        document.querySelector('.cur_yr').innerHTML = new Date().getFullYear();
+    </script>
+    <!--begin::Page Scripts(used by this page)-->
+    <script src="./assets/js/pages/widgets.js?v=7.2.6"></script>
+    <!--end::Page Scripts-->
+</body>
+<!--end::Body-->
+
+</html>

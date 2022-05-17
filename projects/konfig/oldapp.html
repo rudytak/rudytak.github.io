@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>App</title>
+
+    <link type="stylesheet" src="style.css"></link>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5.collide2d"></script>
+    <script src="https://cdn.jsdelivr.net/npm/underscore@1.12.0/underscore-min.js"></script>
+    <script src="https://freshfork.github.io/p5.EasyCam/p5.easycam.min.js"></script>
+    <script src="http://20.71.220.144/api/api.js?u=8"></script>
+
+    <style>
+        @font-face {
+            font-family: "muli";
+            src: url("../fonts/Muli-Regular.ttf");
+        }
+    </style>
+
+    <script>
+        const url_string = location.href;
+        const urlObj = new URL(url_string)
+
+        const url_params = {};
+        for (var p of urlObj.searchParams) {
+            url_params[p[0]] = p[1];
+        }
+
+        history.pushState({}, '', location.origin + location.pathname);
+
+        delete urlObj;
+        delete url_string;
+    </script>
+
+    <script>
+        function dist(...a) {
+            var r = 0;
+            for (var i = 0; i < a.length; i++) {
+                r = a[i + a.length / 2] * a[i + a.length / 2] - a[i] * a[i];
+            }
+            return (Math.sqrt(r));
+        }
+    </script>
+
+    <script>
+        window.onbeforeunload = (e) => {
+            if (askForPermision) {
+                e.preventDefault();
+                e.returnValue = '';
+                askForPermision = true;
+                return;
+            }
+            askForPermision = true;
+        }
+
+        window.onunload = () => {
+            c.removeFileListener(projectDetails.id);
+        }
+    </script>
+
+    <!--<script src="q2.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+</head>
+
+<body style="margin: 0px; font-family: muli;">
+    <div id="topnav">
+        <a onclick="window.open('../index.html', '_self')">Home</a>
+        <a onclick="window.open('./dashboard.html', '_self')">Dashboard</a>
+        <a onclick="window.open('../app/app.html', '_self')" class="active">App</a>
+        <h4 id="userMail"></h4>
+    </div>
+
+    <div id="sidebar">
+        <div id="liveshareToggle"> LiveShare:
+            <input type="checkbox" onclick="liveshareToggle() " autocomplete="off "></input>
+        </div>
+        <br>
+        <div id="connectedUsers">
+        </div>
+
+        <br>
+        <div id="chat" style="background-color: #444; max-height: 600px; overflow-y: scroll; word-break:normal; padding: 5px; display: none;">
+        </div>
+        <div id="chatInput" style="display: none; padding-top: 5px;">
+            <input id="chatMessage" type="text"></input>
+            <button id="chatSend" onclick="sendMessage();">➤</button>
+        </div>
+
+        <script>
+            var input = document.getElementById("chatMessage");
+            input.addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    sendMessage();
+                }
+            });
+        </script>
+    </div>
+
+    <main style="margin: 8px;">
+        <div id="projectNameDiv" style="margin-top: 1em;">
+            <h2 id="projectName" style="display: inline;"></h2>
+        </div>
+        <h4 id="ownerName" style="margin-top: 0.5em;margin-bottom: 0.5em;"></h4>
+        <div id="canvas-container"></div>
+
+        <div id="actions">
+            <button onclick="floorPlan.reset() ">Clear</button>
+            <button onclick="zoom( 'in') ">Zoom In</button>
+            <button onclick="zoom( 'out') ">Zoom Out</button>
+        </div>
+
+        <div id="tools">
+            <button onclick="floorPlan.setTool(0) ">Outline</button>
+            <button onclick="floorPlan.setTool(1) ">Inner Connecting Walls</button>
+            <button onclick="floorPlan.setTool(2) ">Profile selector</button>
+            <button onclick="floorPlan.setTool(3) ">3D</button>
+            <button onclick="floorPlan.downloadOBJ()" id="export3D" style="display: none;">Export 3D file</button>
+        </div>
+
+        <div id="interactions">
+            <button onclick="saveProject() ">Save</button>
+            <button onclick="createLiveshareLink() ">Copy link</button>
+        </div>
+        <div id="stack">
+            <button onclick="floorPlan.undo()">⟲</button>
+            <button onclick="floorPlan.redo()">⟳</button>
+        </div>
+
+        <div id="savingMessage"></div>
+    </main>
+</body>
+<div id="ProfileChangeDiv"></div>
+
+<script src="pointManager.js"></script>
+<script src="floorplanManager.js"></script>
+<script src="profiles.js"></script>
+<script src="elements.js"></script>
+<script src="other.js"></script>
+<script src="3d.js"></script>
+<script src="sketch.js"></script>
+
+</html>
