@@ -20,13 +20,17 @@
         src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293&amp;{ ADD YOUR PARAMETERS HERE }">
     </iframe>
     <script>
-        var url = "https://soundcloud.com/lofi_hip_hop/sets/lo-fi-hip-hop-jazz-sleep-study-sad-chill-rap-beats-low?si=2271cd8def2a43c2a343b09d9c848046&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+
+        var url_to_play = urlParams.get("url")
+        console.log(url_to_play)
     
         var uuid = (Math.random() * 10e16).toString()
         console.log(uuid)
         var iframeElement   = document.querySelector('iframe');
         var player          = SC.Widget(iframeElement);
-        player.load(url)
+        player.load(url_to_play)
 
         document.addEventListener("SC_Playing", (ev)=>{
             if(ev.detail.uuid != uuid){
