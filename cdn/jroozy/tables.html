@@ -140,7 +140,7 @@
             }
 
             cols = Object.keys(data.CMS.items[0])
-                //.filter(c => !c.startsWith("_")); // remove internals
+                .filter(c => !c.startsWith("_")); // remove internals
             cols.forEach(c => cols_name_map[c] = getReadableColName(c))
             cols.forEach(c => cols_type_map[c] = getColType(data.CMS.items[0][c]))
 
