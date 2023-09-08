@@ -1,168 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jroozy CMS table</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
     <!-- CSS -->
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"
-    />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
     <!-- Default theme -->
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"
-    />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
     <!-- Semantic UI theme -->
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"
-    />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
     <!-- Bootstrap theme -->
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"
-    />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
-      window.jsPDF = window.jspdf.jsPDF;
-      var docPDF = new jsPDF();
-      function _print() {
-        var elementHTML = document.querySelector("#CMS_table");
-        let bb = elementHTML.getBoundingClientRect();
-        docPDF.html(elementHTML, {
-          callback: function (docPDF) {
-            docPDF.save("HTML Linuxhint web page.pdf");
-          },
-          x: bb.x,
-          y: bb.y,
-          width: 200,
-          windowWidth: bb.width,
-        });
-      }
+        window.jsPDF = window.jspdf.jsPDF;
+        var docPDF = new jsPDF();
+        function _print() {
+            var elementHTML = document.querySelector("#CMS_table");
+            let bb = elementHTML.getBoundingClientRect();
+            docPDF.html(elementHTML, {
+                callback: function (docPDF) {
+                    docPDF.save("HTML Linuxhint web page.pdf");
+                },
+                x: bb.x,
+                y: bb.y,
+                width: 200,
+                windowWidth: bb.width,
+            });
+        }
     </script>
-  </head>
+</head>
 
-  <body>
+<body>
     <base target="_parent" />
     <main>
-      <table id="CMS_table"></table>
+        <table id="CMS_table"></table>
     </main>
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Manrope&family=Wix+Madefor+Text&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Manrope&family=Wix+Madefor+Text&display=swap");
 
-      * {
-        font-family: "Manrope", sans-serif;
-        font-family: "Wix Madefor Text", sans-serif;
-        font-weight: lighter;
-      }
+        * {
+            font-family: "Manrope", sans-serif;
+            font-family: "Wix Madefor Text", sans-serif;
+            font-weight: lighter;
+        }
 
-      body {
-        margin: 0px;
-        background: white !important;
-      }
+        body {
+            margin: 0px;
+            background: white !important;
+        }
 
-      #CMS_table {
-        background-color: #a8caff;
-      }
+        #CMS_table {
+            background-color: #a8caff;
+        }
 
-      .td_cont {
-        max-height: 4rem;
-        width: 100%;
-        height: 100%;
-        overflow: scroll;
-        white-space: nowrap;
-      }
+        .td_cont {
+            max-height: 4rem;
+            width: 100%;
+            height: 100%;
+            overflow: scroll;
+            white-space: nowrap;
+        }
 
-      td,
-      th {
-        padding: 0.7rem;
-        background-color: #fff;
-      }
+        td,
+        th {
+            padding: 0.7rem;
+            background-color: #fff;
+        }
 
-      td:hover,
-      th {
-        background-color: #e7f0ff;
-      }
+        td:hover,
+        th {
+            background-color: #e7f0ff;
+        }
 
-      th:hover {
-        background-color: #d6e6fe;
-      }
+        th:hover {
+            background-color: #d6e6fe;
+        }
 
-      th {
-        white-space: nowrap;
-      }
+        th {
+            white-space: nowrap;
+        }
 
-      .setting_item {
-        display: flex;
-        border-bottom: solid 1px lightgray;
-        border-top: solid 1px lightgray;
-        padding: 1px;
-      }
-      .setting_checkbox {
-        display: inline-flex;
-        margin-left: auto;
-      }
+        .setting_item {
+            display: flex;
+            border-bottom: solid 1px lightgray;
+            border-top: solid 1px lightgray;
+            padding: 1px;
+        }
+
+        .setting_checkbox {
+            display: inline-flex;
+            margin-left: auto;
+        }
+
+        #custom_filter_column_select,
+        #custom_filter_function_select {
+            width: 100%;
+        }
+
+        #custom_filter_wrapper h4 {
+            margin-bottom: 1px;
+        }
     </style>
 
     <script>
-      // @ondra4sedlacek/jroozy-data-tables/ProgramLists
+        // @ondra4sedlacek/jroozy-data-tables/ProgramLists
 
-      let data_cache = undefined;
-      let search_cache = undefined;
-      let columns_blacklist = [];
-      let page_num = 0;
-      let page_size = 10;
-      let sort_order = 0;
-      let sort_column = "_id";
+        let data_cache = undefined;
+        let search_cache = undefined;
+        let columns_blacklist = [];
+        let page_num = 0;
+        let page_size = 10;
+        let sort_order = 0;
+        let sort_column = "_id";
 
-      let cols = [];
-      let cols_name_map = {};
-      let cols_type_map = {};
-      let whitelisted_cols = [];
+        let cols = [];
+        let cols_name_map = {};
+        let cols_type_map = {};
+        let whitelisted_cols = [];
 
-      function makeRow(items, isHeader = false) {
-        let row = document.createElement("tr");
+        let filter_column = "";
+        let filter_function = "";
+        let filter_params = [];
 
-        for (let i = 0; i < items.length; i++) {
-          let item = items[i];
-          let item_type = cols_type_map[whitelisted_cols[i]];
+       loadState();
 
-          let ele_inn = document.createElement("div");
-          ele_inn.classList.add("td_cont");
+        function makeRow(items, isHeader = false) {
+            let row = document.createElement("tr");
 
-          if (isHeader) {
-            ele_inn.innerText = item;
-            ele_inn.innerHTML += `<i style="padding-left: 10px;" class="fa-regular fa-eye-slash" onclick='
+            for (let i = 0; i < items.length; i++) {
+                let item = items[i];
+                let item_type = cols_type_map[whitelisted_cols[i]];
+
+                let ele_inn = document.createElement("div");
+                ele_inn.classList.add("td_cont");
+
+                if (isHeader) {
+                    ele_inn.innerText = item;
+                    ele_inn.innerHTML += `<i style="padding-left: 10px;" class="fa-regular fa-eye-slash" onclick='
                         window.postMessage({
                             jroozy: true,
                             action: "hide_columns",
                             columns: ["${whitelisted_cols[i]}"]
                         })
                     '></i>`;
-            ele_inn.innerHTML += `<i style="padding-left: 10px;" class="fa-solid ${
-              whitelisted_cols[i] == sort_column && sort_order != 0
-                ? sort_order > 0
-                  ? "fa-arrow-down"
-                  : "fa-arrow-up"
-                : "fa-arrows-up-down"
-            }"
+                    ele_inn.innerHTML += `<i style="padding-left: 10px;" class="fa-solid ${whitelisted_cols[i] == sort_column && sort_order != 0
+                        ? sort_order > 0
+                            ? "fa-arrow-down"
+                            : "fa-arrow-up"
+                        : "fa-arrows-up-down"
+                        }"
 
                         onclick='
                         let current_order, next_order;
@@ -186,204 +186,433 @@
                             sort_column: "${whitelisted_cols[i]}"
                         })
                     '></i>`;
-          } else {
-            if (
-              item == "-" ||
-              item == "–" ||
-              item == "undefined" ||
-              item == undefined
-            ) {
-              ele_inn.innerText = "–";
-            } else {
-              switch (item_type) {
-                case "URL":
-                  ele_inn.innerHTML = `<a href="${item}" target="_blank">${item}</a>`;
-                  break;
-                case "Date":
-                  let d = new Date(item);
-                  ele_inn.innerText = d.toDateString();
-                  break;
-                case "email":
-                  ele_inn.innerHTML = `<a href="mailto:${item}">${item}</a>`;
-                  break;
-                default:
-                  ele_inn.innerText = item;
-                  break;
-              }
+                } else {
+                    if (
+                        item == "-" ||
+                        item == "–" ||
+                        item == "undefined" ||
+                        item == undefined
+                    ) {
+                        ele_inn.innerText = "–";
+                    } else {
+                        switch (item_type) {
+                            case "URL":
+                                ele_inn.innerHTML = `<a href="${item}" target="_blank">${item}</a>`;
+                                break;
+                            case "Date":
+                                let d = new Date(item);
+                                ele_inn.innerText = d.toDateString();
+                                break;
+                            case "email":
+                                ele_inn.innerHTML = `<a href="mailto:${item}">${item}</a>`;
+                                break;
+                            default:
+                                ele_inn.innerText = item;
+                                break;
+                        }
+                    }
+                }
+
+                let ele = document.createElement(isHeader ? "th" : "td");
+                ele.classList.add(`col${i}`);
+                ele.appendChild(ele_inn);
+
+                row.appendChild(ele);
             }
-          }
 
-          let ele = document.createElement(isHeader ? "th" : "td");
-          ele.classList.add(`col${i}`);
-          ele.appendChild(ele_inn);
-
-          row.appendChild(ele);
+            document.getElementById("CMS_table").appendChild(row);
         }
 
-        document.getElementById("CMS_table").appendChild(row);
-      }
-
-      function getReadableColName(colKey) {
-        colKey = colKey.replaceAll(/([A-Z])/g, " $1".toUpperCase());
-        colKey = colKey.replaceAll(/(\d+)/g, " $1".toUpperCase());
-        return colKey.charAt(0).toUpperCase() + colKey.slice(1);
-      }
-
-      function getColType(itemVal) {
-        if (typeof itemVal == "number") return "number";
-        else if (!isNaN(Date.parse(itemVal))) return "Date";
-        else if (itemVal.startsWith("http")) return "URL";
-        else if (
-          itemVal.match(
-            /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
-          ) != null
-        )
-          return "email";
-        else return "string";
-      }
-
-      window.addEventListener("message", (event) => {
-        let data = event.data;
-
-        if (typeof data != typeof {}) {
-          console.log("Not object data");
-          return;
+        function getReadableColName(colKey) {
+            colKey = colKey.replaceAll(/([A-Z])/g, " $1".toUpperCase());
+            colKey = colKey.replaceAll(/(\d+)/g, " $1".toUpperCase());
+            return colKey.charAt(0).toUpperCase() + colKey.slice(1);
         }
 
-        if (!data["jroozy"]) {
-          console.log("Not CMS data");
-          return;
+        function getColType(itemVal) {
+            if (itemVal == undefined) return undefined;
+
+            if (typeof itemVal == "number") return "number";
+            else if (!isNaN(Date.parse(itemVal))) return "Date";
+            else if (itemVal.startsWith("http")) return "URL";
+            else if (
+                itemVal.match(
+                    /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+                ) != null
+            )
+                return "email";
+            else return "string";
         }
 
-        if (data.action == "load_CMS") {
-          cols = Object.keys(data.items[0]);
-          //.filter(c => !c.startsWith("_")); // remove internals
-          cols.forEach((c) => (cols_name_map[c] = getReadableColName(c)));
-          cols.forEach(
-            (c) => (cols_type_map[c] = getColType(data.items[0][c]))
-          );
-          whitelisted_cols = cols.filter((c) => !columns_blacklist.includes(c));
+        function getFilterFunctions() {
+            switch (cols_type_map[filter_column]) {
+                case "number":
+                    return {
+                        "gt": "greater than",
+                        "ge": "greater than  or equal",
+                        "lt": "less than",
+                        "le": "less than or equal",
+                        "eq": "equals",
+                        "neq": "not equal",
+                        "between": "between"
+                    }
+                case "Date":
+                    return {
+                        "between": "between"
+                    };
+                case "string":
+                case "Email":
+                case "URL":
+                    return {
+                        "startsWith": "starts with",
+                        "endsWith": "ends with",
+                        "contains": "contains"
+                    }
+            }
+            return {};
+        }
 
-          data_cache = data;
-        } else if (data.action == "search") {
-          search_cache = data;
-        } else if (data.action == "hide_columns") {
-          columns_blacklist.push(...data.columns);
-          whitelisted_cols = cols.filter((c) => !columns_blacklist.includes(c));
-        } else if (data.action == "show_columns") {
-          columns_blacklist = columns_blacklist.filter(
-            (c) => !data.columns.includes(c)
-          );
-          whitelisted_cols = cols.filter((c) => !columns_blacklist.includes(c));
-        } else if (data.action == "page") {
-          page_num = parseInt(data.page_num);
-          page_size = parseInt(data.page_size);
-        } else if (data.action == "sort") {
-          sort_order = parseInt(data.sort_order);
-          sort_column = data.sort_column;
-        } else if (data.action == "open_settings") {
-          alertify
-            .alert("Settings", "", (ev) => {
-              console.log(
-                ev,
-                document.getElementById("setting_checkbox__id").checked
-              );
-              window.postMessage({
-                jroozy: true,
-                action: "hide_columns",
-                columns: cols.filter(
-                  (c) =>
-                    !document.getElementById(`setting_checkbox_${c}`).checked
-                ),
-              });
-              window.postMessage({
-                jroozy: true,
-                action: "show_columns",
-                columns: cols.filter(
-                  (c) =>
-                    document.getElementById(`setting_checkbox_${c}`).checked
-                ),
-              });
+        function getFilterParameters() {
+            switch (cols_type_map[filter_column]) {
+                case "number":
+                    switch (filter_function) {
+                        case "gt":
+                        case "ge":
+                        case "lt":
+                        case "le":
+                        case "eq":
+                        case "neq": return { "Value": "number" };
+                        case "between": return { "Min": "number", "Max": "number" };
+                    }
+                case "Date":
+                    switch (filter_function) {
+                        case "between": return { "Min": "date", "Max": "date" };
+                    }
+                case "string":
+                case "Email":
+                case "URL":
+                    switch (filter_function) {
+                        case "startsWith":
+                        case "endsWith":
+                        case "contains": return { "Value": "string" };
+                    }
+            }
+
+            return {}
+        }
+
+        function getFilterParamDefault() {
+            switch (cols_type_map[filter_column]) {
+                case "number":
+                    return 0;
+                case "Date":
+                    return "2000-01-01";
+                case "string":
+                case "Email":
+                case "URL":
+                    return ""
+            }
+        }
+
+        function filterColChange() {
+            filter_column = document.getElementById("custom_filter_column_select").value;
+            document.getElementById("custom_filter_function_select").disabled = !cols.includes(filter_column);
+
+            let possible_functions = getFilterFunctions();
+            document.getElementById("custom_filter_function_select").innerHTML = "<option disabled selected value> -- select an option -- </option>";
+            for (let k of Object.keys(possible_functions)) {
+                document.getElementById("custom_filter_function_select").innerHTML += `<option value="${k}" ${k == filter_function ? "selected" : ""}>${possible_functions[k]}</option>`;
+            }
+
+            filterFuncChange();
+        }
+
+        function filterFuncChange() {
+            filter_function = document.getElementById("custom_filter_function_select").value;
+            document.getElementById("custom_filter_values").innerHTML = "";
+
+            let params = getFilterParameters();
+            for (let k of Object.keys(params)) {
+                let id = Object.keys(params).indexOf(k);
+                let saved_param = filter_params[id];
+
+                document.getElementById("custom_filter_values").innerHTML += `
+                ${k}:
+                <input class="custom_filter_value" type="${params[k]}" onchange='filterParamChange()' value="${getColType(saved_param) != cols_type_map[filter_column] ? getFilterParamDefault() : saved_param}" />
+                <br>
+                `;
+            }
+
+            filterParamChange();
+        }
+
+        function filterParamChange() {
+            filter_params = Array.from(document.querySelectorAll(".custom_filter_value")).map(e => {
+                switch (cols_type_map[filter_column]) {
+                    case "number":
+                        return parseFloat(e.value);
+                    case "Date":
+                    case "string":
+                    case "Email":
+                    case "URL":
+                        return e.value
+                }
             })
-            .setContent(
-              `
+        }
+
+        function clearFilter() {
+            filter_column = "";
+            filter_function = "";
+            filter_params = [];
+
+            filterColChange();
+        }
+
+        function applyFilterFunc(val) {
+            switch (cols_type_map[filter_column]) {
+                case "number":
+                    switch (filter_function) {
+                        case "gt": return val > filter_params[0];
+                        case "ge": return val >= filter_params[0];
+                        case "lt": return val < filter_params[0];
+                        case "le": return val >= filter_params[0];
+                        case "eq": return val == filter_params[0];
+                        case "neq": return val != filter_params[0];
+                        case "between": return val >= filter_params[0] && val <= filter_params[1];
+                    }
+                case "Date":
+                    switch (filter_function) {
+                        case "between": return new Date(val) >= new Date(filter_params[0]) && new Date(val) <= new Date(filter_params[1]);
+                    }
+                case "string":
+                case "Email":
+                case "URL":
+                    switch (filter_function) {
+                        case "startsWith": return val.startsWith(filter_params[0]);
+                        case "endsWith": return val.endsWith(filter_params[0]);
+                        case "contains": return val.includes(filter_params[0]);
+                    }
+            }
+
+            return {}
+        }
+
+        window.addEventListener("message", (event) => {
+            let data = event.data;
+
+            if (typeof data != typeof {}) {
+                console.log("Not object data");
+                return;
+            }
+
+            if (!data["jroozy"]) {
+                console.log("Not CMS data");
+                return;
+            }
+
+            if (data.action == "load_CMS") {
+                cols = Object.keys(data.items[0]);
+                //.filter(c => !c.startsWith("_")); // remove internals
+                cols.forEach((c) => (cols_name_map[c] = getReadableColName(c)));
+                cols.forEach(
+                    (c) => (cols_type_map[c] = getColType(data.items[0][c]))
+                );
+                whitelisted_cols = cols.filter((c) => !columns_blacklist.includes(c));
+
+                data_cache = data;
+            } else if (data.action == "search") {
+                search_cache = data;
+            } else if (data.action == "hide_columns") {
+                columns_blacklist.push(...data.columns);
+                whitelisted_cols = cols.filter((c) => !columns_blacklist.includes(c));
+            } else if (data.action == "show_columns") {
+                columns_blacklist = columns_blacklist.filter(
+                    (c) => !data.columns.includes(c)
+                );
+                whitelisted_cols = cols.filter((c) => !columns_blacklist.includes(c));
+            } else if (data.action == "page") {
+                page_num = parseInt(data.page_num);
+                page_size = parseInt(data.page_size);
+            } else if (data.action == "sort") {
+                sort_order = parseInt(data.sort_order);
+                sort_column = data.sort_column;
+            } else if (data.action == "open_settings") {
+                alertify
+                    .alert("Settings", "", (ev) => {
+                        window.postMessage({
+                            jroozy: true,
+                            action: "hide_columns",
+                            columns: cols.filter(
+                                (c) =>
+                                    !document.getElementById(`setting_checkbox_${c}`).checked
+                            ),
+                        });
+                        window.postMessage({
+                            jroozy: true,
+                            action: "show_columns",
+                            columns: cols.filter(
+                                (c) =>
+                                    document.getElementById(`setting_checkbox_${c}`).checked
+                            ),
+                        });
+                    })
+                    .setContent(
+                        `
+                <div style="display: flex;">
+                    <h3 style="display: inline-flex;">Custom filter</h3>
+                    <u  style="display: inline-flex; margin-left: auto;">
+                        <h4 style="display: inline-flex; cursor: pointer;" onclick="clearFilter()">
+                            Clear filter
+                        </h4>
+                    </u>
+                </div>
+                
+                <div id="custom_filter_wrapper">
+                    <h4>Custom filter target column</h4>
+                    <select id="custom_filter_column_select" onchange='filterColChange()'>
+                        <option disabled selected value> -- select an option -- </option>
+                        ${cols.map(c => `
+                            <option value="${c}" ${filter_column == c ? "selected" : ""}>${cols_name_map[c]}</option>
+                            `)}
+                    </select>
+
+                    <h4>Custom filter function</h4>
+                    <select id="custom_filter_function_select" onchange='filterFuncChange()'>
+                        <option disabled selected value> -- select an option -- </option>
+                    </select>
+
+                    <h4>Custom filter values</h4>
+                    <div id="custom_filter_values">
+                        Value:
+                        <input class="custom_filter_value" />
+                        <br>
+                    </div>
+                </div>
+
+                <hr>
+                <h3>Toggle visibility</h3>
             ${cols
-              .map((c) => {
-                return `
+                            .map((c) => {
+                                return `
                         <div class="setting_item">
                             <p>${cols_name_map[c]}</p>
-                            <input id="setting_checkbox_${c}" class="setting_checkbox" type="checkbox" ${
-                  columns_blacklist.includes(c) ? "" : "checked"
-                } />
+                            <input id="setting_checkbox_${c}" class="setting_checkbox" type="checkbox" ${columns_blacklist.includes(c) ? "" : "checked"} />
                             <br>
                         </div>
                     `;
-              })
-              .reduce((a, b) => a + b)}
+                            })
+                            .reduce((a, b) => a + b)}
           `
-            )
-            .set("labels", "Save");
-        }
-        redraw();
-      });
+                    )
+                    .set("labels", "Save");
 
-      function redraw() {
-        // header
-        document.getElementById("CMS_table").innerHTML = "";
-        makeRow(
-          whitelisted_cols.map((c) => cols_name_map[c]),
-          true
-        );
-
-        // filter and search
-        let filtered_items = data_cache.items.filter((it) => {
-          let item_data = whitelisted_cols.map((c) => it[c]);
-
-          return (
-            search_cache == undefined ||
-            search_cache.search_phrase == "" ||
-            item_data.some(
-              (d) => d && d.toString().includes(search_cache.search_phrase)
-            )
-          );
-        });
-        // sort by column
-        if (whitelisted_cols.includes(sort_column)) {
-          filtered_items.sort((a, b) => {
-            switch (cols_type_map[sort_column]) {
-              case "number":
-                return (
-                  sort_order * a[sort_column] - sort_order * b[sort_column]
-                );
-                break;
-              case "Date":
-                return (
-                  sort_order * new Date(a[sort_column]) -
-                  sort_order * new Date(b[sort_column])
-                );
-                break;
-              case "URL":
-              case "string":
-                if (a[sort_column] < b[sort_column]) return -sort_order;
-                else if (a[sort_column] > b[sort_column]) return sort_order;
-                else return 0;
-                break;
-              default:
-                return 0;
-                break;
+                filterColChange();
             }
-          });
+            redraw();
+            saveState();
+        });
+
+        function redraw() {
+            // header
+            document.getElementById("CMS_table").innerHTML = "";
+            makeRow(
+                whitelisted_cols.map((c) => cols_name_map[c]),
+                true
+            );
+
+            // filter and search
+            let filtered_items = data_cache.items.filter((it) => { // search
+                let item_data = whitelisted_cols.map((c) => it[c]);
+
+                return (
+                    search_cache == undefined ||
+                    search_cache.search_phrase == "" ||
+                    item_data.some(
+                        (d) => d && d.toString().includes(search_cache.search_phrase)
+                    )
+                );
+            }).filter(it => {
+                if (!filter_column || !filter_function || filter_params.length == 0 || filter_params.some(e => e == undefined || e == null || (typeof e == "number" && isNaN(e)))) return true;
+
+                return applyFilterFunc(it[filter_column])
+            });
+            // sort by column
+            if (whitelisted_cols.includes(sort_column)) {
+                filtered_items.sort((a, b) => {
+                    switch (cols_type_map[sort_column]) {
+                        case "number":
+                            return (
+                                sort_order * a[sort_column] - sort_order * b[sort_column]
+                            );
+                            break;
+                        case "Date":
+                            return (
+                                sort_order * new Date(a[sort_column]) -
+                                sort_order * new Date(b[sort_column])
+                            );
+                            break;
+                        case "URL":
+                        case "string":
+                            if (a[sort_column] < b[sort_column]) return -sort_order;
+                            else if (a[sort_column] > b[sort_column]) return sort_order;
+                            else return 0;
+                            break;
+                        default:
+                            return 0;
+                            break;
+                    }
+                });
+            }
+
+            // rows
+            for (
+                let i = page_num * page_size;
+                i < (page_num + 1) * page_size && i < filtered_items.length;
+                i++
+            ) {
+                makeRow(whitelisted_cols.map((c) => filtered_items[i][c]));
+            }
+        }
+    
+        function saveState(){
+            localStorage.setItem("jroozy_data_tables_config", JSON.stringify({
+                columns_blacklist: columns_blacklist,
+
+                page_num: page_num,
+                page_size: page_size,
+
+                sort_order: sort_order,
+                sort_column: sort_column,
+
+                filter_column: filter_column,
+                filter_function: filter_function,
+                filter_params: filter_params
+            }))
+
+            console.log("saving state")
         }
 
-        // rows
-        for (
-          let i = page_num * page_size;
-          i < (page_num + 1) * page_size && i < filtered_items.length;
-          i++
-        ) {
-          makeRow(whitelisted_cols.map((c) => filtered_items[i][c]));
+        function loadState(){
+            let LS_data = localStorage.getItem("jroozy_data_tables_config")
+            console.log("loading state",JSON.parse(LS_data))
+
+            if (LS_data != null){
+                LS_data = JSON.parse(LS_data);
+
+                columns_blacklist = LS_data.columns_blacklist,
+
+                page_num = LS_data.page_num,
+                page_size = LS_data.page_size,
+
+                sort_order = LS_data.sort_order,
+                sort_column = LS_data.sort_column,
+
+                filter_column = LS_data.filter_column,
+                filter_function = LS_data.filter_function,
+                filter_params = LS_data.filter_params
+            }
         }
-      }
     </script>
-  </body>
+</body>
+
 </html>
