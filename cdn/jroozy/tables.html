@@ -36,6 +36,26 @@
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"
     />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+      window.jsPDF = window.jspdf.jsPDF;
+      var docPDF = new jsPDF();
+      function _print() {
+        var elementHTML = document.querySelector("#CMS_table");
+        let bb = elementHTML.getBoundingClientRect();
+        docPDF.html(elementHTML, {
+          callback: function (docPDF) {
+            docPDF.save("HTML Linuxhint web page.pdf");
+          },
+          x: bb.x,
+          y: bb.y,
+          width: 200,
+          windowWidth: bb.width,
+        });
+      }
+    </script>
   </head>
 
   <body>
@@ -89,13 +109,13 @@
         white-space: nowrap;
       }
 
-      .setting_item{
+      .setting_item {
         display: flex;
         border-bottom: solid 1px lightgray;
         border-top: solid 1px lightgray;
         padding: 1px;
       }
-      .setting_checkbox{
+      .setting_checkbox {
         display: inline-flex;
         margin-left: auto;
       }
@@ -262,31 +282,47 @@
           sort_order = parseInt(data.sort_order);
           sort_column = data.sort_column;
         } else if (data.action == "open_settings") {
-          alertify.alert("Settings", "", (ev)=>{
-            console.log(ev, document.getElementById("setting_checkbox__id").checked )
-            window.postMessage({
+          alertify
+            .alert("Settings", "", (ev) => {
+              console.log(
+                ev,
+                document.getElementById("setting_checkbox__id").checked
+              );
+              window.postMessage({
                 jroozy: true,
                 action: "hide_columns",
-                columns: cols.filter(c=>!document.getElementById(`setting_checkbox_${c}`).checked)
-            })
-            window.postMessage({
+                columns: cols.filter(
+                  (c) =>
+                    !document.getElementById(`setting_checkbox_${c}`).checked
+                ),
+              });
+              window.postMessage({
                 jroozy: true,
                 action: "show_columns",
-                columns: cols.filter(c=>document.getElementById(`setting_checkbox_${c}`).checked)
+                columns: cols.filter(
+                  (c) =>
+                    document.getElementById(`setting_checkbox_${c}`).checked
+                ),
+              });
             })
-          }).setContent(`
-            ${
-                cols.map(c=>{
-                    return `
+            .setContent(
+              `
+            ${cols
+              .map((c) => {
+                return `
                         <div class="setting_item">
                             <p>${cols_name_map[c]}</p>
-                            <input id="setting_checkbox_${c}" class="setting_checkbox" type="checkbox" ${columns_blacklist.includes(c) ? "" : "checked"} />
+                            <input id="setting_checkbox_${c}" class="setting_checkbox" type="checkbox" ${
+                  columns_blacklist.includes(c) ? "" : "checked"
+                } />
                             <br>
                         </div>
                     `;
-                }).reduce((a,b) => a+b)
-            }
-          `).set("labels", "Save");
+              })
+              .reduce((a, b) => a + b)}
+          `
+            )
+            .set("labels", "Save");
         }
         redraw();
       });
