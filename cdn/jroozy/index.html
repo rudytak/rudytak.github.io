@@ -6947,6 +6947,13 @@
                 sort_column: document.getElementById("sort_column").value
             }) 
         }
+
+        let sett = () => {
+            ifr_win.postMessage({
+                jroozy: true,
+                action: "open_settings",
+            })
+        }
     </script>
 
     <br>
@@ -6965,6 +6972,7 @@
     <button onclick="sort_by()">set sort</button>
     <input type="number" id="sort_order" value="0">
     <input type="text" id="sort_column">
+    <button onclick="sett()">settings</button>
 </body>
 
 </html>
