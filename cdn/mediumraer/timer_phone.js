@@ -1461,7 +1461,7 @@
                         timeZone: "Czech Republic",
                         timeZoneCode: "+02:00",
                         lang: "EN",
-                        widthFrame: "120",
+                        widthFrame: "160",
                         heightFrame: "27",
                         frameColor2: null,
                         timeFontColor: null,
