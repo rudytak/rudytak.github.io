@@ -1430,7 +1430,7 @@
                 (s.height = 0),
                 n.parentNode.insertBefore(s, n),
                 counterCube(
-                    localStorage.getItem("counterSettings") == null ?
+                    sessionStorage.getItem("counterSettings") == null ?
                     {
                         typeTimer: 7,
                         fontUrl: null,
@@ -1524,7 +1524,7 @@
                         centeredImage: false,
                         uid: "20e582b49b722d3d24816f8eef9f5bbd",
                         disableWM: false,
-                    } : JSON.parse(localStorage.getItem("counterSettings")),
+                    } : JSON.parse(sessionStorage.getItem("counterSettings")),
                     s
                 );
         }
