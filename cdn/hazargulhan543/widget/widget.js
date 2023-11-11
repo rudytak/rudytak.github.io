@@ -1,22 +1,3 @@
-const currency_map = {
-    USD: "$",
-    EUR: "€",
-    JPY: "¥",
-    GBP: "£",
-    AUD: "A$",
-    CAD: "C$",
-    CHF: "CHF",
-};
-
-// ENCODING AND DECODING
-function encode_form(form_json) {
-    return btoa(encodeURIComponent(JSON.stringify(form_json)));
-}
-
-function decode_form(form_b64) {
-    return JSON.parse(decodeURIComponent(atob(form_b64)));
-}
-
 // FORM DISPLAY
 let form;
 let page_id = 0;
@@ -104,26 +85,26 @@ function apply_constraints() {
 
     form.constraints.forEach((constraint, c) => {
         if (isSelected(
-            constraint.control_state.p,
-            constraint.control_state.pr,
-            constraint.control_state.op
+            constraint.control_state[0],
+            constraint.control_state[1],
+            constraint.control_state[2]
         )) {
-            if (constraint.target_state.p == page_id) {
-                for (var o = 0; o < form.pages[constraint.target_state.p].properties[constraint.target_state.pr].options.length; o++) {
-                    if (o != constraint.target_state.op) {
-                        document.querySelectorAll(`#PROPERTIES > div.entry:nth-child(${constraint.target_state.pr + 2}) div.option:nth-child(${o + 1})`)[0].classList.add("restricted");
+            if (constraint.target_state[0] == page_id) {
+                for (var o = 0; o < form.pages[constraint.target_state[0]].properties[constraint.target_state[1]].options.length; o++) {
+                    if (o != constraint.target_state[2]) {
+                        document.querySelectorAll(`#PROPERTIES > div.entry:nth-child(${constraint.target_state[1] + 2}) div.option:nth-child(${o + 1})`)[0].classList.add("restricted");
                     }
                 }
 
                 if (!isSelected(
-                    constraint.target_state.p,
-                    constraint.target_state.pr,
-                    constraint.target_state.op
+                    constraint.target_state[0],
+                    constraint.target_state[1],
+                    constraint.target_state[2]
                 )) {
                     selectOption(
-                        constraint.target_state.p,
-                        constraint.target_state.pr,
-                        constraint.target_state.op
+                        constraint.target_state[0],
+                        constraint.target_state[1],
+                        constraint.target_state[2]
                     )
                 }
             }

@@ -30,40 +30,13 @@ let constraint_setter = document.getElementById("constraint_setter");
 //     constraints: [
 //        {
 //            type: "if_then",
-//            control_state: {p:page_id, pr:prop_id, op:option_id},
-//            target_state: {p:page_id, pr:prop_id, op:option_id},
+//            control_state: [p,pr,op],
+//            target_state: [p,pr,op],
 //        }
 //     ]
 // }
 
-const default_form_b64 = encode_form({
-  title: "FORM_TITLE",
-  currency: "USD",
-  pages: [],
-  constraints: []
-});
-const currency_map = {
-  USD: "$",
-  EUR: "€",
-  JPY: "¥",
-  GBP: "£",
-  AUD: "A$",
-  CAD: "C$",
-  CHF: "CHF",
-};
-
-// ENCODING AND DECODING
-function encode_form(form_json) {
-  return btoa(encodeURIComponent(JSON.stringify(form_json)));
-}
-
-function decode_form(form_b64) {
-  return JSON.parse(decodeURIComponent(atob(form_b64)));
-}
-
 // SAVING AND LOADING FROM LOCAL STORAGE
-const localStorage_key = "FORM_B64";
-
 function save_localStorage() {
   localStorage.setItem(localStorage_key, encode_form(current_form));
 }
@@ -571,8 +544,8 @@ function add_constraint() {
   current_form.constraints.push(
     {
       type: "if_then",
-      control_state: { p: 0, pr: 0, op: 0 },
-      target_state: { p: 0, pr: 0, op: 0 }
+      control_state: [0, 0, 0],
+      target_state: [0, 0, 0]
     }
   )
 
@@ -581,7 +554,7 @@ function add_constraint() {
   updateIframe();
 }
 
-function deleteConstraint(c_id){
+function deleteConstraint(c_id) {
   current_form.constraints.splice(c_id, 1);
 
   save_localStorage();
@@ -595,7 +568,7 @@ function listConstraints() {
   function gen_page_select(id, field, is_control_state = true) {
     return `
       <select constraint-id="${id}" class="constraint page_select ${is_control_state ? 'control' : 'target'}">
-        ${current_form.pages.map((page, p) => `<option value="${p}" ${p == field.p ? 'selected' : ''}>${page.name}</option>`)
+        ${current_form.pages.map((page, p) => `<option value="${p}" ${p == field[0] ? 'selected' : ''}>${page.name}</option>`)
       }
       </select>
     `
@@ -604,7 +577,7 @@ function listConstraints() {
   function gen_prop_select(id, field, is_control_state = true) {
     return `
       <select constraint-id="${id}" class="constraint prop_select ${is_control_state ? 'control' : 'target'}">
-        ${current_form.pages[field.p].properties.map((prop, pr) => `<option value="${pr}" ${pr == field.pr ? 'selected' : ''}>${prop.name}</option>`)
+        ${current_form.pages[field[0]].properties.map((prop, pr) => `<option value="${pr}" ${pr == field[1] ? 'selected' : ''}>${prop.name}</option>`)
       }
       </select>
     `
@@ -613,7 +586,7 @@ function listConstraints() {
   function gen_opt_select(id, field, is_control_state = true) {
     return `
       <select constraint-id="${id}" class="constraint opt_select ${is_control_state ? 'control' : 'target'}">
-        ${current_form.pages[field.p].properties[field.pr].options.map((opt, op) => `<option value="${op}" ${op == field.op ? 'selected' : ''}>${opt.name}</option>`)
+        ${current_form.pages[field[0]].properties[field[1]].options.map((opt, op) => `<option value="${op}" ${op == field[2] ? 'selected' : ''}>${opt.name}</option>`)
       }
       </select>
     `
@@ -656,16 +629,16 @@ function listConstraints() {
       if (current_form.constraints[c_id].type == "if_then") {
         let indexes = Array.from(document.querySelectorAll(`#constraint_setter select.constraint[constraint-id='${c_id}']`)).map(e => parseInt(e.value));
 
-        current_form.constraints[c_id].control_state = {
-          p: indexes[0],
-          pr: (this.classList.contains("control") && this.classList.contains("page_select")) ? 0 : indexes[1],
-          op: (this.classList.contains("control") && (this.classList.contains("page_select") || this.classList.contains("prop_select"))) ? 0 : indexes[2]
-        }
-        current_form.constraints[c_id].target_state = {
-          p: indexes[3],
-          pr: (this.classList.contains("target") && this.classList.contains("page_select")) ? 0 : indexes[4],
-          op: (this.classList.contains("target") && (this.classList.contains("page_select") || this.classList.contains("prop_select"))) ? 0 : indexes[5]
-        }
+        current_form.constraints[c_id].control_state = [
+          indexes[0],
+          (this.classList.contains("control") && this.classList.contains("page_select")) ? 0 : indexes[1],
+          (this.classList.contains("control") && (this.classList.contains("page_select") || this.classList.contains("prop_select"))) ? 0 : indexes[2]
+        ]
+        current_form.constraints[c_id].target_state = [
+          indexes[3],
+          (this.classList.contains("target") && this.classList.contains("page_select")) ? 0 : indexes[4],
+          (this.classList.contains("target") && (this.classList.contains("page_select") || this.classList.contains("prop_select"))) ? 0 : indexes[5]
+        ]
       }
 
       save_localStorage();
