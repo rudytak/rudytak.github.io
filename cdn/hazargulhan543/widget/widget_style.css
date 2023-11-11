@@ -124,7 +124,7 @@ main {
 #PROPERTIES {
     flex-direction: column;
     overflow-x: visible;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-right: calc(2*var(--property-padding) + 20px);
 }
 
@@ -231,7 +231,7 @@ main {
 .entry .row {
     width: calc(50vw - 2*var(--property-padding) - var(--side-margin));
     height: max-content;
-    overflow-y: scroll;
+    overflow-y: hidden;
     overflow-x: visible;
     flex-direction: row;
 }

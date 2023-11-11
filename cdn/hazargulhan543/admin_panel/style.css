@@ -209,6 +209,10 @@ label {
   border-radius: .5rem;
 }
 
+.ajs-close{
+  position: absolute;
+}
+
 /* HELPER FUNCTIONS */
 :nth-child(1) { --nth-child: 1 }
 :nth-child(2) { --nth-child: 2 }
