@@ -87,11 +87,11 @@ body {
 }
 
 .arrow:hover {
-    color: var(--sec-tect-col);
+    color: var(--sec-text-col);
 }
 
 .arrow:active {
-    color: var(--prim-tect-col);
+    color: var(--prim-text-col);
 }
 
 .arrow.disabled {

@@ -1,5 +1,5 @@
 let page_creator = document.getElementById("page_creator");
-let contraint_setter = document.getElementById("contraint_setter");
+let constraint_setter = document.getElementById("constraint_setter");
 
 // GENERAL FORM OBJECT LAYOUT
 //
@@ -61,7 +61,7 @@ function decode_form(form_b64) {
   return JSON.parse(decodeURIComponent(atob(form_b64)));
 }
 
-// SAVING AND LOADING FROM LOCALSTORAGE
+// SAVING AND LOADING FROM LOCAL STORAGE
 const localStorage_key = "FORM_B64";
 
 function save_localStorage() {
@@ -240,7 +240,7 @@ function display_form(form_json = current_form) {
 
     <i class="fa-regular ${isCollapsed(p) ? 'fa-eye-slash' : 'fa-eye'} block_modifier toggle" onclick='collapsePage(${p});'></i>
 
-    <label tooltip="This is the name of the specificed form page (e.g. Kitchen).">Page name: </label>
+    <label tooltip="This is the name of the specified form page (e.g. Kitchen).">Page name: </label>
     <input id="name" type="text" value="${page.name}"> 
     <br>
     <label tooltip="This should be the URL of the background image for this form page.">Page background: </label>
@@ -262,7 +262,7 @@ function display_form(form_json = current_form) {
 
       <i class="fa-regular ${isCollapsed(p, pr) ? 'fa-eye-slash' : 'fa-eye'} block_modifier toggle" onclick='collapseProp(${p}, ${pr});'></i>
 
-      <label tooltip="This is the name of one of the properties of the room (e.g. Countertop).">Property name: </label>
+      <label tooltip="This is the name of one of the properties of the room (e.g. Counter top).">Property name: </label>
       <input id="name" type="text" value="${prop.name}"> 
       <br>
       <label tooltip="Property type text means, that the options will be displayed as text. Property type swatch means, that small icons will be used for each option (this is useful for specifying a material for instance).">Property type: </label>
@@ -647,14 +647,14 @@ function listConstraints() {
         `
     }
   }
-  contraint_setter.innerHTML = html;
+  constraint_setter.innerHTML = html;
 
-  document.querySelectorAll("#contraint_setter select.constraint").forEach(sel => {
+  document.querySelectorAll("#constraint_setter select.constraint").forEach(sel => {
     sel.addEventListener("change", function (ev) {
       let c_id = parseInt(this.getAttribute("constraint-id"));
 
       if (current_form.constraints[c_id].type == "if_then") {
-        let indexes = Array.from(document.querySelectorAll(`#contraint_setter select.constraint[constraint-id='${c_id}']`)).map(e => parseInt(e.value));
+        let indexes = Array.from(document.querySelectorAll(`#constraint_setter select.constraint[constraint-id='${c_id}']`)).map(e => parseInt(e.value));
 
         current_form.constraints[c_id].control_state = {
           p: indexes[0],

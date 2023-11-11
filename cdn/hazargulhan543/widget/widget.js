@@ -256,13 +256,13 @@ function drawImageScaled(img, ctx) {
 
 // CANVAS
 async function redraw_canvas() {
-    // start the laoding animation
+    // start the loading animation
     startLoading();
     // ctx.clearRect(0,0,canvas.width, canvas.height);
 
     if (!form) return;
 
-    // make sure all the iamges are cached
+    // make sure all the images are cached
     let bg = await getImg(form.pages[page_id].background)
     for (let pr = 0; pr < form.pages[page_id].properties.length; pr++) {
         await getImg(getSelected(page_id, pr).overlay_img);
@@ -307,7 +307,7 @@ function loading() {
         speed: 4
     }
 
-    var smallCirlce = {
+    var smallCircle = {
         center: {
             x: ctx.w / 2,
             y: ctx.h / 2
@@ -336,7 +336,7 @@ function loading() {
     }
 
     drawCircle(bigCircle, progress);
-    drawCircle(smallCirlce, progress);
+    drawCircle(smallCircle, progress);
 
     if (isLoading) {
         requestAnimationFrame(loading);
@@ -407,7 +407,7 @@ window.addEventListener(
 
             if (!json.action) return;
 
-            // determin which function to call from the action
+            // determine which function to call from the action
             if (json.action == "parse") {
                 loadForm(json.code);
             }
