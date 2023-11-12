@@ -551,8 +551,6 @@ function smart_JSON_stringify(form) {
     })
 }
 function smart_JSON_parse(str) {
-    console.log(str)
-
     let o = JSON.parse(str)
 
     return {
