@@ -590,11 +590,11 @@ function smart_JSON_parse(str) {
 }
 
 function encode_form(form_json) {
-    return encodeURIComponent(smart_JSON_stringify(form_json));
+    return encodeURIComponent(btoa(smart_JSON_stringify(form_json)));
 }
 
 function decode_form(form_b64) {
-    return smart_JSON_parse(decodeURIComponent(form_b64));
+    return smart_JSON_parse(atob(decodeURIComponent(form_b64)));
 }
 
 const default_form_b64 = encode_form({
