@@ -597,6 +597,7 @@ function decode_form(form_b64) {
     return smart_JSON_parse(atob(decodeURIComponent(form_b64)));
 }
 
+const KV_ENDPOINT = "https://hazargulhan543-wix-plugin.rudytak.workers.dev";
 const default_form_b64 = encode_form({
     title: "FORM_TITLE",
     currency: "USD",

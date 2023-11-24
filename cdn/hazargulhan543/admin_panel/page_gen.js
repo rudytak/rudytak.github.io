@@ -66,10 +66,10 @@ function user_parse() {
       "The form was successfully parsed.",
       "success",
       3,
-      () => { }
+      () => {}
     );
   } catch (error) {
-    alertify.notify("The form could not be parsed!", "error", 3, () => { });
+    alertify.notify("The form could not be parsed!", "error", 3, () => {});
   }
 }
 
@@ -89,22 +89,25 @@ function user_upload(ev) {
           "The form was successfully parsed from the file.",
           "success",
           3,
-          () => { }
+          () => {}
         );
-      }
+      };
       reader.onerror = function (evt) {
         throw new Error("No file loaded!");
-      }
+      };
     } else {
       throw new Error("No file loaded!");
     }
-
-
   } catch (error) {
-    alertify.notify("The from could not be parsed from the file!", "error", 3, () => { });
+    alertify.notify(
+      "The from could not be parsed from the file!",
+      "error",
+      3,
+      () => {}
+    );
   }
 }
-document.getElementById("file_parser").addEventListener("change", user_upload)
+document.getElementById("file_parser").addEventListener("change", user_upload);
 
 function user_copy() {
   alertify.set("notifier", "position", "bottom-left");
@@ -116,21 +119,27 @@ function user_copy() {
       "The code was successfully copied to the clipboard.",
       "success",
       3,
-      () => { }
+      () => {}
     );
   } catch (error) {
-    alertify.notify("The code could not be copied!", "error", 3, () => { });
+    alertify.notify("The code could not be copied!", "error", 3, () => {});
   }
 }
 
-function user_download(filename = `Code_${current_form.title}_${Date.now()}.code`) {
+function user_download(
+  filename = `Code_${current_form.title}_${Date.now()}.code`
+) {
   alertify.set("notifier", "position", "bottom-left");
   try {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(localStorage.getItem(localStorage_key)));
-    element.setAttribute('download', filename);
+    var element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," +
+        encodeURIComponent(localStorage.getItem(localStorage_key))
+    );
+    element.setAttribute("download", filename);
 
-    element.style.display = 'none';
+    element.style.display = "none";
     document.body.appendChild(element);
 
     element.click();
@@ -141,28 +150,70 @@ function user_download(filename = `Code_${current_form.title}_${Date.now()}.code
       "The download started successfully.",
       "success",
       3,
-      () => { }
+      () => {}
     );
   } catch (error) {
-    alertify.notify("The code could not be saved as a file!", "error", 3, () => { });
+    alertify.notify(
+      "The code could not be saved as a file!",
+      "error",
+      3,
+      () => {}
+    );
   }
-
 }
 
 function clear_form() {
   alertify.set("notifier", "position", "bottom-left");
   alertify.confirm(
-    'Do you want to clear the form?',
-    'Are you sure you want to clear the form? By pressing OK the form will be deleted and cannot be retrieved back.',
+    "Do you want to clear the form?",
+    "Are you sure you want to clear the form? By pressing OK the form will be deleted and cannot be retrieved back.",
     function () {
-      alertify.success('Form cleared correctly.');
+      alertify.success("Form cleared correctly.");
       resetCollapse();
       parse_form();
     },
     function () {
-      alertify.error('Form clearing canceled.')
+      alertify.error("Form clearing canceled.");
     }
   );
+}
+
+// CLOUDFLARE
+
+const WIDGET_URL = "https://rudytak.github.io/cdn/hazargulhan543/widget/";
+async function cloudflare_save() {
+  alertify.set("notifier", "position", "bottom-left");
+  try {
+    let res = await fetch(`${KV_ENDPOINT}/save`, {
+      method: "POST",
+      body: localStorage.getItem(localStorage_key)
+    }).then((response) => response.json());
+
+    console.log(res);
+
+    if(res.type != "SAVED_KEY"){
+      throw new Error("Unexpected sevrer response!");
+    }
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(
+      `${WIDGET_URL}?key=${res.res.key}`
+    );
+
+    alertify.notify(
+      "The link was successfully copied to the clipboard.",
+      "success",
+      3,
+      () => {}
+    );
+  } catch (error) {
+    alertify.notify(
+      "An error occured during saving to cloud.",
+      "error",
+      3,
+      () => {}
+    );
+  }
 }
 
 // PARSING TO THE SCREEN
@@ -190,11 +241,12 @@ function display_form(form_json = current_form) {
   <label tooltip="This is the currency used for all the prices.">Currency: </label>
   <select id="currency"> 
     ${Object.keys(currency_map).map(
-    (key) => `
-      <option value="${key}" ${form_json.currency == key ? "selected" : ""}>${currency_map[key]
+      (key) => `
+      <option value="${key}" ${form_json.currency == key ? "selected" : ""}>${
+        currency_map[key]
       } (${key})</option>
       `
-  )}
+    )}
     </select>
   `;
 
@@ -203,7 +255,9 @@ function display_form(form_json = current_form) {
     let page = form_json.pages[p];
 
     html += `
-    <div class="block page ${isCollapsed(p) ? 'collapsed' : ''}" style='--el-count: "${page.properties.length}";' p="${p}">
+    <div class="block page ${
+      isCollapsed(p) ? "collapsed" : ""
+    }" style='--el-count: "${page.properties.length}";' p="${p}">
     
     <i class="block_modifier left-tooltip" tooltip="Use the up arrow button, to move this element up in the hierarchy. Use the down arrow button, to move this element down in the hierarchy. Use the cross arrow button, to delete this element from the hierarchy. Use the eye button to hide/show the properties attached to this element."></i>
     
@@ -211,7 +265,9 @@ function display_form(form_json = current_form) {
     <i class="fas fa-arrow-down block_modifier down" onclick="movePage(1, ${p});"></i>
     <i class="fas fa-arrow-up block_modifier up" onclick="movePage(-1, ${p});"></i>
 
-    <i class="fa-regular ${isCollapsed(p) ? 'fa-eye-slash' : 'fa-eye'} block_modifier toggle" onclick='collapsePage(${p});'></i>
+    <i class="fa-regular ${
+      isCollapsed(p) ? "fa-eye-slash" : "fa-eye"
+    } block_modifier toggle" onclick='collapsePage(${p});'></i>
 
     <label tooltip="This is the name of the specified form page (e.g. Kitchen).">Page name: </label>
     <input id="name" type="text" value="${page.name}"> 
@@ -225,7 +281,9 @@ function display_form(form_json = current_form) {
       let prop = page.properties[pr];
 
       html += `
-      <div class="block prop ${isCollapsed(p, pr) ? 'collapsed' : ''}" style='--el-count: "${prop.options.length}";' p="${p}" pr="${pr}">
+      <div class="block prop ${
+        isCollapsed(p, pr) ? "collapsed" : ""
+      }" style='--el-count: "${prop.options.length}";' p="${p}" pr="${pr}">
       
       <i class="block_modifier left-tooltip" tooltip="Use the up arrow button, to move this element up in the hierarchy. Use the down arrow button, to move this element down in the hierarchy. Use the cross arrow button, to delete this element from the hierarchy. Use the eye button to hide/show the options attached to this element."></i>
       
@@ -233,16 +291,20 @@ function display_form(form_json = current_form) {
       <i class="fas fa-arrow-down block_modifier down" onclick="moveProp(1, ${p}, ${pr});"></i>
       <i class="fas fa-arrow-up block_modifier up" onclick="moveProp(-1, ${p}, ${pr});"></i>
 
-      <i class="fa-regular ${isCollapsed(p, pr) ? 'fa-eye-slash' : 'fa-eye'} block_modifier toggle" onclick='collapseProp(${p}, ${pr});'></i>
+      <i class="fa-regular ${
+        isCollapsed(p, pr) ? "fa-eye-slash" : "fa-eye"
+      } block_modifier toggle" onclick='collapseProp(${p}, ${pr});'></i>
 
       <label tooltip="This is the name of one of the properties of the room (e.g. Counter top).">Property name: </label>
       <input id="name" type="text" value="${prop.name}"> 
       <br>
       <label tooltip="Property type text means, that the options will be displayed as text. Property type swatch means, that small icons will be used for each option (this is useful for specifying a material for instance).">Property type: </label>
       <select id="type"> 
-        <option value="text" ${prop.type == "text" ? "selected" : ""
+        <option value="text" ${
+          prop.type == "text" ? "selected" : ""
         } >Text</option>
-        <option value="swatch" ${prop.type == "swatch" ? "selected" : ""
+        <option value="swatch" ${
+          prop.type == "swatch" ? "selected" : ""
         } >Swatch</option>
       </select>
       <br>
@@ -266,9 +328,12 @@ function display_form(form_json = current_form) {
         <input id="price" type="number" min="0" value="${option.price}"> 
         <br>
         <label tooltip="This field is for the URL of an overlay image, that will be laid over the background image of the current page when this option is selected. This image should be transparent everywhere other than the object itself.">Overlay URL: </label>
-        <input id="overlay_img" class="wide" type="text" value="${option.overlay_img}"> 
+        <input id="overlay_img" class="wide" type="text" value="${
+          option.overlay_img
+        }"> 
         <br>
-        ${prop.type == "swatch"
+        ${
+          prop.type == "swatch"
             ? `
                 <label tooltip="This is the URL to an image that will be used for the swatch. The recommended size is around 25 by 25 pixels.">Swatch url: </label>
                 <input id="swatch_img" class="wide" type="text" value="${option.swatch_img}"> 
@@ -279,7 +344,7 @@ function display_form(form_json = current_form) {
               <input id="description" class="semiwide" type="text" value="${option.description}"> 
               <br>
             `
-          }
+        }
         </div>
         `;
       }
@@ -330,14 +395,18 @@ function display_form(form_json = current_form) {
         // when changing the property type, we have to redraw the html
         if (this.id == "type" && this.type == "select-one") {
           // open up options when changing the property type
-          let block = document.querySelectorAll(`:nth-child(${p + 1} of .block.page) :nth-child(${pr + 1} of .block.prop)`)[0];
+          let block = document.querySelectorAll(
+            `:nth-child(${p + 1} of .block.page) :nth-child(${
+              pr + 1
+            } of .block.prop)`
+          )[0];
           if (block.classList.contains("collapsed")) {
             collapseProp(p, pr);
           }
 
           display_form();
         } else {
-          listConstraints()
+          listConstraints();
           save_localStorage();
           updateIframe();
         }
@@ -353,12 +422,10 @@ function display_form(form_json = current_form) {
 function updateIframe() {
   // update preview iframe
   document.getElementsByTagName("iframe")[0].contentWindow.postMessage(
-    JSON.stringify(
-      {
-        action: "parse",
-        code: localStorage.getItem(localStorage_key)
-      }
-    )
+    JSON.stringify({
+      action: "parse",
+      code: localStorage.getItem(localStorage_key),
+    })
   );
 }
 
@@ -467,7 +534,7 @@ function deleteOption(page_id, prop_id, option_id) {
 
 // COLLAPSE FUNCTIONS
 
-const collapses_localStorage_key = "COLLAPSED_ADMIN_PAGE"
+const collapses_localStorage_key = "COLLAPSED_ADMIN_PAGE";
 let collapses;
 loadCollapseState();
 
@@ -475,8 +542,12 @@ function isCollapsed(page_id, prop_id = null) {
   return collapses[`${page_id}_${prop_id}`];
 }
 function collapsePage(page_id) {
-  let block = document.querySelectorAll(`:nth-child(${page_id + 1} of .block.page)`)[0];
-  let modif = document.querySelectorAll(`:nth-child(${page_id + 1} of .block.page) .block_modifier.toggle`)[0];
+  let block = document.querySelectorAll(
+    `:nth-child(${page_id + 1} of .block.page)`
+  )[0];
+  let modif = document.querySelectorAll(
+    `:nth-child(${page_id + 1} of .block.page) .block_modifier.toggle`
+  )[0];
 
   if (block.classList.contains("collapsed")) {
     block.classList.remove("collapsed");
@@ -497,8 +568,16 @@ function collapsePage(page_id) {
   saveCollapseState();
 }
 function collapseProp(page_id, prop_id) {
-  let block = document.querySelectorAll(`:nth-child(${page_id + 1} of .block.page) :nth-child(${prop_id + 1} of .block.prop)`)[0];
-  let modif = document.querySelectorAll(`:nth-child(${page_id + 1} of .block.page) :nth-child(${prop_id + 1} of .block.prop) .block_modifier.toggle`)[0];
+  let block = document.querySelectorAll(
+    `:nth-child(${page_id + 1} of .block.page) :nth-child(${
+      prop_id + 1
+    } of .block.prop)`
+  )[0];
+  let modif = document.querySelectorAll(
+    `:nth-child(${page_id + 1} of .block.page) :nth-child(${
+      prop_id + 1
+    } of .block.prop) .block_modifier.toggle`
+  )[0];
 
   if (block.classList.contains("collapsed")) {
     block.classList.remove("collapsed");
@@ -520,7 +599,7 @@ function collapseProp(page_id, prop_id) {
 }
 
 function resetCollapse() {
-  collapses = {}
+  collapses = {};
   saveCollapseState();
 }
 function saveCollapseState() {
@@ -541,13 +620,11 @@ function loadCollapseState() {
 // CONSTRAINTS
 
 function add_constraint() {
-  current_form.constraints.push(
-    {
-      type: "if_then",
-      control_state: [0, 0, 0],
-      target_state: [0, 0, 0]
-    }
-  )
+  current_form.constraints.push({
+    type: "if_then",
+    control_state: [0, 0, 0],
+    target_state: [0, 0, 0],
+  });
 
   save_localStorage();
   listConstraints();
@@ -567,29 +644,47 @@ function listConstraints() {
 
   function gen_page_select(id, field, is_control_state = true) {
     return `
-      <select constraint-id="${id}" class="constraint page_select ${is_control_state ? 'control' : 'target'}">
-        ${current_form.pages.map((page, p) => `<option value="${p}" ${p == field[0] ? 'selected' : ''}>${page.name}</option>`)
-      }
+      <select constraint-id="${id}" class="constraint page_select ${
+      is_control_state ? "control" : "target"
+    }">
+        ${current_form.pages.map(
+          (page, p) =>
+            `<option value="${p}" ${p == field[0] ? "selected" : ""}>${
+              page.name
+            }</option>`
+        )}
       </select>
-    `
+    `;
   }
 
   function gen_prop_select(id, field, is_control_state = true) {
     return `
-      <select constraint-id="${id}" class="constraint prop_select ${is_control_state ? 'control' : 'target'}">
-        ${current_form.pages[field[0]].properties.map((prop, pr) => `<option value="${pr}" ${pr == field[1] ? 'selected' : ''}>${prop.name}</option>`)
-      }
+      <select constraint-id="${id}" class="constraint prop_select ${
+      is_control_state ? "control" : "target"
+    }">
+        ${current_form.pages[field[0]].properties.map(
+          (prop, pr) =>
+            `<option value="${pr}" ${pr == field[1] ? "selected" : ""}>${
+              prop.name
+            }</option>`
+        )}
       </select>
-    `
+    `;
   }
 
   function gen_opt_select(id, field, is_control_state = true) {
     return `
-      <select constraint-id="${id}" class="constraint opt_select ${is_control_state ? 'control' : 'target'}">
-        ${current_form.pages[field[0]].properties[field[1]].options.map((opt, op) => `<option value="${op}" ${op == field[2] ? 'selected' : ''}>${opt.name}</option>`)
-      }
+      <select constraint-id="${id}" class="constraint opt_select ${
+      is_control_state ? "control" : "target"
+    }">
+        ${current_form.pages[field[0]].properties[field[1]].options.map(
+          (opt, op) =>
+            `<option value="${op}" ${op == field[2] ? "selected" : ""}>${
+              opt.name
+            }</option>`
+        )}
       </select>
-    `
+    `;
   }
 
   for (let c = 0; c < current_form.constraints.length; c++) {
@@ -617,35 +712,55 @@ function listConstraints() {
             ${gen_opt_select(c, constraint.target_state, false)}
             .
           </div>
-        `
+        `;
     }
   }
   constraint_setter.innerHTML = html;
 
-  document.querySelectorAll("#constraint_setter select.constraint").forEach(sel => {
-    sel.addEventListener("change", function (ev) {
-      let c_id = parseInt(this.getAttribute("constraint-id"));
+  document
+    .querySelectorAll("#constraint_setter select.constraint")
+    .forEach((sel) => {
+      sel.addEventListener("change", function (ev) {
+        let c_id = parseInt(this.getAttribute("constraint-id"));
 
-      if (current_form.constraints[c_id].type == "if_then") {
-        let indexes = Array.from(document.querySelectorAll(`#constraint_setter select.constraint[constraint-id='${c_id}']`)).map(e => parseInt(e.value));
+        if (current_form.constraints[c_id].type == "if_then") {
+          let indexes = Array.from(
+            document.querySelectorAll(
+              `#constraint_setter select.constraint[constraint-id='${c_id}']`
+            )
+          ).map((e) => parseInt(e.value));
 
-        current_form.constraints[c_id].control_state = [
-          indexes[0],
-          (this.classList.contains("control") && this.classList.contains("page_select")) ? 0 : indexes[1],
-          (this.classList.contains("control") && (this.classList.contains("page_select") || this.classList.contains("prop_select"))) ? 0 : indexes[2]
-        ]
-        current_form.constraints[c_id].target_state = [
-          indexes[3],
-          (this.classList.contains("target") && this.classList.contains("page_select")) ? 0 : indexes[4],
-          (this.classList.contains("target") && (this.classList.contains("page_select") || this.classList.contains("prop_select"))) ? 0 : indexes[5]
-        ]
-      }
+          current_form.constraints[c_id].control_state = [
+            indexes[0],
+            this.classList.contains("control") &&
+            this.classList.contains("page_select")
+              ? 0
+              : indexes[1],
+            this.classList.contains("control") &&
+            (this.classList.contains("page_select") ||
+              this.classList.contains("prop_select"))
+              ? 0
+              : indexes[2],
+          ];
+          current_form.constraints[c_id].target_state = [
+            indexes[3],
+            this.classList.contains("target") &&
+            this.classList.contains("page_select")
+              ? 0
+              : indexes[4],
+            this.classList.contains("target") &&
+            (this.classList.contains("page_select") ||
+              this.classList.contains("prop_select"))
+              ? 0
+              : indexes[5],
+          ];
+        }
 
-      save_localStorage();
-      listConstraints();
-      updateIframe();
+        save_localStorage();
+        listConstraints();
+        updateIframe();
+      });
     });
-  })
 }
 
 load_localStorage();

@@ -10,6 +10,11 @@
 
 export default {
   async fetch(request, env, ctx) {
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
+      "Access-Control-Max-Age": "86400",
+    };
     const databaseID = "KV_database";
     const ENDPOINT = "https://hazargulhan543-wix-plugin.rudytak.workers.dev";
 
@@ -85,6 +90,10 @@ export default {
       };
     }
 
-    return new Response(JSON.stringify(response_obj));
+    return new Response(JSON.stringify(response_obj), {
+      headers: {
+        ...corsHeaders,
+      },
+    });
   },
 };
