@@ -598,7 +598,7 @@ function decode_form(form_b64) {
     return smart_JSON_parse(atob(decodeURIComponent(form_b64)));
 }
 
-const WIDGET_URL = "https://rudytak.github.io/cdn/hazargulhan543/widget/";
+const WIDGET_URL = "https://rudytak.github.io/cdn/hazargulhan543/widget/widget.html";
 const KV_ENDPOINT = "https://wix-widget-kv.hazar-b92.workers.dev";
 const default_form_b64 = encode_form({
     title: "FORM_TITLE",

@@ -24,6 +24,7 @@ async function tryLoadFromURL() {
 
   if (key == null) return;
   URL_KEY = key;
+  console.log(URL_KEY)
 
   let res = await fetch(`${KV_ENDPOINT}/get?key=${key}`).then(res => res.json())
 
