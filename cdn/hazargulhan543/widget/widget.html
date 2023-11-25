@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Widget</title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+
     <!-- LOAD IN GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +20,30 @@
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
+    <!-- 
+    RTL version
+-->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css" />
+
+
     <link rel="stylesheet" href="./widget_style.css">
 </head>
 
@@ -26,16 +52,67 @@
         <div id="FORM_TITLE">
             Waiting for form information...
         </div>
+        <div id="TOTAL_PRICE">
+            TOTAL_PRICE
+        </div>
         <div class="arrow left" onclick="page_left()"><i class="fa-solid fa-chevron-left"></i></div>
-        <div class="arrow right" onclick="page_right()"><i class="fa-solid fa-chevron-right"></i></div>
+        <div id="PAGE_NAME">
+            PAGE_NAME
+        </div>
+        <div class="arrow right" onclick="page_right()">
+            <div id="finish_btn" onclick="toggle_contact_info()">Finish</i></div>
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+
     </div>
-    <main>
+    <main id="widget">
         <div id="BG_IMG_WRAPPER">
-            <canvas id="BG_IMG">
+            <!-- <canvas id="BG_IMG"> -->
         </div>
         <div id="PROPERTIES">
             <div id="PAGE_NAME" class="entry">Loading...</div>
         </div>
+    </main>
+    <main id="contacts">
+        <h2 style="padding-left: 5px;">Summary</h2>
+        <div id="SUMMARY">
+
+        </div>
+        <hr>
+
+        <h2 style="padding-left: 5px;">Contact information</h2>
+        <div id="CONTACT_INFO">
+            <div class="contact_input inl1-2"> <input id="contact_first_name" placeholder="First name" type="text"> </div>
+            <div class="contact_input inl1-2"> <input id="contact_last_name" placeholder="Last name" type="text"> </div>
+            <div class="contact_input inl2-3"> <input id="contact_email" placeholder="Email" type="email"> </div>
+            <div class="contact_input inl1-3"> <input id="contact_phone" placeholder="Phone number" type="tel"> </div>
+        </div>
+
+        <h3 style="padding-left: 5px;">Address</h3>
+        <div id="ADDRESS_INFO">
+            <div class="contact_input inl2-3"> <input id="address_first_line" placeholder="First line" type="text"> </div>
+            <div class="contact_input inl2-3"> <input id="address_second_line" placeholder="Second line (optional)" type="text"> </div>
+            <div class="contact_input inl1-3"> <input id="address_state_province" placeholder="State/Province" type="text"> </div>
+
+            <div class="contact_input inl1-3"> <input id="address_city" placeholder="City" type="text"> </div>
+            <div class="contact_input inl1-3"> <input id="address_zip" placeholder="ZIP code" type="text"> </div>
+            <div class="contact_input inl1-3"> <input id="address_country" placeholder="Country" type="text"> </div>
+        </div>
+
+        <div class="btn" onclick="place_order()">
+            Place order
+            <i id="place_order_idle_indicator" class="fa-solid fa-arrow-right"></i>
+            <i id="place_order_loading_indicator" style="display: none;" class="fas fa-spinner fa-spin"></i>
+        </div>
+
+        <br>
+        <br>
+        <br>
+    </main>
+    <main style="padding-left: 5px;" id="success_page">
+        <h2>Your order request was processed successfully</h2>
+        <p id="order_number"></p>
+        You can close this page now.
     </main>
 
     <script src="../shared.js"></script>

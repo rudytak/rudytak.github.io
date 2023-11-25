@@ -17,17 +17,76 @@ function loadForm(form_b64) {
   displayPage();
 }
 
+let URL_KEY = "unknown";
 async function tryLoadFromURL() {
   let u = new URL(window.location);
   let key = u.searchParams.get("key");
 
   if (key == null) return;
+  URL_KEY = key;
 
-  let res = await fetch(`${KV_ENDPOINT}/get?key=${key}`).then(res=>res.json())
+  let res = await fetch(`${KV_ENDPOINT}/get?key=${key}`).then(res => res.json())
 
   if (res.type != "KEY_VAL_PAIR") return;
 
   loadForm(res.res.value)
+}
+
+async function place_order() {
+  document.getElementById("place_order_idle_indicator").style.display = "none";
+  document.getElementById("place_order_loading_indicator").style.display = "";
+
+  try {
+    let res = await fetch(`${KV_ENDPOINT}/place_order`, {
+      method: "POST",
+      body: getSummary() + `
+PERSONAL INFORMATION:
+First name: ${document.getElementById("contact_first_name").value}
+Last name: ${document.getElementById("contact_last_name").value}
+Email: ${document.getElementById("contact_email").value}
+Phone number: ${document.getElementById("contact_phone").value}
+
+Address:
+First line: ${document.getElementById("address_first_line").value}
+Second line: ${document.getElementById("address_second_line").value}
+State/Province: ${document.getElementById("address_state_province").value}
+City: ${document.getElementById("address_city").value}
+ZIP code: ${document.getElementById("address_zip").value}
+Country: ${document.getElementById("address_country").value}
+`
+    }).then((response) => response.json());
+
+    if (res.type == "PLACED_ORDER") {
+      // SUCCESS
+      document.getElementById("contacts").style.display = "none";
+      document.getElementById("TOTAL_PRICE").style.opacity = 0;
+      document.getElementById("finish_btn").style.opacity = 0;
+
+      document.getElementById("order_number").innerText = `Your order number is: ${res.res.order_number}`
+    } else {
+      alertify.set("notifier", "position", "bottom-left");
+      alertify.error("An error ocurred during the order. Please contact customer support or try again later.")
+    }
+  } catch (error) {
+    alertify.set("notifier", "position", "bottom-left");
+    alertify.error("An error ocurred during the order. Please contact customer support or try again later.")
+  }
+
+  document.getElementById("place_order_idle_indicator").style.display = "";
+  document.getElementById("place_order_loading_indicator").style.display = "none";
+}
+
+function selectedPrice() {
+  return form.pages.map((p_ob, p) =>
+    p_ob.properties.map((pr_ob, pr) =>
+      pr_ob.options.filter((op_ob, op) => isSelected(p, pr, op))
+    )
+  ).flat(2).map(op => op.price).reduce((a, b) => a + b);
+}
+
+function updateHeaderValues() {
+  document.getElementById("PAGE_NAME").innerText = form.pages[page_id].name;
+  document.getElementById('TOTAL_PRICE').innerText = `${form.base_price + selectedPrice()} ${currency_map[form.currency]}`;
 }
 
 function displayPage() {
@@ -35,7 +94,10 @@ function displayPage() {
 
   // set the name
   let properties_wrapper = document.getElementById("PROPERTIES");
-  properties_wrapper.innerHTML = `<div id="PAGE_NAME" class="entry">${page.name}</div>`;
+  // properties_wrapper.innerHTML = `<div id="PAGE_NAME" class="entry">${page.name}</div>`;
+  properties_wrapper.innerHTML = `<div class="entry" style="display:none; height: 0; padding: 0; margin: 0;"></div>`;
+
+  updateHeaderValues();
 
   // add in all the property selections
   for (let pr = 0; pr < page.properties.length; pr++) {
@@ -44,10 +106,9 @@ function displayPage() {
 
     if (prop.type == "swatch") {
       properties_wrapper.innerHTML += `
-                <div class="entry ${
-                  isCollapsed(page_id, pr) ? "collapsed" : ""
-                }">
-                    <div class="row header">
+                <div class="entry ${isCollapsed(page_id, pr) ? "collapsed" : ""
+        }">
+                    <div class="row header header_swatch">
                         <div class="title">${prop.name}</div>
                         <div class="selected_name">${selected.name}</div>
                         <div class="collapse_btn" onclick='collapse(${page_id}, ${pr});'></div>
@@ -55,30 +116,27 @@ function displayPage() {
                     </div>
                     <div class="row swatch">
                         ${prop.options
-                          .map(
-                            (option, op) => `
+          .map(
+            (option, op) => `
                                 <div class="option swatch
-                                    ${
-                                      isSelected(page_id, pr, op)
-                                        ? "selected"
-                                        : ""
-                                    }"
+                                    ${isSelected(page_id, pr, op)
+                ? "selected"
+                : ""
+              }"
                                     onclick = 'selectOption(${page_id}, ${pr}, ${op});'
-                                    style="--img-src: url('${
-                                      option.swatch_img
-                                    }');">
+                                    style="--img-src: url('${option.swatch_img
+              }');">
                                 </div>`
-                          )
-                          .join("")}
+          )
+          .join("")}
                     </div>
                 </div>
             `;
     } else {
       properties_wrapper.innerHTML += `
-                <div class="entry ${
-                  isCollapsed(page_id, pr) ? "collapsed" : ""
-                }">
-                    <div class="row header">
+                <div class="entry ${isCollapsed(page_id, pr) ? "collapsed" : ""
+        }">
+                    <div class="row header header_text">
                         <div class="title">${prop.name}</div>
                         <div class="selected_name">${selected.name}</div>
                         <div class="collapse_btn" onclick='collapse(${page_id}, ${pr});'></div>
@@ -86,20 +144,19 @@ function displayPage() {
                     </div>
                     <div class="row text">
                         ${prop.options
-                          .map(
-                            (option, op) => `
+          .map(
+            (option, op) => `
                                 <div class="option text
-                                    ${
-                                      isSelected(page_id, pr, op)
-                                        ? "selected"
-                                        : ""
-                                    }"
+                                    ${isSelected(page_id, pr, op)
+                ? "selected"
+                : ""
+              }"
                                     onclick = 'selectOption(${page_id}, ${pr}, ${op});'>
-                                    ${option.name}
+                                    <div class="option_title"> ${option.name} </div>
                                     <p>${option.description}</p>
                                 </div>`
-                          )
-                          .join("")}
+          )
+          .join("")}
                     </div>
                 </div>
             `;
@@ -136,8 +193,7 @@ function apply_constraints() {
           if (o != constraint.target_state[2]) {
             document
               .querySelectorAll(
-                `#PROPERTIES > div.entry:nth-child(${
-                  constraint.target_state[1] + 2
+                `#PROPERTIES > div.entry:nth-child(${constraint.target_state[1] + 2
                 }) div.option:nth-child(${o + 1})`
               )[0]
               .classList.add("restricted");
@@ -154,7 +210,8 @@ function apply_constraints() {
           selectOption(
             constraint.target_state[0],
             constraint.target_state[1],
-            constraint.target_state[2]
+            constraint.target_state[2],
+            false
           );
         }
       }
@@ -177,6 +234,10 @@ function check_arrows() {
 function page_right() {
   if (page_id < form.pages.length - 1) {
     page_id++;
+    previously_selected_imgs = undefined;
+    currently_selected_imgs = undefined;
+
+    updateHeaderValues();
     displayPage();
   }
   check_arrows();
@@ -184,6 +245,10 @@ function page_right() {
 function page_left() {
   if (page_id > 0) {
     page_id--;
+    previously_selected_imgs = undefined;
+    currently_selected_imgs = undefined;
+
+    updateHeaderValues();
     displayPage();
   }
   check_arrows();
@@ -196,7 +261,7 @@ function checkSelectionObjectInit(page_id, prop_id) {
   if (selections[page_id][prop_id] == undefined)
     selections[page_id][prop_id] = 0;
 }
-function selectOption(page_id, prop_id, option_id) {
+function selectOption(page_id, prop_id, option_id, change_sel_imgs = true) {
   checkSelectionObjectInit(page_id, prop_id);
   selections[page_id][prop_id] = option_id;
 
@@ -204,8 +269,7 @@ function selectOption(page_id, prop_id, option_id) {
   document.querySelectorAll(".selected")[prop_id].classList.remove("selected");
   document
     .querySelectorAll(
-      `#PROPERTIES > div.entry:nth-child(${prop_id + 2}) div.option:nth-child(${
-        option_id + 1
+      `#PROPERTIES > div.entry:nth-child(${prop_id + 2}) div.option:nth-child(${option_id + 1
       })`
     )[0]
     .classList.add("selected");
@@ -216,9 +280,16 @@ function selectOption(page_id, prop_id, option_id) {
     `#PROPERTIES > div.entry:nth-child(${prop_id + 2}) div.price`
   )[0].innerText = getSelected(page_id, prop_id).price;
 
+
   apply_constraints();
 
+  if (change_sel_imgs) {
+    previously_selected_imgs = currently_selected_imgs;
+    currently_selected_imgs = form.pages[page_id].properties.map((el, pr) => getSelected(page_id, pr).overlay_img);
+  }
+
   // redraw the canvas look
+  updateHeaderValues();
   redraw_canvas();
 }
 function isSelected(page_id, prop_id, option_id) {
@@ -260,8 +331,9 @@ function collapse(page_id, prop_id) {
 }
 
 // CANVAS HELPER
-let canv = document.getElementById("BG_IMG");
-let ctx = canv.getContext("2d");
+let p5canv;
+let canv;
+let ctx;
 // width and height getters
 Object.defineProperty(CanvasRenderingContext2D.prototype, "w", {
   get: function w() {
@@ -291,13 +363,25 @@ async function getImg(url) {
   }
   return imgs_cache[url];
 }
-function drawImageScaled(img, ctx) {
+
+function getImgSync(url) {
+  if (imgs_cache[url] == undefined) {
+    // load and cache the img
+    loadImg(url);
+    return undefined
+  }
+  return imgs_cache[url];
+}
+
+function drawImageScaled(img, ctx, alpha = 1) {
   var canvas = ctx.canvas;
   var hRatio = canvas.width / img.width;
   var vRatio = canvas.height / img.height;
   var ratio = Math.min(hRatio, vRatio);
   var centerShift_x = (canvas.width - img.width * ratio) / 2;
   var centerShift_y = (canvas.height - img.height * ratio) / 2;
+
+  ctx.globalAlpha = alpha;
   ctx.drawImage(
     img,
     0,
@@ -309,41 +393,128 @@ function drawImageScaled(img, ctx) {
     img.width * ratio,
     img.height * ratio
   );
+  ctx.globalAlpha = 1;
 }
 
+let previously_selected_imgs = undefined;
+let currently_selected_imgs = undefined;
+let bg;
+
 // CANVAS
+let fps = 30;
+function setup() {
+  let wrapper = document.getElementById("BG_IMG_WRAPPER").getBoundingClientRect();
+
+  p5cavn = createCanvas(wrapper.width, wrapper.height);
+  p5cavn.parent("BG_IMG_WRAPPER");
+  frameRate(fps);
+  // pixelDensity(2)
+
+  canv = p5cavn.elt;
+  ctx = canv.getContext("2d")
+
+  resizeCanvas2(true);
+}
+function draw() {
+  if (isLoading) {
+    // draw the loading animation
+    loading();
+    return
+  }
+
+  background("white");
+
+  if (!form) return;
+  if (!bg) return;
+  if (previously_selected_imgs == undefined || currently_selected_imgs == undefined) {
+    redraw_canvas();
+    return;
+  }
+
+  // draw the background image for this page
+  drawImageScaled(bg, ctx);
+
+  if (fading) {
+    // overlay all the old images
+    for (let over_img of previously_selected_imgs) {
+      drawImageScaled(getImgSync(over_img), ctx, 1 - fading_prog);
+    }
+
+    // overlay all the selected images
+    for (let over_img of currently_selected_imgs) {
+      drawImageScaled(getImgSync(over_img), ctx, fading_prog);
+    }
+
+    // animation increment
+    fading_prog += 1 / fps;
+    fading_prog = constrain(fading_prog, 0, 1);
+
+    if (fading_prog >= 1) {
+      fading = false;
+      fading_prog = 0;
+    }
+  } else {
+    // overlay all the selected images
+    for (let over_img of currently_selected_imgs) {
+      drawImageScaled(getImgSync(over_img), ctx, 1);
+    }
+  }
+
+  let pad = 0.0075
+  if (mouseX > width * pad && mouseX < width * (1 - pad) &&
+    mouseY > height * pad && mouseY < height * (1 - pad)) {
+
+    let s = min(width, height) * 0.075
+    let sc = 2;
+    let unzoomed = get(
+      mouseX - s,
+      mouseY - s,
+      2 * s,
+      2 * s,
+    )
+
+    image(unzoomed, mouseX - s * sc, mouseY - s * sc, 2 * s * sc, 2 * s * sc)
+
+    noFill();
+    stroke("black");
+    strokeWeight(1);
+    rect(mouseX - s * sc, mouseY - s * sc, 2 * s * sc, 2 * s * sc)
+  }
+}
+
 async function redraw_canvas() {
   // start the loading animation
   startLoading();
   // ctx.clearRect(0,0,canvas.width, canvas.height);
-
   if (!form) return;
 
+  if (previously_selected_imgs == undefined || currently_selected_imgs == undefined) {
+    previously_selected_imgs = form.pages[page_id].properties.map((el, pr) => getSelected(page_id, pr).overlay_img);
+    currently_selected_imgs = previously_selected_imgs;
+  }
+
   // make sure all the images are cached
-  let bg = await getImg(form.pages[page_id].background);
-  for (let pr = 0; pr < form.pages[page_id].properties.length; pr++) {
-    await getImg(getSelected(page_id, pr).overlay_img);
+  bg = await getImg(form.pages[page_id].background);
+  for (let over_img of previously_selected_imgs) {
+    await getImg(over_img);
+  }
+  for (let over_img of currently_selected_imgs) {
+    await getImg(over_img);
   }
 
   // stop the loading animation
   stopLoading();
 
-  // wait for a bit to finisht he last animation request
+  // wait for a bit to finish the last animation request
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await sleep(resize_interval);
-
-  // draw the background image for this page
-  drawImageScaled(bg, ctx);
-  // overlay all the selected images
-
-  for (let pr = 0; pr < form.pages[page_id].properties.length; pr++) {
-    drawImageScaled(await getImg(getSelected(page_id, pr).overlay_img), ctx);
-  }
 }
 
 // Canvas loading animation
 let isLoading = false;
 var progress = 0;
+let fading = false;
+let fading_prog = 0;
 function loading() {
   // ctx.clearRect(0, 0, canv.width, canv.height);
   ctx.fillStyle = "rgba(255,255,255,0.05)";
@@ -401,11 +572,10 @@ function loading() {
   drawCircle(bigCircle, progress);
   drawCircle(smallCircle, progress);
 
-  if (isLoading) {
-    requestAnimationFrame(loading);
-  }
+  // if (isLoading) {
+  //   requestAnimationFrame(loading);
+  // }
 }
-
 function startLoading() {
   if (isLoading) return;
 
@@ -419,6 +589,13 @@ function startLoading() {
 }
 function stopLoading() {
   isLoading = false;
+
+  ctx.fillStyle = "rgba(255,255,255,0.1)";
+  ctx.fillRect(0, 0, canv.width, canv.height);
+  ctx.fillStyle = "rgba(0,0,0,0)";
+
+  fading = true;
+  fading_prog = 0;
 }
 
 // Canvas resizing
@@ -426,9 +603,9 @@ let attempting_resize = false;
 let last_att_time = 0;
 let interval_id = -1;
 let resize_interval = 100;
-function resizeCanvas(init = false) {
-  canv.width = ctx.w;
-  canv.height = ctx.h;
+function resizeCanvas2(init = false) {
+  let wrapper = document.getElementById("BG_IMG_WRAPPER").getBoundingClientRect();
+  resizeCanvas(wrapper.width - 10, wrapper.height)
 
   if (!attempting_resize) {
     startLoading();
@@ -446,8 +623,92 @@ function resizeCanvas(init = false) {
   attempting_resize = true;
   last_att_time = Date.now();
 }
-window.addEventListener("resize", resizeCanvas, false);
-resizeCanvas(true);
+window.addEventListener("resize", resizeCanvas2, false);
+
+// CONTACT INFORMATION
+
+function toggle_contact_info() {
+  let cur_disp = document.querySelector("main#widget").style.display;
+  if (cur_disp != "none") {
+    document.querySelector("main#widget").style.display = "none";
+
+    document.querySelector("#PAGE_NAME").style.display = "none";
+    document.querySelector(".arrow.left").style.display = "none";
+    document.querySelector("#finish_btn").innerText = "Back";
+
+    displaySummary();
+  } else {
+    document.querySelector("main#widget").style.display = "";
+
+    document.querySelector("#PAGE_NAME").style.display = "";
+    document.querySelector(".arrow.left").style.display = "";
+    document.querySelector("#finish_btn").innerText = "Finish";
+  }
+}
+
+function getSummary() {
+  let summary = `FORM KEY: ${URL_KEY}
+
+ITEM SUMMARY:
+Item \t Selected option \t Description \t Price \n`;
+
+  form.pages.forEach((page, p) => {
+    page.properties.forEach((prop, pr) => {
+      let selected_option = prop.options.filter((op_ob, op) => isSelected(p, pr, op))[0];
+
+      summary += `${page.name} - ${prop.name}: \t ${selected_option.name} \t ${selected_option.description} \t ${selected_option.price} ${currency_map[form.currency]}  \n`
+    })
+  })
+
+  summary += `\nBaseline price: ${form.base_price} ${currency_map[form.currency]}  \n`
+  summary += `Total price: ${form.base_price + selectedPrice()} ${currency_map[form.currency]}  \n`
+
+  return summary;
+}
+
+function displaySummary() {
+  let summary = document.querySelector("#SUMMARY");
+
+  html = `<table class="table table-bordered table-striped table-responsive-stack">
+  <thead class="thead-dark">
+    <tr>
+      <th>Item</th>
+      <th>Selected option</th>
+      <th>Description</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>`;
+
+  form.pages.forEach((page, p) => {
+    page.properties.forEach((prop, pr) => {
+      let selected_option = prop.options.filter((op_ob, op) => isSelected(p, pr, op))[0];
+
+      html += `
+      <tr>
+        <td>${page.name} - ${prop.name}</td>
+        <td><strong>${selected_option.name}</strong></td>
+        <td>${selected_option.description}</td>
+        <td>${selected_option.price} ${currency_map[form.currency]}</td>
+      </tr>`
+    })
+  })
+
+  html += `
+  <tr>
+    <td>Baseline price</td>
+    <td></td>
+    <td></td>
+    <td>${form.base_price} ${currency_map[form.currency]}</td>
+  </tr>
+  </tbody>
+  </table>
+  
+  <div id="summary_total">
+    <strong>Total price: &nbsp; ${form.base_price + selectedPrice()} ${currency_map[form.currency]}</strong>
+  </div>`
+  summary.innerHTML = html;
+}
 
 // IFRAME COMMUNICATION
 
@@ -479,8 +740,8 @@ window.addEventListener(
 );
 
 window.addEventListener(
-    "load", 
-    (event) => {
-        tryLoadFromURL();
-    }
+  "load",
+  (event) => {
+    tryLoadFromURL();
+  }
 );

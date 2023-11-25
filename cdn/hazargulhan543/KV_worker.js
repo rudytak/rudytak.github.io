@@ -16,6 +16,7 @@ export default {
       "Access-Control-Max-Age": "86400",
     };
     const databaseID = "KV_database";
+    const ordersID = "orders";
     const ENDPOINT = "https://hazargulhan543-wix-plugin.rudytak.workers.dev";
 
     let response_obj = {
@@ -64,7 +65,7 @@ export default {
         case "/save":
           let r_key = btoa(
             (Math.random() + 1).toString(36).substring(2) + //random string
-              Date.now().toString() // date for uniqueness
+            Date.now().toString() // date for uniqueness
           );
           let value_to_save = request.body;
 
@@ -79,6 +80,23 @@ export default {
             },
           };
           break;
+
+        case "/place_order":
+          let order_num = Date.now().toString();
+          let order_info = request.body;
+
+          await env[ordersID].put(
+            order_num,
+            order_info
+          )
+
+          response_obj = {
+            ...response_obj,
+            type: "PLACED_ORDER",
+            res: {
+              order_number: order_num,
+            },
+          };
       }
     } catch (error) {
       response_obj = {

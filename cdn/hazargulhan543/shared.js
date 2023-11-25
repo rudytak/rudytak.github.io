@@ -516,6 +516,7 @@ function smart_JSON_stringify(form) {
     return JSON.stringify({
         t: form.title,
         u: form.currency,
+        b: form.base_price,
         p: JSONH.stringify(
             form.pages.map(pa => {
                 return {
@@ -552,10 +553,10 @@ function smart_JSON_stringify(form) {
 }
 function smart_JSON_parse(str) {
     let o = JSON.parse(str)
-
     return {
         title: o.t,
         currency: o.u,
+        base_price: parseFloat(o.b),
         pages: JSONH.parse(o.p).map(pa => {
             return {
                 name: pa.n,
@@ -568,14 +569,14 @@ function smart_JSON_parse(str) {
                             if (pr.t == "swatch") {
                                 return {
                                     name: op.n,
-                                    price: op.p,
+                                    price: parseFloat(op.p),
                                     overlay_img: op.o,
                                     swatch_img: op.s
                                 }
                             } else {
                                 return {
                                     name: op.n,
-                                    price: op.p,
+                                    price: parseFloat(op.p),
                                     overlay_img: op.o,
                                     description: op.d
                                 }
@@ -597,10 +598,12 @@ function decode_form(form_b64) {
     return smart_JSON_parse(atob(decodeURIComponent(form_b64)));
 }
 
-const KV_ENDPOINT = "https://hazargulhan543-wix-plugin.rudytak.workers.dev";
+const WIDGET_URL = "https://rudytak.github.io/cdn/hazargulhan543/widget/";
+const KV_ENDPOINT = "https://wix-widget-kv.hazar-b92.workers.dev";
 const default_form_b64 = encode_form({
     title: "FORM_TITLE",
     currency: "USD",
+    base_price: 0,
     pages: [],
     constraints: []
 });

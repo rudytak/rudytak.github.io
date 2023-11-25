@@ -6,6 +6,7 @@ let constraint_setter = document.getElementById("constraint_setter");
 // {
 //     title: "FORM_TITLE",
 //     currency: "",
+//     base_price: 0, //number
 //     pages: [
 //         {
 //             name: "PAGE_NAME",
@@ -180,7 +181,6 @@ function clear_form() {
 
 // CLOUDFLARE
 
-const WIDGET_URL = "https://rudytak.github.io/cdn/hazargulhan543/widget/";
 async function cloudflare_save() {
   alertify.set("notifier", "position", "bottom-left");
   try {
@@ -192,7 +192,7 @@ async function cloudflare_save() {
     console.log(res);
 
     if(res.type != "SAVED_KEY"){
-      throw new Error("Unexpected sevrer response!");
+      throw new Error("Unexpected server response!");
     }
 
     // Copy the text inside the text field
@@ -237,6 +237,9 @@ function display_form(form_json = current_form) {
   <div class="block form">
   <label tooltip="This is the name of the whole form.">Form title: </label>
   <input id="title" type="text" value="${form_json.title}">
+  <br>
+  <label tooltip="The baseline price of the apartment.">Base price: </label>
+  <input id="base_price" type="number" value="${form_json.base_price}">
   <br>
   <label tooltip="This is the currency used for all the prices.">Currency: </label>
   <select id="currency"> 

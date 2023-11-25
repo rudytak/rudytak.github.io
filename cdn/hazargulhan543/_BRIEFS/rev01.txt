@@ -1,0 +1,15 @@
+1. - added
+2. - added
+3. - added
+4.
+5. - added
+6. - image was rescaled; buttons are now like on the Apple watch page as we discussed in the call
+7. - hyperbole (...) added
+8. - added
+9. - removed
+10. - done
+11. - the icon pack I'm using doesn't have a thinner version
+12. - This can easily be done by using multiple (2+) constraints
+13. - it's already 1px, so I made it lighter, so it seems thinner
+14. - added 
+15. - I think we decided to do that later
