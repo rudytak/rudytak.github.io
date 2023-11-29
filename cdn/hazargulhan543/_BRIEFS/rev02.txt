@@ -1,0 +1,19 @@
+Finish button is uppercase
+Finish button has new styling
+
+Place order button moved to the right
+
+Comma separation on all prices added
+
+Clean up order info
+
+Make contact info mandatorya nd add checkers
+
+
+
+
+
+
+
+Better resolution on canvas
+Mobile layout fix

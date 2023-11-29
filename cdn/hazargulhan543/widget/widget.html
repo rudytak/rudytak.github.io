@@ -60,7 +60,7 @@
             PAGE_NAME
         </div>
         <div class="arrow right" onclick="page_right()">
-            <div id="finish_btn" onclick="toggle_contact_info()">Finish</i></div>
+            <div id="finish_btn" onclick="toggle_contact_info()">FINISH</i></div>
             <i class="fa-solid fa-chevron-right"></i>
         </div>
 
@@ -82,26 +82,27 @@
 
         <h2 style="padding-left: 5px;">Contact information</h2>
         <div id="CONTACT_INFO">
-            <div class="contact_input inl1-2"> <input id="contact_first_name" placeholder="First name" type="text"> </div>
-            <div class="contact_input inl1-2"> <input id="contact_last_name" placeholder="Last name" type="text"> </div>
-            <div class="contact_input inl2-3"> <input id="contact_email" placeholder="Email" type="email"> </div>
-            <div class="contact_input inl1-3"> <input id="contact_phone" placeholder="Phone number" type="tel"> </div>
+            <div class="contact_input inl1-2"> <input oninput="check_contact_inputs()" required id="contact_first_name" placeholder="First name" type="text"> <div class="req"></div> </div>
+            <div class="contact_input inl1-2"> <input oninput="check_contact_inputs()" required id="contact_last_name" placeholder="Last name" type="text"> <div class="req"></div> </div>
+            <div class="contact_input inl2-3"> <input oninput="check_contact_inputs()" required id="contact_email" placeholder="Email" type="email"> <div class="req"></div> </div>
+            <div class="contact_input inl1-3"> <input oninput="force_phone_numbers(); check_contact_inputs();" required id="contact_phone" placeholder="Phone number" type="tel"> <div class="req"></div> </div>
         </div>
 
         <h3 style="padding-left: 5px;">Address</h3>
         <div id="ADDRESS_INFO">
-            <div class="contact_input inl2-3"> <input id="address_first_line" placeholder="First line" type="text"> </div>
-            <div class="contact_input inl2-3"> <input id="address_second_line" placeholder="Second line (optional)" type="text"> </div>
-            <div class="contact_input inl1-3"> <input id="address_state_province" placeholder="State/Province" type="text"> </div>
+            <div class="contact_input inl2-3"> <input oninput="check_contact_inputs()" id="address_first_line" placeholder="First line" type="text"> </div>
+            <div class="contact_input inl2-3"> <input oninput="check_contact_inputs()" id="address_second_line" placeholder="Second line (optional)" type="text"> </div>
+            <div class="contact_input inl1-3"> <input oninput="check_contact_inputs()" id="address_state_province" placeholder="State/Province" type="text"> </div>
 
-            <div class="contact_input inl1-3"> <input id="address_city" placeholder="City" type="text"> </div>
-            <div class="contact_input inl1-3"> <input id="address_zip" placeholder="ZIP code" type="text"> </div>
-            <div class="contact_input inl1-3"> <input id="address_country" placeholder="Country" type="text"> </div>
+            <div class="contact_input inl1-3"> <input oninput="check_contact_inputs()" required id="address_city" placeholder="City" type="text"> <div class="req"></div> </div>
+            <div class="contact_input inl1-3"> <input oninput="check_contact_inputs()" id="address_zip" placeholder="ZIP code" type="text"> </div>
+            <div class="contact_input inl1-3"> <input oninput="check_contact_inputs()" required id="address_country" placeholder="Country" type="text"> <div class="req"></div> </div>
         </div>
 
-        <div class="btn" onclick="place_order()">
+        <div id="place_order" class="btn" onclick="place_order()">
             Place order
             <i id="place_order_idle_indicator" class="fa-solid fa-arrow-right"></i>
+            <i id="place_order_disabled_indicator" style="display: none;" class="fa-solid fa-xmark"></i>
             <i id="place_order_loading_indicator" style="display: none;" class="fas fa-spinner fa-spin"></i>
         </div>
 
