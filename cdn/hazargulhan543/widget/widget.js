@@ -81,6 +81,8 @@ Country: ${document.getElementById("address_country").value}
     alertify.error(
       "An error ocurred during the order. Please contact customer support or try again later."
     );
+
+    console.log(error)
   }
 
   document.getElementById("place_order_idle_indicator").style.display = "";
@@ -758,7 +760,7 @@ ITEM SUMMARY: \n`;
       rows.push([
         `${page.name} - ${prop.name}`,
         selected_option.name,
-        selected_option.description,
+        selected_option.description ? selected_option.description : "",
         `${numberWithCommas(selected_option.price)} ${
           currency_map[form.currency]
         }`,
