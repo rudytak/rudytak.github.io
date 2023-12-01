@@ -60,7 +60,7 @@
 }
 
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 
   background-color: var(--bg-col);
   margin: var(--side-margin);
