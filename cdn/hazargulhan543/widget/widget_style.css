@@ -49,6 +49,10 @@
   #top_header {
     flex-direction: column !important;
   }
+
+  #SUMMARY table thead tr th:nth-child(3), #SUMMARY table tbody tr td:nth-child(3) {
+    display: none;
+  }
 }
 
 * {
