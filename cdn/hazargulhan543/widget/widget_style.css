@@ -31,8 +31,8 @@
   }
 
   #BG_IMG_WRAPPER {
-    padding-left: var(--side-margin);
-    width: 100% !important;
+    padding: 0 var(--side-margin);
+    width: calc(100% - 2 * var(--side-margin)) !important;
     height: 33vh !important;
   }
 
@@ -44,6 +44,10 @@
 
   .entry .row {
     width: 100% !important;
+  }
+
+  #top_header {
+    flex-direction: column !important;
   }
 }
 

@@ -790,7 +790,8 @@ ITEM SUMMARY: \n`;
 function displaySummary() {
   let summary = document.querySelector("#SUMMARY");
 
-  html = `<table class="table table-bordered table-striped table-responsive-stack">
+  html = `<div style="overflow-x: scroll; padding-bottom: 5px;">
+  <table class="table table-bordered table-striped table-responsive-stack">
   <thead class="thead-dark">
     <tr>
       <th>Item</th>
@@ -828,6 +829,7 @@ function displaySummary() {
   </tr>
   </tbody>
   </table>
+  </div>
   
   <div id="summary_total">
     <strong>Total price: &nbsp; ${numberWithCommas(
