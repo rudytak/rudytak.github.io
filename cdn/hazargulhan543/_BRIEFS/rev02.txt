@@ -11,9 +11,9 @@ Make contact info mandatory and add checkers
 
 Scale up zooming window
 
+Better resolution on canvas
 
 
 
 TODO
-Better resolution on canvas
 Mobile layout fix

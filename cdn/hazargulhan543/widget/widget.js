@@ -469,10 +469,14 @@ function drawImageScaled(img, ctx, alpha = 1) {
     img.height * ratio
   );
   ctx.globalAlpha = 1;
+
+  return [centerShift_x, centerShift_y]
 }
 
 let previously_selected_imgs = undefined;
 let currently_selected_imgs = undefined;
+let combined_canv = undefined;
+let combined_ctx = undefined;
 let bg;
 
 // CANVAS
@@ -485,7 +489,7 @@ function setup() {
   p5cavn = createCanvas(wrapper.width, wrapper.height);
   p5cavn.parent("BG_IMG_WRAPPER");
   frameRate(fps);
-  // pixelDensity(2)
+  pixelDensity(5)
 
   canv = p5cavn.elt;
   ctx = canv.getContext("2d");
@@ -512,7 +516,7 @@ function draw() {
   }
 
   // draw the background image for this page
-  drawImageScaled(bg, ctx);
+  offset = drawImageScaled(bg, ctx);
 
   if (fading) {
     // overlay all the old images
@@ -550,7 +554,14 @@ function draw() {
     let s = min(width, height) * 0.075;
     let sc = 3;
     let unzoomed = get(mouseX - s, mouseY - s, 2 * s, 2 * s);
+    // combined_canv = document.createElement("canvas");
+    // combined_ctx = combined_canv.getContext("2d");
 
+    // combined_canv.width = 2 * s * sc;
+    // combined_canv.height = 2 * s * sc;
+    // console.log(combined_canv, offset)
+
+    // combined_ctx.image(unzoomed, mouseX - s * sc, mouseY - s * sc, 2 * s * sc, 2 * s * sc);
     image(unzoomed, mouseX - s * sc, mouseY - s * sc, 2 * s * sc, 2 * s * sc);
 
     noFill();
