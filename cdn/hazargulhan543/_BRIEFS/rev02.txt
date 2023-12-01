@@ -7,9 +7,9 @@ Comma separation on all prices added
 
 Clean up order info
 
-Make contact info mandatorya nd add checkers
+Make contact info mandatory and add checkers
 
-
+Scale up zooming window
 
 
 

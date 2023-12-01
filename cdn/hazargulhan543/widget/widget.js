@@ -450,11 +450,11 @@ function getImgSync(url) {
 
 function drawImageScaled(img, ctx, alpha = 1) {
   var canvas = ctx.canvas;
-  var hRatio = canvas.width / img.width;
-  var vRatio = canvas.height / img.height;
+  var hRatio = width / img.width;
+  var vRatio = height / img.height;
   var ratio = Math.min(hRatio, vRatio);
-  var centerShift_x = (canvas.width - img.width * ratio) / 2;
-  var centerShift_y = (canvas.height - img.height * ratio) / 2;
+  var centerShift_x = (width - img.width * ratio) / 2;
+  var centerShift_y = (height - img.height * ratio) / 2;
 
   ctx.globalAlpha = alpha;
   ctx.drawImage(
@@ -548,7 +548,7 @@ function draw() {
     mouseY < height * (1 - pad)
   ) {
     let s = min(width, height) * 0.075;
-    let sc = 2;
+    let sc = 3;
     let unzoomed = get(mouseX - s, mouseY - s, 2 * s, 2 * s);
 
     image(unzoomed, mouseX - s * sc, mouseY - s * sc, 2 * s * sc, 2 * s * sc);
