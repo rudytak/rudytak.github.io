@@ -1,5 +1,5 @@
-let W = 700;
-let H = 700;
+let W = 600;
+let H = 600;
 
 let _NumberController = Object.assign(Object.create(Object.getPrototypeOf(dat.controllers.NumberControllerBox)), dat.controllers.NumberControllerBox);
 dat.controllers.NumberControllerBox.prototype.updateDisplay = function updateDisplay() {
@@ -156,6 +156,7 @@ async function main() {
   let sim_spinners;
   function afterSiCreation() {
     {
+      let run_sim;
       function create_spinners() {
         sim_spinners = gui.addFolder("Spinners")
         sim_spinners.open();
@@ -222,16 +223,17 @@ async function main() {
 
           temp = folder.add(si.spinner_params[ii], 11).name("Constant ω");
         }
+
+        run_sim = gui.add({ start: start }, "start").name("Run simulation")
       }
 
       function update_spinners() {
         gui.removeFolder(sim_spinners)
+        gui.remove(run_sim)
         create_spinners();
       }
     }
     create_spinners();
-
-    gui.add({ start: start }, "start").name("Run simulation")
   }
 
   gui.show();
