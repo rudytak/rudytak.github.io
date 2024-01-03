@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/addons/p5.sound.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="utf-8" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://tmf.fzu.cz/ico/favicon32x32.png"
+    />
+    <title>TMF37 - task 10 - simulation</title>
+  </head>
+  <body>
+    <main></main>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"
+      integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="sketch.js"></script>
+    <script>
+      let libs_loaded = false;
+
+      const fs = {
+        _cache: {},
+        writeFileSync: function (filepath, text) {
+          this._cache[filepath] = text;
+        },
+        appendFileSync: function (filepath, text) {
+          this._cache[filepath] += text;
+        },
+      };
+
+      let module_context = "";
+      const module = {
+        _exports: {
+          fs: fs,
+        },
+        set exports(ex) {
+          this._exports[module_context] = ex;
+        },
+      };
+      const require = (str) => {
+        return module._exports[str.replace("./", "")];
+      };
+
+      let version = "5bf05de55907eab9186820b1bfada7e974ebf522";
+      Promise.all([
+        (async () => {
+          let script_src = await fetch(
+            `https://cdn.jsdelivr.net/gh/rudytak/TMF@${version}/23-24/10/spinners/sim/vec.js`
+          ).then((j) => j.text());
+          module_context = "vec.js";
+          eval(script_src);
+        })(),
+        (async () => {
+          let script_src = await fetch(
+            `https://cdn.jsdelivr.net/gh/rudytak/TMF@${version}/23-24/10/spinners/sim/sim_RK.js`
+          ).then((j) => j.text());
+          module_context = "sim_RK.js";
+          eval(script_src);
+        })(),
+      ]).then(async () => {
+        await main();
+        libs_loaded = true;
+      });
+    </script>
+  </body>
+</html>
