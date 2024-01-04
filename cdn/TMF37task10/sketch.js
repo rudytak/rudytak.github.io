@@ -277,7 +277,34 @@ function draw() {
 
   push();
   translate(c_x, c_y);
-  scale(1000 * zoom);
+  let rs = 1000 * zoom;
+
+  let _z = (Math.floor(Math.log10(zoom)))
+
+  // draw grid
+  push();
+  strokeWeight(1);
+  textSize(10)
+  stroke(128, 128);
+  let stp = 0.05 * rs;
+  for (let x = 0; x < Math.abs(c_x) + W / zoom; x += stp) {
+    line(x, -H, x, H);
+    text(`${(x * 100/ rs).toFixed(1)} cm`, x + 5, H - c_y - 5)
+    line(-x, -H, -x, H);
+    text(`${(-x * 100/ rs).toFixed(1)} cm`, -x + 5, H - c_y - 5)
+  }
+  for (let y = 0; y < Math.abs(c_y) + H / zoom; y += stp) {
+    line(-W, y, W, y);
+    text(`${(y * 100/ rs).toFixed(1)} cm`, - c_x + 5, y - 5)
+
+    line(-W, -y, W, -y);
+    text(`${(-y * 100/ rs).toFixed(1)} cm`, - c_x + 5, -y - 5)
+  }
+  pop();
+
+  scale(rs);
+
+
 
   let tot_frames = Math.ceil((si.sim_run_params.end_time - si.sim_run_params.start_time) / si.sim_run_params.dt);
 
@@ -290,9 +317,9 @@ function draw() {
     pop();
 
     fill("white")
-    text(`Time: ${si.sim_run_params.start_time}`, 10, 20)
-    text(`Frame: ${0}/${tot_frames}`, 10, 40)
-    text("NOT STARTED!", 10, 60)
+    text(`Time: ${si.sim_run_params.start_time}`, 69, 20)
+    text(`Frame: ${0}/${tot_frames}`, 69, 40)
+    text("NOT STARTED!", 69, 60)
     return;
   }
 
@@ -318,8 +345,8 @@ function draw() {
 
   pop();
   fill("white")
-  text(`Time: ${si.t}`, 10, 20)
-  text(`Frame: ${si.frame}/${tot_frames}`, 10, 40)
+  text(`Time: ${si.t}`, 69, 20)
+  text(`Frame: ${si.frame}/${tot_frames}`, 69, 40)
 }
 
 function mouseDragged(event) {
