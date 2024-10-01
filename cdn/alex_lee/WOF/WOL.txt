@@ -1,0 +1,23 @@
+Wheel of life
+ - 1) data collection: name, email, keep anonymous?
+ - 2) go through each step
+ - more questions per pillar, final score is still chosen by the user
+ - 3) get the result
+ - output is good, hover info, image saving, saving as pdf, emailing the result in the future?, etc.
+ - 4) more questions at the end - collected
+ 
+ ------------------------
+
+ WOF Plugin features TODO:
+ - Pilar final result - choose with slider
+ - Add message to "hover over things" / question mark
+ - Overall rating add some text that reminds the user that they should select how they feel
+ - hover info
+ - image saving
+ - saving as pdf
+ - emailing results?
+ - checkboxes for the areas that we should start with
+
+ Meeting promises:
+ 1) finalise plugin before tuesday (DONE)
+ 2) connect the plugin to the database
