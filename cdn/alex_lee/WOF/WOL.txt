@@ -9,15 +9,16 @@ Wheel of life
  ------------------------
 
  WOF Plugin features TODO:
- - Pilar final result - choose with slider
- - Add message to "hover over things" / question mark
- - Overall rating add some text that reminds the user that they should select how they feel
- - hover info
- - image saving
- - saving as pdf
- - emailing results?
- - checkboxes for the areas that we should start with
+ 4 - MOBILE!
 
- Meeting promises:
- 1) finalise plugin before tuesday (DONE)
- 2) connect the plugin to the database
+ 3 - notification after filled out
+ 3 - honeybook integration
+ 2 - saving: image, pdf, (emailing?)
+ 1 - font, color scheme, best/worst indicator text, change snapshot to personal finance, prompt pages for all 7 prompts, "Ignore sub-pillar" option for sliders., hover info - show numbers, jump back-forward, slider change rail color
+ 1 - Fill-out form
+    - at least name, email
+    - typed input in the first fill-out form
+    - gender - option to include "type your gender"
+    - locations - sub-dividing for the US for now; more sub division for later?
+    - occupation - free form for now; might be a dropdown later?
+ - loom by the 25th!!!

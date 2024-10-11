@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel of Life</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.js"></script>
+</head>
+
+<body>
+    <h2>Personal Information Form</h2>
+    <div id="start_form">
+        <!-- 
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="dob">Date of Birth:</label><br>
+        <input type="date" id="dob" name="dob" required><br><br>
+
+        <label for="gender">Gender:</label><br>
+        <select id="gender" name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+            <option value="prefer_not_to_say">Prefer not to say</option>
+        </select><br><br>
+
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <label for="occupation">Occupation:</label><br>
+        <input type="text" id="occupation" name="occupation"><br><br> 
+        -->
+
+        <input type="button" onclick="submit(event)" value="Submit">
+    </div>
+
+    <div id="canvWrap" style="display: none; width: fit-content; position: relative;">
+        <textarea id="prompt_response" name="textarea" rows="10" cols="50" placeholder="Write your thoughts here..."
+            style="margin-top: 60%; margin-left: 29%; position: absolute;"></textarea>
+    </div>
+
+    <script>
+        function submit(event) {
+            document.getElementById("start_form").style.display = "none";
+            document.getElementById("canvWrap").style.display = "block";
+        }
+
+        let next_clicked = false;
+        let next_hover = false;
+        let released_since_last_click = true;
+
+        function draw_next_btn(x, y) {
+            push()
+            next_hover = dist(mouseX, mouseY, x, y) < 25;
+            next_clicked = mouseIsPressed && next_hover
+            released_since_last_click = !next_clicked;
+
+            stroke("gray")
+            fill(next_hover ? 192 : 255)
+            strokeWeight(5)
+            ellipse(x, y, 50, 50)
+
+            fill(0)
+            noStroke()
+            textSize(40)
+            text(">", x, y - 8)
+            pop()
+        }
+
+        let resulting_data = {}
+        let grid_sliders = [];
+        let prompt_texts = []
+        let prompt_elem;
+        const numberings = [
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "ten",
+            "eleven",
+            "twelve",
+            "thriteen",
+            "fourteen",
+            "fifteen",
+            "sixteen",
+            "seventeen",
+            "eighteen",
+            "nineteen",
+            "twentyteen",
+        ]
+        const titles = [
+            "Career and Profession",
+            "Family and Parenting",
+            "Personal Development",
+            "Spiritual Awareness",
+            "Fun and Enjoyment",
+            "Intimate and Social",
+            "Health and Aging",
+            "Personal Finance",
+        ]
+        function draw_pillar(id, fields) {
+            push()
+            textSize(30)
+            title = titles[id];
+            disp_title = `Pillar ${numberings[id]}: ${titles[id]}`;
+            text(disp_title, W / 2, 0.07 * H)
+
+            rectMode(CORNER)
+
+            fields = {
+                ...fields,
+                "Total Average": "Average of all your sub-fields.",
+                "empty": "",
+                "Your overall rating": "After seeing how you performed in each of your sub-areas, select how you'd rate yourself overall in this field."
+            }
+            let keys = Object.keys(fields)
+            let key_count = keys.length;
+
+            // data collection
+            if (resulting_data[id] == undefined) {
+                resulting_data[id] = {}
+            }
+            let sum = 0;
+            for (let row = 0; row < key_count; row++) {
+                let key = keys[row]
+                if (!["Total Average", "empty", "Your overall rating"].includes(key)) {
+                    if (resulting_data[id][key] == undefined) {
+                        resulting_data[id][key] = 5
+                    }
+                    sum += resulting_data[id][key];
+                }
+            }
+            resulting_data[id]["Total Average"] = sum / (keys.length - 3)
+
+            let box_x = W * 0.1
+            let box_y = 0.12 * H
+            let row_h = 0.75 * H / key_count;
+            let row_w = W * 0.8
+            for (let row = 0; row < key_count; row++) {
+                let key = keys[row]
+                if (key == "empty") {
+                    continue;
+                }
+
+                noStroke()
+                fill("white")
+                textAlign(LEFT, CENTER)
+                textSize(row_h * 0.3)
+                text(key, box_x + row_h / 4, box_y + row * row_h, row_w / 4, row_h * 0.9)
+
+                // average
+                if (key == "Total Average") {
+                    push()
+                    textAlign(CENTER, CENTER)
+                    textSize(row_h * 0.5)
+                    fill("red")
+                    text(resulting_data[id]["Total Average"].toFixed(2), box_x + row_h / 4 + row_w / 4, box_y + row * row_h, row_w * 3 / 4, row_h * 0.9)
+                    pop()
+                } else {
+                    // all of the selectable numbers
+                    for (var i = 0; i < 10; i++) {
+                        // number position
+                        w = (row_w - (row_h / 2 + row_w / 4)) / 10
+                        h = row_h
+                        x = box_x + row_h / 2 + row_w / 4 + i * w
+                        y = box_y + row * row_h
+
+                        if (mouseIsPressed &&
+                            mouseX > x && mouseX < x + w &&
+                            mouseY > y && mouseY < y + h) {
+                            resulting_data[id][key] = i + 1;
+                        }
+
+                        push()
+                        if (resulting_data[id][key] == i + 1) {
+                            fill(key == "Your overall rating" ? "green" : "red")
+                        } else {
+                            noFill()
+                        }
+
+                        stroke("white")
+                        rect(x, y, w, h)
+                        pop()
+
+                        push()
+                        noStroke()
+                        fill("white")
+                        textAlign(CENTER, CENTER)
+                        textSize(row_h * 0.3)
+
+                        text(i + 1, x, y, w, h)
+                        pop()
+                    }
+                }
+
+                noFill()
+                stroke("white")
+                rect(box_x, box_y + row * row_h, row_w, row_h)
+
+                // hovering
+                let text_center_x = box_x + row_h / 4 + row_w / 8
+                let text_center_y = box_y + (row + 0.5) * row_h
+                if (dist(mouseX, 0, text_center_x, 0) < row_w / 8) {
+                    if (dist(0, mouseY, 0, text_center_y) < row_h / 3) {
+                        push()
+                        noStroke()
+                        fill("white")
+                        textSize(16)
+
+                        textAlign(LEFT, TOP)
+
+                        let bb = font.textBounds(fields[key], text_center_x - row_h, text_center_y)
+                        let line_count = (2 + 1.5 * Math.ceil(2 * bb.w / row_w));
+                        rect(bb.x - bb.h, bb.y - bb.h * (line_count + 2), row_w / 2 + 2 * bb.h, bb.h * line_count, bb.h)
+
+                        fill(0)
+                        noStroke()
+                        text(fields[key], text_center_x - row_h, text_center_y - bb.h * (line_count + 1), row_w / 2)
+                        pop()
+                    }
+                }
+
+                line(
+                    box_x + row_h / 2 + row_w / 4, box_y + row_h * row,
+                    box_x + row_h / 2 + row_w / 4, box_y + row_h * (row + 1),
+                )
+            }
+            pop()
+
+            if ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(resulting_data[id]["Your overall rating"])) {
+                draw_next_btn(0.95 * W, 0.95 * H)
+            }
+        }
+
+        let font;
+        function setup() {
+            let canv = createCanvas(800 * 16/9, 800);
+            canv.parent("canvWrap")
+            pixelDensity(1);
+
+            font = loadFont('./Fredoka-Regular.ttf');
+            textFont(font);
+
+            canv.mouseClicked(() => {
+                // Code to run.
+                if (next_clicked && released_since_last_click) {
+                    page++;
+                    next_clicked = false;
+
+                    // save textarea input
+                    if (prompt_elem.style.display != "none") {
+                        prompt_texts.push(prompt_elem.value);
+                        prompt_elem.value = "";
+                    }
+                }
+            })
+            canv.mouseReleased(() => {
+                // Code to run.
+                released_since_last_click = true;
+            })
+
+            prompt_elem = document.getElementById("prompt_response");
+            prompt_elem.style.display = "none";
+        }
+
+        let page = 0
+        function draw() {
+            background(0, 48);
+            W = width
+            H = height
+
+            fill(255);
+            noStroke();
+
+            textAlign(CENTER, CENTER);
+            rectMode(CENTER)
+
+            switch (page) {
+                case 0:
+                    textSize(40)
+                    text("Welcome to the Wheel of Life", W / 2, H / 2 - 40)
+
+                    draw_next_btn(0.9 * W, 0.9 * H)
+                    break;
+
+                case 1:
+                    textSize(40)
+                    text("What is the Wheel of Life?", W / 2, 0.15 * H)
+
+                    textSize(15)
+                    text(`
+The "Wheel of Life" is a self-assessment exercise that provides a visual representation of your satisfaction and balance across various key areas of your life. By scoring different life categories and their sub-areas, you can identify areas that need more attention and create a plan for personal growth and development.
+
+This is important for Two reasons
+
+The First: 
+Balance is vital for our overall well-being because we are not just isolated individuals but holistic beings, comprised of interconnected physical, emotional, spiritual, and social dimensions. Nurturing each of these aspects ensures that no single area overshadows others, preventing burnout and promoting a sense of fulfillment. 
+Often, feelings of stress, unhappiness, or unfulfillment can be traced back to an imbalance in our lives. When one or more areas are neglected, it creates a ripple effect, impacting our overall sense of well-being. The Wheel of Life empowers you to identify these imbalances and take proactive steps to restore equilibrium, leading to a more fulfilling and joyful life.
+
+The second:
+Just as any journey begins with a clear understanding of our starting point, so too does the path to a fulfilling life. The Wheel of Life acts as a metaphorical map, providing a visual representation of your current life balance. By honestly assessing each area, you gain clarity on your current situation, enabling you to set meaningful goals and chart a course towards a more fulfilling and balanced life. Remember, the journey of a thousand miles begins with a single step — and that first step is understanding where you stand today.
+`, W / 2, H / 2, 0.9 * W, 0.9 * H)
+
+                    draw_next_btn(0.9 * W, 0.9 * H)
+                    break;
+
+                case 2:
+                    textSize(40)
+                    text("How does it work?", W / 2, 0.15 * H)
+                    text("Instructions", W / 2, 0.55 * H)
+
+                    textSize(15)
+                    text(`
+This exercise will guide you through eight different pillars of life, such as Personal Finance, Relationships: Intimate and Social, and Health and Aging.
+
+For each pillar, you'll rank several sub-areas on a scale of 1 to 10, with 10 being extremely satisfied and 1 being not very satisfied. Ranking these sub-areas will calculate an overall average score for that pillar.
+
+This average score serves as a helpful reference. Ultimately, you'll decide the final score for the main pillar, also on a scale of 1 to 10, based on your overall satisfaction in that area of your life.
+`, W / 2, H / 3, 0.9 * W, 0.9 * H)
+
+                    text(`
+Rate each area based on how happy and content YOU are, not what others expect.
+For example:
+If you're earning $50,000 a year and feel incredibly happy and fulfilled, your score should be closer to a 10.
+If you're earning $1 million a year but feel very dissatisfied, your score should be closer to a 1.
+`, W / 2, H * 2 / 3, 0.9 * W, 0.9 * H)
+
+                    draw_next_btn(0.9 * W, 0.9 * H)
+                    break;
+
+                case 3:
+                    draw_pillar(
+                        0,
+                        {
+                            "Excellence": "The overall quality and standard of your work, reflecting your dedication to continuous improvement and exceeding expectations.",
+                            "Leadership": "The ability to guide, influence, and motivate others and yourself towards a common goal.",
+                            "Achievement": "The successful accomplishment of goals or tasks in one's career.",
+                            "Personal Performance": "Your individual accomplishments and results in your current role, showcasing your effectiveness in meeting goals and fulfilling responsibilities.",
+                            "Vision": "Having a clear and inspiring picture of one's future career goals and aspirations.",
+                            "Fulfillment": "The feeling of satisfaction and purpose derived from one's work.",
+                            "Self-Expression": "The ability to express one's personality, creativity, and unique talents through their work. In essence, the ability to be authentic.",
+                            "Organization": "The level of structure, order, and efficiency in one's work and professional life.",
+                        }
+                    )
+                    break;
+
+                case 4:
+                    draw_pillar(
+                        1,
+                        {
+                            "Home Atmosphere": "The overall feeling and environment within your family home.",
+                            "Spouse and Partnership": "The quality of the relationship with your spouse or partner.",
+                            "Children Relationship": "The nature and quality of the relationships with your children.",
+                            "Parenting / Discipline": "The approach and effectiveness of your parenting and discipline strategies.",
+                            "Communication": "The openness, honesty, and effectiveness of communication within your family.",
+                            "Responsibilities": "The division and management of household and family responsibilities.",
+                            "Boundaries": "The establishment and maintenance of healthy boundaries within the family.",
+                            "Managing Time": "The effective allocation and management of time for family and personal needs.",
+                        }
+                    )
+                    break;
+
+                case 5:
+                    draw_pillar(
+                        2,
+                        {
+                            "Personal Achievement": "The accomplishment of personal goals and aspirations unrelated to your career or family.",
+                            "Friendships": "The quality and depth of your friendships and social connections.",
+                            "Energy for Life": "Your level of physical and mental energy and vitality.",
+                            "Self-Acceptance": "The degree to which you accept and value yourself, including both your strengths and weaknesses.",
+                            "Balance": "Your ability to maintain a healthy equilibrium between different areas of your life.",
+                            "Communication": "The effectiveness of your communication in personal relationships and social interactions.",
+                            "Breaking Through Barriers": "Overcoming personal limitations and obstacles to your growth.",
+                            "Creativity": "The expression of your imagination and originality.",
+                        }
+                    )
+                    break;
+
+                case 6:
+                    draw_pillar(
+                        3,
+                        {
+                            "Ego Transcendence": "Moving beyond the limitations of the ego and identifying with a higher self or consciousness.",
+                            "Life Purpose": "Having a clear sense of meaning and purpose in life.",
+                            "Belief System": "The set of beliefs and values that guide your life.",
+                            "Integration": "The harmonious blending of your spiritual beliefs and practices with your everyday life.",
+                            "Intuition": "The ability to access your inner wisdom and guidance.",
+                            "Community": "Your connection and involvement with a spiritual or like-minded community.",
+                            "Practice and Ritual": "Engaging in spiritual practices and rituals that support your growth and connection.",
+                            "Self-Realization": "The attainment of a deep understanding of your true nature and potential.",
+                        }
+                    )
+                    break;
+
+                case 7:
+                    draw_pillar(
+                        4,
+                        {
+                            "Hobbies/Sport": "Engaging in activities that bring you joy, relaxation, and personal satisfaction.",
+                            "Creativity": "Expressing yourself through creative outlets like art, music, or writing.",
+                            "Outlets for Stress": "Having healthy ways to manage and release stress.",
+                            "Spontaneity": "The willingness to embrace new experiences and step outside of routines.",
+                            "Laughter": "The frequency and enjoyment of laughter and lightheartedness.",
+                            "Culture": "Participating in and appreciating cultural events and experiences.",
+                            "Humor": "The ability to find humor and amusement in life.",
+                            "Movies/plays": "Enjoying movies, plays, and other forms of entertainment.",
+                        }
+                    )
+                    break;
+
+                case 8:
+                    draw_pillar(
+                        5,
+                        {
+                            "Intimacy": "The depth of emotional closeness and connection in your romantic relationships.",
+                            "Trust": "The level of trust and reliability you experience in your relationships.",
+                            "Boundaries": "The establishment and maintenance of healthy boundaries in your relationships.",
+                            "Communication": "The openness, honesty, and effectiveness of communication in your relationships.",
+                            "Mutual Support": "The level of support and encouragement you both give and receive in your relationships.",
+                            "Friendship": "The quality and depth of your friendships.",
+                            "Sexuality": "The level of satisfaction and fulfillment in your sexual relationships (if applicable).",
+                            "Honesty": "The degree of openness and truthfulness in your relationships.",
+                        }
+                    )
+                    break;
+
+                case 9:
+                    draw_pillar(
+                        6,
+                        {
+                            "Nutrition": "The quality and balance of your diet and eating habits.",
+                            "Exercise": "The level of physical activity and fitness you maintain.",
+                            "Positive Thinking": "The cultivation of a positive mindset and outlook on life.",
+                            "Vitality": "The overall feeling of health, energy, and well-being you experience.",
+                            "Social Relationships": "The quality and quantity of social connections and interactions you have.",
+                            "Support System": "The availability and strength of your support network, including friends, family, and community.",
+                            "Activities": "Engaging in activities that promote physical and mental health.",
+                            "Self-Care": "Prioritizing your own physical, emotional, and mental well-being.",
+                        }
+                    )
+                    break;
+
+                case 10:
+                    draw_pillar(
+                        7,
+                        {
+                            "Budgeting": "How well you create and stick to a financial plan.",
+                            "Income": "The amount of money you earn from various sources.",
+                            "Expenses": "The amount of money you spend on different things.",
+                            "Financial Planning": "How you set financial goals and create a plan to reach them.",
+                            "Abundance Consciousness": "Your mindset about money and whether you believe in attracting financial abundance.",
+                            "Legacy / Estate": "Planning for what happens to your assets after you're gone.",
+                            "Organization": "How well you keep track of your financial records and documents.",
+                            "Investments": "How you're growing your money through different investment options.",
+                        }
+                    )
+                    break;
+
+                case 11:
+                    let keys = Object.keys(resulting_data);
+                    let a = 2 * PI / keys.length;
+                    let vmin = min(width, height) / 100;
+                    let R = 35 * vmin;
+                    let R2 = 43 * vmin;
+
+                    // circle levels
+                    stroke("white")
+                    strokeWeight(1)
+                    noFill()
+                    for (var l = 1; l <= 10; l++) {
+                        ellipse(width / 2, height / 2, 2 * R * l / 10, 2 * R * l / 10)
+                    }
+
+                    // level numbers
+                    push()
+                    translate(width / 2, height / 2)
+                    rotate(a / 2)
+
+                    textSize(R / 20)
+                    textAlign(CENTER, CENTER)
+                    fill("white")
+                    noStroke();
+
+                    for (let i = 0; i < keys.length; i++) {
+                        rotate(a)
+                        for (var l = 1; l <= 10; l++) {
+                            let r = R * (l - 0.5) / 10 + 2;
+
+                            text(l, 0, -r);
+                        }
+                    }
+                    pop()
+
+                    // colored arcs
+                    let cols = [
+                        "4bdbff",
+                        "4877e0",
+                        "b71f58",
+                        "9a2ecc",
+                        "ff9bf2",
+                        "6ad007",
+                        "f5bf40",
+                        "ef7625"
+                    ]
+                    noStroke()
+                    textAlign(CENTER, CENTER)
+                    for (let i = 0; i < keys.length; i++) {
+                        let k = keys[i];
+                        let l = resulting_data[k]["Your overall rating"];
+
+                        fill("#" + cols[i] + "88")
+                        arc(width / 2, height / 2, 2 * R * l / 10, 2 * R * l / 10, a * i, a * (i + 1))
+
+                        fill("#" + cols[i])
+                        text(titles[k].replace(":", ":\n"),
+                            width / 2 + R2 * cos(a * (i + 0.5)),
+                            height / 2 + R2 * sin(a * (i + 0.5)),
+                            120
+                        )
+                    }
+
+                    draw_next_btn(0.9 * W, 0.9 * H)
+                    break;
+
+                case 12:
+                    textSize(40)
+                    textAlign(CENTER, CENTER)
+                    text("Use the following prompts to reflect on your Wheel of Life. Jo your thoughts and responses in the textbox that'll appear down below.", W / 2, H / 2, 0.75 * W)
+
+                    draw_next_btn(0.9 * W, 0.9 * H)
+                    break;
+
+                case 13:
+                    textSize(40)
+                    textAlign(CENTER, CENTER)
+                    text("Prompt #1", W / 2, H / 10, 0.75 * W)
+                    text("What stood out to you while doing this exercise? (ie insights, points of clarity, epiphanies, etc.)", W / 2, H / 2.75, 0.75 * W)
+
+                    if (prompt_elem.style.display == "none") {
+                        prompt_elem.style.display = "block";
+                    }
+                    draw_next_btn(0.9 * W, 0.9 * H)
+                    break;
+
+                case 14:
+                    textSize(30)
+                    textAlign(CENTER, CENTER)
+                    text("Prompt #2", W / 2, H / 10, 0.75 * W)
+                    text("Reflecting on your Wheel of Life results and your insights from Prompt #1, which ares of your life do you intuitively feel would have the most significant positive ripple effect on your overall well-being if you dedicated focused effort towards their improvement?", W / 2, H / 2.75, 0.75 * W)
+
+                    if (prompt_elem.style.display == "none") {
+                        prompt_elem.style.display = "block";
+                    }
+                    draw_next_btn(0.9 * W, 0.9 * H)
+                    break;
+
+                case 15:
+                    textSize(40)
+                    textAlign(CENTER, CENTER)
+                    text("Prompt #3", W / 2, H / 10, 0.75 * W)
+                    text("Do any of these areas bing up feelings of discomfort, like anxiety, stress, or a desire to avoid them? If so, what might be contributing to these feelings?", W / 2, H / 2.75, 0.75 * W)
+
+                    if (prompt_elem.style.display == "none") {
+                        prompt_elem.style.display = "block";
+                    }
+                    draw_next_btn(0.9 * W, 0.9 * H)
+                    break;
+
+                case 16:
+                    background(0)
+                    noLoop()
+
+                    textAlign(CENTER, CENTER)
+                    text("END", W / 2, H / 2, 0.75 * W)
+
+                    console.log(
+                        resulting_data,
+                        prompt_texts
+                    )
+
+                    prompt_elem.style.display = "none";
+                    break;
+            }
+        }
+    </script>
+</body>
+
+</html>
