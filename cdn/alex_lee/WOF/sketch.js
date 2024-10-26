@@ -19,7 +19,7 @@ class CanvSlider {
         this.rail_outline = "#85858a";
 
         this.rail_full_bg = "#2374ff"
-        this.rail_full_outline = "#3e90ff";
+        this.rail_full_outline = "#3e90ff00";
 
         this.head_bg = "#484851"
         this.head_hover_bg = "#383840"
@@ -213,7 +213,7 @@ class CanvSlider {
             textAlign(CENTER, CENTER)
             textSize(this.head_radius * 2)
             let l_t = this.longest_text
-            text(this.value.toFixed(1), this.x - l_t, this.y, l_t)
+            text(this.value.toFixed(1), this.x - l_t - 10, this.y, l_t)
         }
         pop()
     }
@@ -274,6 +274,7 @@ class CanvButton {
         // props
         this.text = text;
         this.fS = fontSize;
+        this.fontColor = "white";
         this.padding = 5;
         this.rounding = 10;
 
@@ -384,7 +385,7 @@ class CanvButton {
         strokeWeight(this.outline_thickness);
         rect(this.x, this.y, this.w, this.h, min(this.w, this.h) / 6)
 
-        fill(0);
+        fill(this.fontColor);
         noStroke();
         textSize(this.fS);
         text(this.text, this.x, this.y - this.outline_thickness);
@@ -432,10 +433,91 @@ class CanvButton {
     }
 }
 
-let resulting_data = {};
+const booking_link = "https://coaching244829.hbportal.co/schedule/67095c1a8078a0001fe67fdf"
+const color_scheme = true ? {
+    "bg": "#fff5d9",
+    "bg2": "#ffcf5a",
+    "text": "#655a3f",
+    "text2": "#ffffff",
+    "action": "#ffc124",
+    value_breakpoints: [
+        [0.2, "#fe797b"],
+        [0.4, "#ffb750"],
+        [1, "#08d308"],
+    ],
+    WOF_img: "img1.png",
+    pillar_img: "img2.png",
+    pfp_icon: "pfp_small.png",
+    arc_colors: [
+        "#4bdbff",
+        "#4877e0",
+        "#b71f58",
+        "#9a2ecc",
+        "#ff9bf2",
+        "#6ad007",
+        "#f5bf40",
+        "#ef7625",
+    ]
+} : {
+    "bg": "#a4c3b2",
+    "bg2": "#183a37",
+    "text": "#000000",
+    "text2": "#ffffff",
+    "action": "#006d77",
+    value_breakpoints: [
+        [0.2, "#ec0e47"],
+        [0.4, "#fa7329"],
+        [1, "#006d77"],
+    ],
+    WOF_img: "img3.png",
+    pillar_img: "img4.png",
+    pfp_icon: "pfp_small.png",
+    arc_colors: [
+        "#0988fa",
+        "#4877e0",
+        "#b71f58",
+        "#9a2ecc",
+        "#ff37cc",
+        "#077353",
+        "#fcb117",
+        "#f68950",
+    ]
+}
+function setThemeColors() {
+    document.documentElement.style.setProperty('--background-color', color_scheme["bg"]);
+    document.documentElement.style.setProperty('--text-color', color_scheme["text"]);
+    document.documentElement.style.setProperty('--secondary-color', color_scheme["bg2"]);
+    document.documentElement.style.setProperty('--active-color', color_scheme["action"]);
+}
+setThemeColors()
 let grid_sliders = {};
 
-let prompt_texts = [];
+const resulting_data = {};
+const prompts = [
+    {
+        name: "Prompt 1",
+        texts: [
+            ["What stood out to you while doing this exercise? (ie. insights, epiphanies, realizations, etc)", 10, 32]
+        ],
+    },
+    {
+        name: "Prompt 2",
+        texts: [
+            ["Do any of these Pillars of Life bring up feelings of discomfort such as anxiety, stress, or a desire to avoid them?", 4, 32],
+            ["Why do you suppose this is?", 4, 32]
+        ],
+    },
+    {
+        name: "Prompt 3",
+        texts: [
+            ["Which area of your life do you intuitively feel would have the biggest positive ripple effect on your overall life if you dedicated focused efforts towards it?", 4, 32],
+            ["What area specifically would you focus on?", 4, 32],
+            ["What would be the smallest or quickest win you could achieve related to this specific area within the next 60 minutes? What about within the next 24 hours?", 4, 32],
+            ["What about within the next 7 days?", 4, 32]
+        ],
+    }
+];
+let prompts_count = prompts.map(x => x.texts.length).reduce((a, b) => a + b)
 let prompt_elems = [];
 const numberings = [
     "one",
@@ -552,6 +634,96 @@ const pillar_fields = [
     }
 ]
 
+function hover_textbox(_text_lines, cx, cy, box_style = {}, p5inst = window) {
+    const c = p5inst
+
+    let default_style = {
+        align_vertical: TOP,
+        align_horizontal: LEFT,
+        fontSize: 12,
+        color: "black",
+        outline: "#0000",
+        outline_width: .2,
+    }
+    let default_box_style = {
+        bg: color_scheme["bg2"],
+        outline: "#0000",
+        outline_width: 2,
+        line_height: 1.25,
+        padding: 12,
+        line_separation: 6
+    }
+
+    box_style = {
+        ...default_box_style,
+        ...box_style
+    }
+
+    let lines = []
+    for (var i = 0; i < _text_lines.length; i++) {
+        let line_text = ""
+        if (typeof _text_lines[i] == "string") {
+            line_text = _text_lines[i]
+        } else {
+            line_text = _text_lines[i][0]
+        }
+
+        let style = JSON.parse(JSON.stringify(default_style));
+        if (_text_lines[i].length > 1 && typeof _text_lines == "object") {
+            style = {
+                ...style,
+                ..._text_lines[i][1]
+            }
+        }
+
+        let BB = font.textBounds("$" + line_text, 0, 0, style.fontSize)
+
+        lines.push({ text: line_text, style, BB })
+    }
+
+    let line_h = box_style.line_height
+    let line_sep = box_style.line_separation
+    let tot_h = lines.map(l => l.BB.h).reduce((a, b) => a + b) * line_h + (lines.length - 1) * line_sep
+    let tot_w = max(lines.map(l => l.BB.w))
+    let pad = box_style.padding
+
+    c.push();
+    c.stroke(box_style["outline"]);
+    c.strokeWeight(box_style["outline_width"])
+    c.fill(box_style["bg"]);
+    c.rectMode(CENTER)
+    c.rect(
+        cx - pad,
+        cy - pad,
+        tot_w + 2 * pad,
+        tot_h + 2 * pad,
+        pad
+    );
+
+    c.rectMode(CORNER)
+    let y_acc = 0
+    print(lines)
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        c.textAlign(line.style.align_horizontal, line.style.align_vertical);
+        c.textSize(line.style.fontSize);
+        c.fill(line.style.color);
+        c.stroke(line.style.outline)
+        c.strokeWeight(line.style.outline_width)
+
+        c.text(
+            line.text,
+            cx - tot_w / 2 - pad,
+            cy - tot_h / 2 - pad + y_acc,
+            tot_w + pad,
+            line_sep + line.BB.h * line_h
+        )
+
+        y_acc += line_sep + line.BB.h * line_h;
+    }
+    c.pop()
+}
+
 function draw_pillar(id) {
     push();
 
@@ -596,8 +768,8 @@ function draw_pillar(id) {
 
     // row drawing
     let box_x = W * 0.1;
-    let box_y = 0.12 * H;
-    let row_h = (0.75 * H) / key_count;
+    let box_y = 0.15 * H;
+    let row_h = (0.72 * H) / key_count;
     let row_w = W * 0.8;
     rectMode(CORNER)
     for (let row = 0; row < key_count; row++) {
@@ -608,7 +780,7 @@ function draw_pillar(id) {
 
         // left box
         noStroke();
-        fill("white");
+        fill(color_scheme["text"])
         textAlign(LEFT, CENTER);
         textSize(row_h * 0.3);
         text(
@@ -629,18 +801,30 @@ function draw_pillar(id) {
         )
         pop();
 
+        if (row == 0) {
+            push();
+            textAlign(LEFT, BOTTOM)
+            text("Worst",
+                box_x + row_w / 4 + row_h / 2 + 4,
+                box_y,
+            )
+
+            textAlign(RIGHT, BOTTOM)
+            text("Best",
+                box_x + row_w / 4,
+                box_y,
+                row_w * 3 / 4
+            )
+            pop();
+        }
+
         // average, sliders
         if (key == "Total Average") {
             push();
             textAlign(CENTER, CENTER);
             textSize(row_h * 0.5);
 
-            const value_breakpoints = [
-                [0.2, "red"],
-                [0.4, "orange"],
-                [0.85, "lime"],
-                [1, "gold"],
-            ]
+            const value_breakpoints = color_scheme["value_breakpoints"]
             for (let breakpoint of value_breakpoints) {
                 if (resulting_data[id]["Total Average"] <= (1 + (9 - 1) * breakpoint[0])) {
                     fill(breakpoint[1])
@@ -659,7 +843,11 @@ function draw_pillar(id) {
         } else {
             // check that slider exists
             if (grid_sliders[`${id}_${key}`] == undefined) {
-                grid_sliders[`${id}_${key}`] = new CanvSlider(0, 0, 100, resulting_data[id][key], 0.1, 1, 10);
+                grid_sliders[`${id}_${key}`] = new CanvSlider(-100, -100, 100, resulting_data[id][key], 0.1, 1, 10);
+
+                grid_sliders[`${id}_${key}`].rail_full_bg = color_scheme["action"]
+                grid_sliders[`${id}_${key}`].value_breakpoints = color_scheme["value_breakpoints"]
+
                 grid_sliders[`${id}_${key}`].addEventListener("change", (slid) => {
                     resulting_data[id][key] = slid.value;
                 })
@@ -679,7 +867,7 @@ function draw_pillar(id) {
 
         // outline
         noFill();
-        stroke("white");
+        stroke(color_scheme["text"]);
         rect(box_x, box_y + row * row_h, row_w, row_h);
 
         // write last line reminder
@@ -693,44 +881,6 @@ function draw_pillar(id) {
             pop()
         }
 
-        // hovering
-        let text_center_x = box_x + row_h / 4 + row_w / 8;
-        let text_center_y = box_y + (row + 0.5) * row_h;
-        if (dist(mouseX, 0, text_center_x, 0) < row_w / 8) {
-            if (dist(0, mouseY, 0, text_center_y) < row_h / 3) {
-                push();
-                noStroke();
-                fill("white");
-                textSize(16);
-
-                textAlign(LEFT, TOP);
-
-                let bb = font.textBounds(
-                    fields[key],
-                    text_center_x - row_h,
-                    text_center_y
-                );
-                let line_count = 2 + 1.5 * Math.ceil((2 * bb.w) / row_w);
-                rect(
-                    bb.x - bb.h,
-                    bb.y - bb.h * (line_count + 2),
-                    min(row_w / 2 + 2 * bb.h, textWidth(fields[key]) + 2 * 16),
-                    bb.h * line_count,
-                    bb.h
-                );
-
-                fill(0);
-                noStroke();
-                text(
-                    fields[key],
-                    text_center_x - row_h,
-                    text_center_y - bb.h * (line_count + 1),
-                    row_w / 2
-                );
-                pop();
-            }
-        }
-
         // separator row
         line(
             box_x + row_h / 2 + row_w / 4,
@@ -738,6 +888,22 @@ function draw_pillar(id) {
             box_x + row_h / 2 + row_w / 4,
             box_y + row_h * (row + 1)
         );
+
+        // hovering
+        let text_center_x = box_x + row_h / 4 + row_w / 8;
+        let text_center_y = box_y + (row + 0.5) * row_h;
+        if (dist(mouseX, 0, text_center_x, 0) < row_w / 8) {
+            if (dist(0, mouseY, 0, text_center_y) < row_h / 3) {
+                hover_textbox(
+                    splitter(fields[key], 50).map(t => [t, { color: color_scheme["text2"], fontSize: 15 }]),
+                    text_center_x + row_w / 8,
+                    text_center_y - row_h * .8,
+                    {
+                        "bg": color_scheme["bg2"]
+                    }
+                )
+            }
+        }
     }
     pop();
 
@@ -747,90 +913,151 @@ function draw_pillar(id) {
     draw_back_btn((1 - 0.95) * W, 0.95 * H)
 }
 
-function draw_WOF() {
-    push()
+function draw_WOF(interactive = true, p5inst = window) {
+    const c = p5inst;
+
+    c.push()
     let keys = Object.keys(resulting_data);
     let a = (2 * PI) / keys.length;
-    let vmin = min(width, height) / 100;
+    let vmin = min(c.width, c.height) / 100;
     let R = 35 * vmin;
-    let R2 = 43 * vmin;
+    let R2 = 44 * vmin;
 
     // circle levels
-    stroke("#ffffff");
-    strokeWeight(1);
-    noFill();
+    c.stroke(color_scheme["text"]);
+    c.strokeWeight(1);
+    c.textAlign(CENTER, CENTER)
+    c.rectMode(CENTER);
+
+    c.noFill();
     for (var l = 1; l <= 10; l++) {
-        ellipse(
-            width / 2,
-            height / 2,
+        c.ellipse(
+            c.width / 2,
+            c.height / 2,
             (2 * R * l) / 10,
             (2 * R * l) / 10
         );
     }
 
     // level numbers
-    push();
-    translate(width / 2, height / 2);
-    rotate(a / 2);
+    c.push();
+    c.translate(c.width / 2, c.height / 2);
+    c.rotate(a / 2);
 
-    textSize(R / 20);
-    textAlign(CENTER, CENTER);
-    fill("#ffffff");
-    noStroke();
+    c.textSize(R / 20);
+    c.textAlign(CENTER, CENTER);
+    c.fill(color_scheme["text"]);
+    c.noStroke();
 
     for (let i = 0; i < keys.length; i++) {
-        rotate(a);
+        c.rotate(a);
         for (var l = 1; l <= 10; l++) {
             let r = (R * (l - 0.5)) / 10 + 2;
 
-            text(l, 0, -r);
+            c.text(l, 0, -r);
         }
     }
-    pop();
+    c.pop();
 
     // colored arcs
-    let cols = [
-        "4bdbff",
-        "4877e0",
-        "b71f58",
-        "9a2ecc",
-        "ff9bf2",
-        "6ad007",
-        "f5bf40",
-        "ef7625",
-    ];
-    push();
-    textSize(R / 15);
-    noStroke();
-    textAlign(CENTER, CENTER);
+    let cols = color_scheme["arc_colors"];
+    c.push();
+    c.textSize(R / 14);
+    c.noStroke();
+    c.textAlign(CENTER, CENTER);
+    let got_hover = undefined;
+    let mouse_dist = c.dist(c.mouseX, c.mouseY, 50 * vmin, 50 * vmin)
+    let mouse_ang = (Math.atan2((c.mouseY - 50 * vmin), (c.mouseX - 50 * vmin)) + 2 * PI) % (2 * PI)
+
+    for (let i = 0; i < keys.length; i++) {
+        let k = keys[i];
+        let l = resulting_data[k]["Your overall rating"];
+        if (mouse_ang > a * i && mouse_ang <= a * (i + 1) && mouse_dist < (R * l) / 10) {
+            // hover
+            got_hover = i;
+        }
+    }
+    if (!interactive) {
+        got_hover = undefined;
+    }
+
+
     for (let i = 0; i < keys.length; i++) {
         let k = keys[i];
         let l = resulting_data[k]["Your overall rating"];
 
-        fill("#" + cols[i] + "99");
-        arc(
-            width / 2,
-            height / 2,
+        let is_hovered = (got_hover != undefined && got_hover == i)
+        let make_colored = is_hovered || got_hover == undefined
+
+        let cols_i = cols[i]
+        let gray = '#' + Array(4).join(Math.round([1 - .3, 1 - .59, 1 - .11].reduce((a, v, i) => a + v * parseInt(cols_i[2 * i + 1] + cols_i[2 * i + 2], 16), 0) / 3).toString(16).padStart(2, '0'));
+        let col = make_colored ? cols_i : gray;
+
+        c.fill(col + "aa");
+        c.arc(
+            c.width / 2,
+            c.height / 2,
             (2 * R * l) / 10,
             (2 * R * l) / 10,
             a * i,
             a * (i + 1)
         );
 
-        fill("#" + cols[i]);
-        text(
+        c.fill(col);
+        c.stroke(col)
+        c.strokeWeight(0.2)
+        c.text(
             titles[k].replace(":", ":\n"),
-            width / 2 + R2 * cos(a * (i + 0.5)),
-            height / 2 + R2 * sin(a * (i + 0.5)),
-            120
+            c.width / 2 + R2 * cos(a * (i + 0.5)),
+            c.height / 2 + R2 * sin(a * (i + 0.5)),
+            c.width / 10
         );
     }
-    pop();
-    pop();
+
+    for (let i = 0; i < keys.length; i++) {
+        let k = keys[i];
+        let res = resulting_data[k];
+
+        let is_hovered = (got_hover != undefined && got_hover == i)
+
+        if (is_hovered) {
+            let txt = [
+                [
+                    titles[k],
+                    { color: cols[i], fontSize: 18 }
+                ]
+            ]
+            for (let key in res) {
+                if (["Your overall rating", "Total Average"].includes(key)) {
+                    txt.push([
+                        `${key}: ${res[key].toFixed(2)}`,
+                        { color: "black", fontSize: 15 }
+                    ]);
+                } else {
+                    txt.push(` - ${key}: ${res[key].toFixed(1)}`);
+                }
+            }
+
+            hover_textbox(
+                txt,
+                width / 2 - .6 * R2 * cos(a * (i + 0.5)),
+                height / 2 - .6 * R2 * sin(a * (i + 0.5)),
+                {
+                    "bg": "#fff",
+                    outline: color_scheme["action"]
+                },
+                c
+            )
+        }
+    }
+
+    c.pop();
+    c.pop();
 }
 
-let font, canv, next_btn, back_btn;
-let img1, img2;
+let font, canv;
+let next_btn, back_btn, save_img_btn, save_pdf_btn, finish_WOF_btn;
+let img1, img2, pfp;
 function draw_next_btn(x, y) {
     next_btn.position(x, y);
     next_btn.unhide();
@@ -842,12 +1069,16 @@ function draw_back_btn(x, y) {
 function setup() {
     canv = createCanvas((700 * 16) / 9, 700);
     canv.parent("canvWrap");
-    pixelDensity(1);
+    document.getElementById("canvWrap").style.height = height + "px";
+    pixelDensity(2);
 
-    img1 = loadImage('./img1.png');
-    img2 = loadImage('./img2.png');
+    img1 = loadImage(color_scheme["WOF_img"]);
+    img2 = loadImage(color_scheme["pillar_img"]);
+    try {
+        pfp = loadImage(color_scheme["pfp_icon"]);
+    } catch (error) { }
 
-    font = loadFont("./Fredoka-Regular.ttf");
+    font = loadFont("./Poppins-Regular.otf");
     textFont(font);
 
     canv.mousePressed((event) => {
@@ -864,29 +1095,184 @@ function setup() {
     })
 
     next_btn = new CanvButton(0, 0, "Next >", 30)
+    next_btn.bg = color_scheme["bg2"]
+    next_btn.hover_bg = color_scheme["bg2"] + "aa"
+    next_btn.fontColor = color_scheme["text2"]
+    next_btn.outline = "#0000"
     next_btn.addEventListener("click", () => {
         page++;
     })
 
     back_btn = new CanvButton(0, 0, "< Back", 30)
+    back_btn.bg = color_scheme["bg2"]
+    back_btn.hover_bg = color_scheme["bg2"] + "aa"
+    back_btn.fontColor = color_scheme["text2"]
+    back_btn.outline = "#0000"
     back_btn.addEventListener("click", () => {
         if (page <= 0) return;
         page--;
     })
 
-    for (let i = 1; i <= 3; i++) {
-        let prompt_elem = document.getElementById(`prompt_response${i}`);
-        prompt_elem.style.display = "none";
+    save_img_btn = new CanvButton(0, 0, "Save as image", 22)
+    save_img_btn.bg = color_scheme["bg2"]
+    save_img_btn.hover_bg = color_scheme["bg2"] + "aa"
+    save_img_btn.fontColor = color_scheme["text2"]
+    save_img_btn.outline = "#0000"
+    save_img_btn.addEventListener("click", exportImg)
 
-        const ii = i - 1;
-        prompt_elem.onchange = (ev) => {
-            prompt_texts[ii] = ev.target.value;
+    save_pdf_btn = new CanvButton(0, 0, "Save as PDF", 22)
+    save_pdf_btn.bg = color_scheme["bg2"]
+    save_pdf_btn.hover_bg = color_scheme["bg2"] + "aa"
+    save_pdf_btn.fontColor = color_scheme["text2"]
+    save_pdf_btn.outline = "#0000"
+    save_pdf_btn.addEventListener("click", exportPDF)
+
+    finish_WOF_btn = new CanvButton(0, 0, "Book a meeting", 30)
+    finish_WOF_btn.bg = color_scheme["bg2"]
+    finish_WOF_btn.hover_bg = color_scheme["bg2"] + "aa"
+    finish_WOF_btn.fontColor = color_scheme["text2"]
+    finish_WOF_btn.outline = "#0000"
+    finish_WOF_btn.addEventListener("click", openHB)
+
+    // create prompt textareas
+    let canvWrap = document.getElementById("canvWrap")
+    for (let p = 0; p < prompts.length; p++) {
+        prompts[p].elems = []
+        prompts[p].answers = []
+        for (var i = 0; i < prompts[p].texts.length; i++) {
+            let prompt = prompts[p].texts[i];
+
+            let prompt_elem = document.createElement("textarea")
+            prompt_elem.id = `prompt_response${p}_${i}`;
+            prompt_elem.rows = prompt[1]
+            prompt_elem.cols = prompt[2]
+            prompt_elem.placeholder = prompt[0]
+            prompt_elem.style.position = "absolute"
+            prompt_elem.style.marginLeft = "-29%"
+            prompt_elem.style.marginTop = "-100%"
+            prompt_elem.style.display = "none";
+            prompt_elem.style.resize = "none";
+            prompt_elem.style.fontSize = "12px";
+
+            const ii = i
+            const pp = p
+            prompt_elem.onchange = (ev) => {
+                prompts[pp].answers[ii] = ev.target.value;
+            }
+
+            prompts[p].elems.push(prompt_elem)
+            prompt_elems.push(prompt_elem)
+            canvWrap.appendChild(prompt_elem)
         }
-
-        prompt_elems.push(prompt_elem)
     }
+
+    // create the booking iframe
+    let iframe = document.createElement("iframe")
+    iframe.id = "booking_ifr"
+    iframe.setAttribute("src", booking_link)
+    iframe.style.width = "100%"
+    iframe.style.height = "100vh"
+    iframe.style.display = "none";
+    document.body.appendChild(iframe)
 }
 
+// EXPORTS
+function getExportGraphic(upscale_factor = 2) {
+    let gr = createGraphics(upscale_factor * width, upscale_factor * height)
+
+    let W = gr.width;
+    let H = gr.height;
+
+    gr.background(color_scheme["bg"]);
+    gr.textAlign(gr.CENTER, gr.CENTER)
+    gr.rectMode(CENTER)
+    gr.fill(color_scheme["text"])
+    gr.textFont(font)
+
+    gr.push()
+    gr.translate(-(W - H) / 2, 0)
+    draw_WOF(false, gr)
+    gr.pop()
+
+    gr.push()
+    gr.translate(H, 0)
+
+    gr.textSize(0.04285 * H);
+    gr.text(
+        "Your Wheel of Life",
+        (W - H) / 2,
+        H * 0.1,
+        (W - H) * 0.85
+    );
+
+    let lines = []
+    for (let pr of prompts) {
+        for (let i = 0; i < pr.elems.length; i++) {
+            let el = pr.elems[i]
+            let ans = pr.answers[i]
+
+            lines.push(
+                ...splitter(
+                    `${el.placeholder}:`,
+                    70
+                ).map(t => [t, { fontSize: 0.018 * H, color: color_scheme["text"] }]),
+                ...splitter(
+                    `${ans == undefined ? "No response" : ans}`,
+                    70
+                ).map(t => [t, { fontSize: 0.018 * H, color: color_scheme["text"], outline: color_scheme["text"], outline_width: .8 }]),
+                ["", { fontSize: 0.02 * H }]
+            )
+        }
+    }
+    
+    let promptsH = 0.8
+    lines.forEach(l => l[1].fontSize = 0.6 * H * promptsH/lines.length)
+    hover_textbox(lines, (W - H) / 2, (0.1 + 0.05 + promptsH / 2) * H, { bg: "#0000" }, gr)
+
+    gr.pop()
+
+    gr.push();
+    if (pfp) {
+        let pfpW = pfp.width
+        let pfpH = pfp.height
+        let pad = 0.015 * H
+        let targetW = 0.065 * W
+        let targetH = targetW * pfpH / pfpW
+        gr.image(pfp, W - targetW - pad, pad, targetW, targetH)
+    }
+    gr.pop();
+
+    return gr;
+}
+function exportImg() {
+    getExportGraphic().save("export.png")
+}
+function exportPDF() {
+    let gr = getExportGraphic(1.5)
+
+    let pdf = new jspdf.jsPDF({
+        orientation: "l",
+        unit: "px",
+        format: [gr.width, gr.height],
+        putOnlyUsedFonts: true
+    })
+
+    pdf.addImage(
+        gr.canvas.toDataURL(),
+        "png",
+        0, 0,
+        gr.width,
+        gr.height
+    )
+
+    pdf.save("export.pdf")
+}
+function openHB() {
+    document.querySelectorAll("body *").forEach(el => el.style.display = "none")
+    document.getElementById("booking_ifr").style.display = "block"
+}
+
+// HELPERS
 function arrow(x0, y0, x1, y1, options) {
     let defaultOptions = { arrowLength: 10, arrowWidth: 5, lineWidth: 5 }
     let { arrowLength, arrowWidth, lineWidth, dash } = { ...defaultOptions, ...options || {} }
@@ -919,41 +1305,61 @@ function arrow(x0, y0, x1, y1, options) {
     endShape()
     pop()
 }
+function splitter(str, l) {
+    var strs = [];
+    while (str.length > l) {
+        var pos = str.substring(0, l).lastIndexOf(' ');
+        pos = pos <= 0 ? l : pos;
+        strs.push(str.substring(0, pos));
+        var i = str.indexOf(' ', pos) + 1;
+        if (i < pos || i > pos + l)
+            i = pos;
+        str = str.substring(i);
+    }
+    strs.push(str);
+    return strs;
+}
 
 let page = 0;
+let last_page = 0;
 
 function draw() {
-    background(0, 255);
+    background(color_scheme["bg"]);
     W = width;
     H = height;
     let vmin = min(width, height) / 100;
 
-    fill(255);
     noStroke();
+    fill(color_scheme["text"]);
     textAlign(CENTER, CENTER);
     rectMode(CENTER);
 
     CanvButton.hideAll();
     CanvSlider.hideAll();
 
-    if (page != 15) {
+    if (![15, 16, 17].includes(page) || page != last_page) {
         prompt_elems.forEach(p => p.style.display = "none");
     }
 
     push();
     switch (page) {
         case 0:
-            textSize(40);
+            fill(color_scheme["bg2"])
+            rect(W / 2, H * 0.1 + 60 / 8, W, 100)
+
+            fill(color_scheme["text2"])
+            textSize(60);
             text("WHAT IS THE WHEEL OF LIFE", W / 2, H * 0.1);
 
+            fill(color_scheme["text"])
             textSize(18);
-            text('The "Wheel of Life" is an exercise that provides you with a visual snapshot of your current life balance across 8 areas of life', W / 2, H * 0.2);
+            text('The "Wheel of Life" is an exercise that provides you with a visual snapshot of your current life balance across 8 areas of life', W / 2, H * 0.25);
 
             imageMode(CENTER)
-            var img_h = 70 * vmin;
-            image(img1, W / 2, H * 0.6, img_h * img1.width / img1.height, img_h)
+            var img_h = 65 * vmin;
+            image(img1, W / 2, H * 0.65, img_h * img1.width / img1.height, img_h)
 
-            draw_next_btn(0.9 * W, 0.9 * H);
+            draw_next_btn(0.95 * W, 0.95 * H);
             break;
 
         case 1:
@@ -973,8 +1379,8 @@ By understanding and pinpointing where these imbalances reside, we can then begi
                 0.8 * H
             );
 
-            draw_next_btn(0.9 * W, 0.9 * H);
-            draw_back_btn((1 - 0.9) * W, 0.9 * H);
+            draw_next_btn(0.95 * W, 0.95 * H);
+            draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
 
         case 2:
@@ -983,7 +1389,7 @@ By understanding and pinpointing where these imbalances reside, we can then begi
 
             imageMode(CORNER)
             var img_h = 70 * vmin;
-            image(img2, W * 0.2, H * 0.2, img_h * img2.width / img2.height, img_h)
+            image(img2, W * 0.18, H * 0.2, img_h * img2.width / img2.height, img_h)
 
             textSize(20);
             text(
@@ -996,7 +1402,7 @@ This exercise will guide you through eight different pillars of life such as Per
                 0.9 * H
             );
 
-            fill("red")
+            fill(color_scheme["action"])
             arrow(
                 W * 0.65,
                 H * 0.25,
@@ -1006,8 +1412,8 @@ This exercise will guide you through eight different pillars of life such as Per
 
             // arrow
 
-            draw_next_btn(0.9 * W, 0.9 * H);
-            draw_back_btn((1 - 0.9) * W, 0.9 * H);
+            draw_next_btn(0.95 * W, 0.95 * H);
+            draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
 
         case 3:
@@ -1016,7 +1422,7 @@ This exercise will guide you through eight different pillars of life such as Per
 
             imageMode(CORNER)
             var img_h = 70 * vmin;
-            image(img2, W * 0.2, H * 0.2, img_h * img2.width / img2.height, img_h)
+            image(img2, W * 0.18, H * 0.2, img_h * img2.width / img2.height, img_h)
 
             textSize(20);
             text(
@@ -1041,12 +1447,12 @@ If you're earning $50,000 a year and feel completely satisfied, happy and fulfil
 If you're earning $700k a year but feel very dissatisfied because you have larger financial goals then your score should be closer to a 1.
 `,
                 W * 0.8,
-                H * 0.7,
+                H * 0.75,
                 0.3 * W,
                 0.9 * H
             );
 
-            fill("red")
+            fill(color_scheme["action"])
             arrow(
                 W * 0.655,
                 H * 0.27,
@@ -1056,8 +1462,8 @@ If you're earning $700k a year but feel very dissatisfied because you have large
 
             // arrow
 
-            draw_next_btn(0.9 * W, 0.9 * H);
-            draw_back_btn((1 - 0.9) * W, 0.9 * H);
+            draw_next_btn(0.95 * W, 0.95 * H);
+            draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
 
         case 4:
@@ -1066,7 +1472,7 @@ If you're earning $700k a year but feel very dissatisfied because you have large
 
             imageMode(CORNER)
             var img_h = 70 * vmin;
-            image(img2, W * 0.2, H * 0.2, img_h * img2.width / img2.height, img_h)
+            image(img2, W * 0.18, H * 0.2, img_h * img2.width / img2.height, img_h)
 
             textSize(20);
             text(
@@ -1081,7 +1487,7 @@ This score is intended to serve as a guiding post only. Ultimately, you'll decid
                 0.9 * H
             );
 
-            fill("red")
+            fill(color_scheme["action"])
             arrow(
                 W * 0.65,
                 H * 0.425,
@@ -1091,8 +1497,8 @@ This score is intended to serve as a guiding post only. Ultimately, you'll decid
 
             // arrow
 
-            draw_next_btn(0.9 * W, 0.9 * H);
-            draw_back_btn((1 - 0.9) * W, 0.9 * H);
+            draw_next_btn(0.95 * W, 0.95 * H);
+            draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
 
         case 5:
@@ -1101,7 +1507,7 @@ This score is intended to serve as a guiding post only. Ultimately, you'll decid
 
             imageMode(CORNER)
             var img_h = 70 * vmin;
-            image(img2, W * 0.2, H * 0.2, img_h * img2.width / img2.height, img_h)
+            image(img2, W * 0.18, H * 0.2, img_h * img2.width / img2.height, img_h)
 
             textSize(20);
             text(
@@ -1117,7 +1523,7 @@ Complete this process for all 8 Pillars of Life`,
                 0.9 * H
             );
 
-            fill("red")
+            fill(color_scheme["action"])
             arrow(
                 W * 0.65,
                 H * 0.4,
@@ -1127,16 +1533,16 @@ Complete this process for all 8 Pillars of Life`,
 
             // arrow
 
-            draw_next_btn(0.9 * W, 0.9 * H);
-            draw_back_btn((1 - 0.9) * W, 0.9 * H);
+            draw_next_btn(0.95 * W, 0.95 * H);
+            draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
 
         case 6:
             textSize(40);
             text("INSTRUCTIONS", W / 2, 0.1 * H);
 
-            draw_next_btn(0.9 * W, 0.9 * H);
-            draw_back_btn((1 - 0.9) * W, 0.9 * H);
+            draw_next_btn(0.95 * W, 0.95 * H);
+            draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
 
         case 7:
@@ -1151,6 +1557,8 @@ Complete this process for all 8 Pillars of Life`,
             break;
 
         case 15:
+        case 16:
+        case 17:
             push()
             translate(-(W - H) / 2, 0)
             draw_WOF()
@@ -1162,41 +1570,73 @@ Complete this process for all 8 Pillars of Life`,
             textSize(30);
             textAlign(CENTER, CENTER);
             text(
-                "Use the following prompts to reflect on your Wheel of Life.",
+                "Use the following prompts to reflect on your Wheel of Life:",
                 (W - H) / 2,
                 H * 0.2,
                 (W - H) * 0.85
             );
             pop()
 
-            // prompts
-            prompt_elems.forEach(p => p.style.display = "block");
-            prompt_elems[0].style.marginTop = "18%"
-            prompt_elems[0].style.marginLeft = "64%"
-            // prompt_elems[0].placeholder = "etc."
-
-            prompt_elems[1].style.marginTop = "35%"
-            prompt_elems[1].style.marginLeft = "64%"
-
-            prompt_elems[2].style.marginTop = "45%"
-            prompt_elems[2].style.marginLeft = "64%"
+            let prompt = prompts[page - 15]
+            prompt.elems.forEach(p => p.style.display = "block");
+            for (let i = 0; i < prompt.elems.length; i++) {
+                prompt.elems[i].style.marginTop = `-${height * (1 - 0.30 - 0.15 * i)}px` // 18 - 45
+                prompt.elems[i].style.marginLeft = "64%"
+            }
 
             draw_next_btn(0.95 * W, 0.95 * H);
             draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
 
-        case 16:
-            background(0);
+        case 18:
+            push()
+            translate(-(W - H) / 2, 0)
+            draw_WOF()
+            pop()
 
+            push()
+            translate(H, 0)
+
+            textSize(30);
             textAlign(CENTER, CENTER);
-            text("END", W / 2, H / 2, 0.75 * W);
+            text(
+                "Save your Wheel of Life:",
+                (W - H) / 2,
+                H * 0.3,
+                (W - H) * 0.85
+            );
+
+            save_img_btn.position(H + (W - H) / 2, H * 0.45)
+            save_img_btn.unhide()
+            save_pdf_btn.position(H + (W - H) / 2, H * 0.55)
+            save_pdf_btn.unhide()
+            finish_WOF_btn.position(H + (W - H) / 2, H * 0.70)
+            finish_WOF_btn.unhide()
+
+            pop()
 
             //console.log(resulting_data, prompt_texts);
 
-            draw_back_btn((1 - 0.9) * W, 0.9 * H);
+            draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
     }
     pop();
 
+    push();
+    if (pfp) {
+        let pfpW = pfp.width
+        let pfpH = pfp.height
+        let pad = 0.015 * H
+        let targetW = 0.065 * W
+        let targetH = targetW * pfpH / pfpW
+        if (page == 0) {
+            pad = 0.055 * H;
+        }
+        image(pfp, W - targetW - pad, pad, targetW, targetH)
+    }
+    pop();
+
     CanvButton.drawAll();
+
+    last_page = page;
 }

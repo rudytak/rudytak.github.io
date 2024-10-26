@@ -10,11 +10,15 @@ Wheel of life
 
  WOF Plugin features TODO:
  4 - MOBILE!
+ 4 - 
 
  3 - notification after filled out
- 3 - honeybook integration
- 2 - saving: image, pdf, (emailing?)
- 1 - font, color scheme, best/worst indicator text, change snapshot to personal finance, prompt pages for all 7 prompts, "Ignore sub-pillar" option for sliders., hover info - show numbers, jump back-forward, slider change rail color
+ 2 - saving: (emailing? - SMTP)
+ 1 -
+    "Ignore sub-pillar" option for sliders., 
+    hover info - jump back-forward,
+    add missing instruction slide
+    add the text for teh booking button
  1 - Fill-out form
     - at least name, email
     - typed input in the first fill-out form
