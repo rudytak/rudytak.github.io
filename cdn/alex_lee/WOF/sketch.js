@@ -121,8 +121,8 @@ class CanvSlider {
         this.hovered = dist(
             this.x + this.w * (this.value - this.min) / (this.max - this.min),
             this.y,
-            mouseX,
-            mouseY
+            mX(),
+            mY()
         ) <= this.head_radius
     }
 
@@ -235,7 +235,7 @@ class CanvSlider {
     onDragged(event) {
         if (this.pressed) {
             this.value = Math.round(
-                (constrain((mouseX - this.x) / (this.w), 0, 1) * (this.max - this.min) + this.min) / this.step
+                (constrain((mX() - this.x) / (this.w), 0, 1) * (this.max - this.min) + this.min) / this.step
             ) * this.step
 
             this.runHandlers("change");
@@ -352,7 +352,7 @@ class CanvButton {
             this.hovered = false;
             return
         }
-        this.hovered = ((this.y <= mouseY + this.h / 2) && (mouseY < this.y + this.h / 2) && (this.x <= mouseX + this.w / 2) && (mouseX < this.x + this.w / 2));
+        this.hovered = ((this.y <= mY() + this.h / 2) && (mY() < this.y + this.h / 2) && (this.x <= mX() + this.w / 2) && (mX() < this.x + this.w / 2));
     }
 
     hide() {
@@ -766,7 +766,7 @@ function draw_pillar(id) {
             sum += resulting_data[id][key];
         }
     }
-    resulting_data[id]["Total Average"] = Math.round((sum / (keys.length - 3))*1000)/1000;
+    resulting_data[id]["Total Average"] = sum / (keys.length - 3)
 
     // row drawing
     let box_x = W * 0.1;
@@ -894,8 +894,8 @@ function draw_pillar(id) {
         // hovering
         let text_center_x = box_x + row_h / 4 + row_w / 8;
         let text_center_y = box_y + (row + 0.5) * row_h;
-        if (dist(mouseX, 0, text_center_x, 0) < row_w / 8) {
-            if (dist(0, mouseY, 0, text_center_y) < row_h / 3) {
+        if (dist(mX(), 0, text_center_x, 0) < row_w / 8) {
+            if (dist(0, mY(), 0, text_center_y) < row_h / 3) {
                 hover_textbox(
                     splitter(fields[key], 50).map(t => [t, { color: color_scheme["text2"], fontSize: 15 }]),
                     text_center_x + row_w / 8,
@@ -908,6 +908,14 @@ function draw_pillar(id) {
         }
     }
     pop();
+
+    // round all result values
+    for (let row = 0; row < key_count; row++) {
+        let key = keys[row];
+        if (resulting_data[id][key]) {
+            resulting_data[id][key] = round(resulting_data[id][key], 3);
+        }
+    }
 
     if (resulting_data[id]["Your overall rating"]) {
         draw_next_btn(0.95 * W, 0.95 * H)
@@ -968,8 +976,8 @@ function draw_WOF(interactive = true, p5inst = window) {
     c.noStroke();
     c.textAlign(CENTER, CENTER);
     let got_hover = undefined;
-    let mouse_dist = c.dist(c.mouseX, c.mouseY, 50 * vmin, 50 * vmin)
-    let mouse_ang = (Math.atan2((c.mouseY - 50 * vmin), (c.mouseX - 50 * vmin)) + 2 * PI) % (2 * PI)
+    let mouse_dist = c.dist(mX(), mY(), 50 * vmin, 50 * vmin)
+    let mouse_ang = (Math.atan2((mY() - 50 * vmin), (mX() - 50 * vmin)) + 2 * PI) % (2 * PI)
 
     for (let i = 0; i < keys.length; i++) {
         let k = keys[i];
@@ -1139,7 +1147,7 @@ function setup() {
     finish_WOF_btn.addEventListener("click", openHB)
 
     // create prompt textareas
-    let canvWrap = document.getElementById("canvWrap")
+    let canvWrap = document.getElementById("textareas")
     for (let p = 0; p < prompts.length; p++) {
         prompts[p].elems = []
         prompts[p].answers = []
@@ -1157,6 +1165,7 @@ function setup() {
             prompt_elem.style.display = "none";
             prompt_elem.style.resize = "none";
             prompt_elem.style.fontSize = "12px";
+            prompt_elem.style.zIndex = "11";
 
             const ii = i
             const pp = p
@@ -1177,6 +1186,7 @@ function setup() {
     iframe.style.width = "100%"
     iframe.style.height = "100vh"
     iframe.style.display = "none";
+    iframe.style.border = "none";
     document.body.appendChild(iframe)
 }
 
@@ -1607,8 +1617,10 @@ Once complete, a report will be generated based on your results along with ${pro
             let prompt = prompts[page - 15]
             prompt.elems.forEach(p => p.style.display = "block");
             for (let i = 0; i < prompt.elems.length; i++) {
-                prompt.elems[i].style.marginTop = `-${height * (1 - 0.30 - 0.15 * i)}px` // 18 - 45
-                prompt.elems[i].style.marginLeft = "64%"
+                prompt.elems[i].style.marginTop = `${canvScale * height * (0.30 + 0.15 * i)}px` // 18 - 45
+                prompt.elems[i].style.marginLeft = `${canvScale * width * 0.64}px`
+                prompt.elems[i].style.scale = `${canvScale}`
+                prompt.elems[i].style.transformOrigin = `0 0`
             }
 
             draw_next_btn(0.95 * W, 0.95 * H);
@@ -1663,6 +1675,10 @@ Once complete, a report will be generated based on your results along with ${pro
     }
     pop();
 
+    if (page > 18) {
+        page = 18;
+    }
+
     push();
     if (pfp_dark && pfp_light) {
         let pfp = page == 0 ? pfp_light : pfp_dark
@@ -1684,6 +1700,24 @@ Once complete, a report will be generated based on your results along with ${pro
     last_page = page;
 }
 
+
+// Canvas scaling
+let canvScale = 1;
+function mX() {
+    return mouseX / canvScale;
+}
+
+function mY() {
+    return mouseY / canvScale;
+}
+
+function windowResized() {
+    let parentBB = canv.elt.parentElement.getBoundingClientRect()
+
+    canvScale = parentBB.width / width
+    canv.elt.style.scale = `${canvScale}`
+    canv.elt.style.transformOrigin = "0 0"
+}
 
 // SERVER SAVING
 
@@ -1707,7 +1741,7 @@ async function saveUserData() {
         }
     )
 
-    if (!res.ok){
+    if (!res.ok) {
         has_unsaved_changes = true;
     }
 

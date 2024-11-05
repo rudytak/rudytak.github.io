@@ -305,7 +305,10 @@
     <div id="canvWrap" class="on_center" style="
         display: none; 
         width: fit-content; 
-        box-shadow: black 0 0 10px;">
+        box-shadow: black 0 0 10px;
+        max-width: 90vw;
+        max-height: calc(9/16 * 90vw);">
+        <div id="textareas" style="z-index: 10;"></div>
     </div>
 
     <script>
@@ -332,7 +335,7 @@
             updateFormData();
         }, 1000 / 24)
 
-        function updateFormData(){
+        function updateFormData() {
             formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
@@ -345,6 +348,7 @@
         }
 
         let formData;
+
         function submit(event) {
             let startBtn = document.getElementById("startBtn")
             if (startBtn.classList.contains("unready")) {
@@ -356,6 +360,7 @@
             updateFormData();
             document.getElementById("start_form").style.display = "none";
             document.getElementById("canvWrap").style.display = "block";
+            windowResized()
         }
     </script>
 
@@ -382,7 +387,8 @@
 
         /* General styles */
         body {
-            background-color: var(--background-color);
+            /* background-color: var(--background-color); */
+            background-color: #0000;
             color: var(--text-color);
             display: flex;
             justify-content: center;
