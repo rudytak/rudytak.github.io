@@ -434,7 +434,7 @@ class CanvButton {
 }
 
 const booking_link = "https://coaching244829.hbportal.co/schedule/67095c1a8078a0001fe67fdf"
-const color_scheme = true ? {
+const color_scheme = {
     "bg": "#fff5d9",
     "bg2": "#ffcf5a",
     "text": "#655a3f",
@@ -447,7 +447,8 @@ const color_scheme = true ? {
     ],
     WOF_img: "img1.png",
     pillar_img: "img2.png",
-    pfp_icon: "pfp_small.png",
+    pfp_icon_light: "pfp_small.png",
+    pfp_icon_dark: "pfp_small_gold.png",
     arc_colors: [
         "#4bdbff",
         "#4877e0",
@@ -458,31 +459,33 @@ const color_scheme = true ? {
         "#f5bf40",
         "#ef7625",
     ]
-} : {
-    "bg": "#a4c3b2",
-    "bg2": "#183a37",
-    "text": "#000000",
-    "text2": "#ffffff",
-    "action": "#006d77",
-    value_breakpoints: [
-        [0.2, "#ec0e47"],
-        [0.4, "#fa7329"],
-        [1, "#006d77"],
-    ],
-    WOF_img: "img3.png",
-    pillar_img: "img4.png",
-    pfp_icon: "pfp_small.png",
-    arc_colors: [
-        "#0988fa",
-        "#4877e0",
-        "#b71f58",
-        "#9a2ecc",
-        "#ff37cc",
-        "#077353",
-        "#fcb117",
-        "#f68950",
-    ]
 }
+// : {
+//     "bg": "#a4c3b2",
+//     "bg2": "#183a37",
+//     "text": "#000000",
+//     "text2": "#ffffff",
+//     "action": "#006d77",
+//     value_breakpoints: [
+//         [0.2, "#ec0e47"],
+//         [0.4, "#fa7329"],
+//         [1, "#006d77"],
+//     ],
+//     WOF_img: "img3.png",
+//     pillar_img: "img4.png",
+//     pfp_icon: "pfp_small.png",
+//     arc_colors: [
+//         "#0988fa",
+//         "#4877e0",
+//         "#b71f58",
+//         "#9a2ecc",
+//         "#ff37cc",
+//         "#077353",
+//         "#fcb117",
+//         "#f68950",
+//     ]
+// }
+
 function setThemeColors() {
     document.documentElement.style.setProperty('--background-color', color_scheme["bg"]);
     document.documentElement.style.setProperty('--text-color', color_scheme["text"]);
@@ -702,7 +705,6 @@ function hover_textbox(_text_lines, cx, cy, box_style = {}, p5inst = window) {
 
     c.rectMode(CORNER)
     let y_acc = 0
-    print(lines)
     for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
         c.textAlign(line.style.align_horizontal, line.style.align_vertical);
@@ -748,7 +750,7 @@ function draw_pillar(id) {
     // data collection init
     if (resulting_data[id] == undefined) {
         resulting_data[id] = {
-            "Your overall rating": 5.0
+            // "Your overall rating": 5.0
         };
     }
     // average calculation
@@ -764,7 +766,7 @@ function draw_pillar(id) {
             sum += resulting_data[id][key];
         }
     }
-    resulting_data[id]["Total Average"] = sum / (keys.length - 3);
+    resulting_data[id]["Total Average"] = Math.round((sum / (keys.length - 3))*1000)/1000;
 
     // row drawing
     let box_x = W * 0.1;
@@ -1057,7 +1059,7 @@ function draw_WOF(interactive = true, p5inst = window) {
 
 let font, canv;
 let next_btn, back_btn, save_img_btn, save_pdf_btn, finish_WOF_btn;
-let img1, img2, pfp;
+let img1, img2, pfp_dark, pfp_light;
 function draw_next_btn(x, y) {
     next_btn.position(x, y);
     next_btn.unhide();
@@ -1074,8 +1076,10 @@ function setup() {
 
     img1 = loadImage(color_scheme["WOF_img"]);
     img2 = loadImage(color_scheme["pillar_img"]);
+
     try {
-        pfp = loadImage(color_scheme["pfp_icon"]);
+        pfp_light = loadImage(color_scheme["pfp_icon_light"]);
+        pfp_dark = loadImage(color_scheme["pfp_icon_dark"]);
     } catch (error) { }
 
     font = loadFont("./Poppins-Regular.otf");
@@ -1113,21 +1117,21 @@ function setup() {
         page--;
     })
 
-    save_img_btn = new CanvButton(0, 0, "Save as image", 22)
+    save_img_btn = new CanvButton(0, 0, "Save as image", 20)
     save_img_btn.bg = color_scheme["bg2"]
     save_img_btn.hover_bg = color_scheme["bg2"] + "aa"
     save_img_btn.fontColor = color_scheme["text2"]
     save_img_btn.outline = "#0000"
     save_img_btn.addEventListener("click", exportImg)
 
-    save_pdf_btn = new CanvButton(0, 0, "Save as PDF", 22)
+    save_pdf_btn = new CanvButton(0, 0, "Save as PDF", 20)
     save_pdf_btn.bg = color_scheme["bg2"]
     save_pdf_btn.hover_bg = color_scheme["bg2"] + "aa"
     save_pdf_btn.fontColor = color_scheme["text2"]
     save_pdf_btn.outline = "#0000"
     save_pdf_btn.addEventListener("click", exportPDF)
 
-    finish_WOF_btn = new CanvButton(0, 0, "Book a meeting", 30)
+    finish_WOF_btn = new CanvButton(0, 0, "Book Your Free Consultation Now", 25)
     finish_WOF_btn.bg = color_scheme["bg2"]
     finish_WOF_btn.hover_bg = color_scheme["bg2"] + "aa"
     finish_WOF_btn.fontColor = color_scheme["text2"]
@@ -1224,21 +1228,21 @@ function getExportGraphic(upscale_factor = 2) {
             )
         }
     }
-    
+
     let promptsH = 0.8
-    lines.forEach(l => l[1].fontSize = 0.6 * H * promptsH/lines.length)
+    lines.forEach(l => l[1].fontSize = 0.6 * H * promptsH / lines.length)
     hover_textbox(lines, (W - H) / 2, (0.1 + 0.05 + promptsH / 2) * H, { bg: "#0000" }, gr)
 
     gr.pop()
 
     gr.push();
-    if (pfp) {
-        let pfpW = pfp.width
-        let pfpH = pfp.height
+    if (pfp_dark) {
+        let pfpW = pfp_dark.width
+        let pfpH = pfp_dark.height
         let pad = 0.015 * H
         let targetW = 0.065 * W
         let targetH = targetW * pfpH / pfpW
-        gr.image(pfp, W - targetW - pad, pad, targetW, targetH)
+        gr.image(pfp_dark, W - targetW - pad, pad, targetW, targetH)
     }
     gr.pop();
 
@@ -1541,6 +1545,29 @@ Complete this process for all 8 Pillars of Life`,
             textSize(40);
             text("INSTRUCTIONS", W / 2, 0.1 * H);
 
+            imageMode(CORNER)
+            var img_h = 70 * vmin;
+            image(img1, W * 0.12, H * 0.2, img_h * img1.width / img1.height, img_h)
+
+            textSize(20);
+            text(
+                `
+Once complete, a report will be generated based on your results along with ${prompts.length} # of prompts
+`,
+                W * 0.8,
+                H * 0.5,
+                0.3 * W,
+                0.9 * H
+            );
+
+            fill(color_scheme["action"])
+            arrow(
+                W * 0.65,
+                H * 0.5,
+                W * 0.2 + img_h * 0.8,
+                H * 0.2 + img_h * 0.5
+            )
+
             draw_next_btn(0.95 * W, 0.95 * H);
             draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
@@ -1602,20 +1629,34 @@ Complete this process for all 8 Pillars of Life`,
             text(
                 "Save your Wheel of Life:",
                 (W - H) / 2,
-                H * 0.3,
+                H * 0.18,
                 (W - H) * 0.85
             );
 
-            save_img_btn.position(H + (W - H) / 2, H * 0.45)
+            textSize(26);
+            text("Ready to take action?",
+                (W - H) / 2,
+                H * 0.58,
+                (W - H) * 0.85
+            )
+
+            textSize(18);
+            text("Let's discuss your personalized results and turn your insights into an actionable roadmap",
+                (W - H) / 2,
+                H * 0.655,
+                (W - H) * 0.85
+            )
+
+            save_img_btn.position(H + (W - H) / 2, H * 0.33)
             save_img_btn.unhide()
-            save_pdf_btn.position(H + (W - H) / 2, H * 0.55)
+            save_pdf_btn.position(H + (W - H) / 2, H * 0.43)
             save_pdf_btn.unhide()
-            finish_WOF_btn.position(H + (W - H) / 2, H * 0.70)
+            finish_WOF_btn.position(H + (W - H) / 2, H * 0.74)
             finish_WOF_btn.unhide()
 
             pop()
 
-            //console.log(resulting_data, prompt_texts);
+            saveUserData()
 
             draw_back_btn((1 - 0.95) * W, 0.95 * H);
             break;
@@ -1623,7 +1664,9 @@ Complete this process for all 8 Pillars of Life`,
     pop();
 
     push();
-    if (pfp) {
+    if (pfp_dark && pfp_light) {
+        let pfp = page == 0 ? pfp_light : pfp_dark
+
         let pfpW = pfp.width
         let pfpH = pfp.height
         let pad = 0.015 * H
@@ -1640,3 +1683,42 @@ Complete this process for all 8 Pillars of Life`,
 
     last_page = page;
 }
+
+
+// SERVER SAVING
+
+let has_unsaved_changes = true
+async function saveUserData() {
+    if (!has_unsaved_changes) {
+        return has_unsaved_changes
+    }
+    has_unsaved_changes = false;
+
+    let res = await save_data(
+        formData,
+        {
+            pillars: resulting_data,
+            prompts: prompts.map(p => // make all the prompts into key-val pairs inside one object
+                p.texts.map((t, i) => {
+                    let o = {};
+                    o[t[0]] = p.answers[i];
+                    return o
+                })).flat().reduce((a, b) => { return { ...a, ...b } }, {})
+        }
+    )
+
+    if (!res.ok){
+        has_unsaved_changes = true;
+    }
+
+    return res
+}
+
+// window.addEventListener('beforeunload', (ev) => {
+//     if (has_unsaved_changes) {
+//         saveUserData()
+
+//         ev.preventDefault()
+//         ev.returnValue = "";
+//     }
+// })

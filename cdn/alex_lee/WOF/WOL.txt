@@ -17,12 +17,22 @@ Wheel of life
  1 -
     "Ignore sub-pillar" option for sliders., 
     hover info - jump back-forward,
-    add missing instruction slide
-    add the text for teh booking button
  1 - Fill-out form
     - at least name, email
     - typed input in the first fill-out form
     - gender - option to include "type your gender"
     - locations - sub-dividing for the US for now; more sub division for later?
     - occupation - free form for now; might be a dropdown later?
- - loom by the 25th!!!
+
+
+
+
+
+iframe scaling
+Add a mobile message
+Add saving even when user just leaves page + allow for making changes during one session
+
+Email! (gmail or alexlee.life)
+Fix text overflow for PDF!
+
+Mobile

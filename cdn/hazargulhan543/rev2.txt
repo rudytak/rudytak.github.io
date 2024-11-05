@@ -1,9 +1,0 @@
-fix quality of canvas zoom
-scale up zoom
-
-all fields have to be filled in
-
-FINISH like "Place order" and capital letters
-"Place order" on the right side of teh page
-
-mobile version
