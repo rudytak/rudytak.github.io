@@ -123,7 +123,7 @@ class CanvSlider {
             this.y,
             mX(),
             mY()
-        ) <= this.head_radius
+        ) <= this.head_radius * 2
     }
 
     position(x = undefined, y = undefined, w = undefined) {
@@ -734,7 +734,7 @@ function draw_pillar(id) {
     title = titles[id];
     disp_title = `${titles[id]}`;
     text(disp_title, W / 2, 0.05 * H);
-    textSize(15)
+    textSize(15 * fontScale)
     text(`(${id + 1} of ${titles.length})`, W / 2, 0.05 * H + 30)
 
     // ROWS
@@ -784,7 +784,7 @@ function draw_pillar(id) {
         noStroke();
         fill(color_scheme["text"])
         textAlign(LEFT, CENTER);
-        textSize(row_h * 0.3);
+        textSize(row_h * 0.3 * fontScale);
         text(
             key,
             box_x + row_h / 4,
@@ -824,7 +824,7 @@ function draw_pillar(id) {
         if (key == "Total Average") {
             push();
             textAlign(CENTER, CENTER);
-            textSize(row_h * 0.5);
+            textSize(row_h * 0.5 * fontScale);
 
             const value_breakpoints = color_scheme["value_breakpoints"]
             for (let breakpoint of value_breakpoints) {
@@ -876,7 +876,7 @@ function draw_pillar(id) {
         if (key == "Your overall rating") {
             push()
             textAlign(RIGHT, TOP)
-            textSize(15)
+            textSize(15 * fontScale)
             noStroke()
             fill("red")
             text("*Reminder: This score should be based on your own personal level of satisfaction", box_x, box_y + (row + 1) * row_h + 5, row_w)
@@ -1066,7 +1066,7 @@ function draw_WOF(interactive = true, p5inst = window) {
 }
 
 let font, canv;
-let next_btn, back_btn, save_img_btn, save_pdf_btn, finish_WOF_btn;
+let next_btn, back_btn, save_img_btn, save_pdf_btn, email_pdf_btn, finish_WOF_btn;
 let img1, img2, pfp_dark, pfp_light;
 function draw_next_btn(x, y) {
     next_btn.position(x, y);
@@ -1079,7 +1079,7 @@ function draw_back_btn(x, y) {
 function setup() {
     canv = createCanvas((700 * 16) / 9, 700);
     canv.parent("canvWrap");
-    document.getElementById("canvWrap").style.height = height + "px";
+    // document.getElementById("canvWrap").style.height = height + "px";
     pixelDensity(2);
 
     img1 = loadImage(color_scheme["WOF_img"]);
@@ -1090,7 +1090,7 @@ function setup() {
         pfp_dark = loadImage(color_scheme["pfp_icon_dark"]);
     } catch (error) { }
 
-    font = loadFont("./Poppins-Regular.otf");
+    font = loadFont("./Poppins-Regular.ttf");
     textFont(font);
 
     canv.mousePressed((event) => {
@@ -1137,7 +1137,14 @@ function setup() {
     save_pdf_btn.hover_bg = color_scheme["bg2"] + "aa"
     save_pdf_btn.fontColor = color_scheme["text2"]
     save_pdf_btn.outline = "#0000"
-    save_pdf_btn.addEventListener("click", exportPDF)
+    save_pdf_btn.addEventListener("click", savePDF)
+
+    email_pdf_btn = new CanvButton(0, 0, "Email me my results", 20)
+    email_pdf_btn.bg = color_scheme["bg2"]
+    email_pdf_btn.hover_bg = color_scheme["bg2"] + "aa"
+    email_pdf_btn.fontColor = color_scheme["text2"]
+    email_pdf_btn.outline = "#0000"
+    email_pdf_btn.addEventListener("click", emailPDF)
 
     finish_WOF_btn = new CanvButton(0, 0, "Book Your Free Consultation Now", 25)
     finish_WOF_btn.bg = color_scheme["bg2"]
@@ -1159,6 +1166,9 @@ function setup() {
             prompt_elem.rows = prompt[1]
             prompt_elem.cols = prompt[2]
             prompt_elem.placeholder = prompt[0]
+            prompt_elem.style.width = `${prompt[2] * 30 / 32}%`
+            prompt_elem.style.height = `${prompt[1] * 28.5 / 10}%`
+            prompt_elem.style.position = "absolute"
             prompt_elem.style.position = "absolute"
             prompt_elem.style.marginLeft = "-29%"
             prompt_elem.style.marginTop = "-100%"
@@ -1190,9 +1200,25 @@ function setup() {
     document.body.appendChild(iframe)
 }
 
+function touchStarted(event) {
+    CanvSlider.onPressAll(event);
+    // CanvButton.onPressAll(event);
+}
+function touchEnded(event) {
+    CanvSlider.onReleaseAll(event);
+    // CanvButton.onReleaseAll(event);
+}
+function touchMoved(event) {
+    CanvSlider.onDraggedAll(event);
+}
+
 // EXPORTS
+function getFilename() {
+    return `My_Wheel_of_Life_${(new Date).toDateString()}`
+}
 function getExportGraphic(upscale_factor = 2) {
-    let gr = createGraphics(upscale_factor * width, upscale_factor * height)
+    let vmin = min(width, height)
+    let gr = createGraphics(upscale_factor * vmin, upscale_factor * vmin)
 
     let W = gr.width;
     let H = gr.height;
@@ -1208,78 +1234,179 @@ function getExportGraphic(upscale_factor = 2) {
     draw_WOF(false, gr)
     gr.pop()
 
-    gr.push()
-    gr.translate(H, 0)
-
-    gr.textSize(0.04285 * H);
-    gr.text(
-        "Your Wheel of Life",
-        (W - H) / 2,
-        H * 0.1,
-        (W - H) * 0.85
-    );
-
-    let lines = []
-    for (let pr of prompts) {
-        for (let i = 0; i < pr.elems.length; i++) {
-            let el = pr.elems[i]
-            let ans = pr.answers[i]
-
-            lines.push(
-                ...splitter(
-                    `${el.placeholder}:`,
-                    70
-                ).map(t => [t, { fontSize: 0.018 * H, color: color_scheme["text"] }]),
-                ...splitter(
-                    `${ans == undefined ? "No response" : ans}`,
-                    70
-                ).map(t => [t, { fontSize: 0.018 * H, color: color_scheme["text"], outline: color_scheme["text"], outline_width: .8 }]),
-                ["", { fontSize: 0.02 * H }]
-            )
-        }
-    }
-
-    let promptsH = 0.8
-    lines.forEach(l => l[1].fontSize = 0.6 * H * promptsH / lines.length)
-    hover_textbox(lines, (W - H) / 2, (0.1 + 0.05 + promptsH / 2) * H, { bg: "#0000" }, gr)
-
-    gr.pop()
-
-    gr.push();
-    if (pfp_dark) {
-        let pfpW = pfp_dark.width
-        let pfpH = pfp_dark.height
-        let pad = 0.015 * H
-        let targetW = 0.065 * W
-        let targetH = targetW * pfpH / pfpW
-        gr.image(pfp_dark, W - targetW - pad, pad, targetW, targetH)
-    }
-    gr.pop();
+    // gr.push();
+    // if (pfp_dark) {
+    //     let pfpW = pfp_dark.width
+    //     let pfpH = pfp_dark.height
+    //     let pad = 0.015 * H
+    //     let targetW = 0.065 * W
+    //     let targetH = targetW * pfpH / pfpW
+    //     gr.image(pfp_dark, W - targetW - pad, pad, targetW, targetH)
+    // }
+    // gr.pop();
 
     return gr;
 }
 function exportImg() {
-    getExportGraphic().save("export.png")
+    getExportGraphic().save(`${getFilename()}.png`)
 }
-function exportPDF() {
-    let gr = getExportGraphic(1.5)
+async function exportPDF(upscale_factor = 1) {
+    alertify.success("Exporting your results...")
+    await new Promise(r => setTimeout(r, 250));
 
-    let pdf = new jspdf.jsPDF({
-        orientation: "l",
-        unit: "px",
-        format: [gr.width, gr.height],
-        putOnlyUsedFonts: true
-    })
+    let pdf = null;
+    try {
+        let gr = getExportGraphic(upscale_factor)
+        let scdf = 1.5 // scale down factor
+        let mW = gr.width / (scdf * upscale_factor)
+        let mH = gr.height / (scdf * upscale_factor)
 
-    pdf.addImage(
-        gr.canvas.toDataURL(),
-        "png",
-        0, 0,
-        gr.width,
-        gr.height
+        pdf = new jspdf.jsPDF({
+            orientation: "portrait",
+            unit: "px",
+            format: [mW, mH + 40],
+            putOnlyUsedFonts: true
+        })
+
+        pdf.addFileToVFS('Poppins.ttf', jsPDF_poppins_normal_font);
+        pdf.addFont('Poppins.ttf', 'Poppins', 'normal');
+        pdf.setFont('Poppins');
+
+        pdf.setFillColor(color_scheme["bg"]);
+        pdf.rect(0, 0, mW, mH + 40, "F");
+
+        pdf.setTextColor(color_scheme["text"]);
+        pdf.setFontSize(30);
+        pdf.text("My Wheel of Life", mW / 2, 10, {
+            baseline: "top",
+            align: "center",
+        });
+
+        pdf.addImage(
+            gr.canvas.toDataURL(),
+            "png",
+            0, 40, mW, mH
+        )
+
+        pdf.addImage(
+            pfp_dark.canvas.toDataURL(),
+            "png",
+            mW - 30 - 5, 5, 30, 30
+        )
+
+        // Get page dimensions
+        let pageWidth = 0;
+        let pageHeight = 0;
+        const margin = 18; // Margin in mm
+        const lineSpacing = 1;
+        const headingFontSize = 20;
+        const bodyFontSize = 13;
+        let contentMaxWidth = () => { return pageWidth - 2 * margin }; // Maximum width for text content
+        let currentY = margin; // Start Y position for content
+
+        const addPage = () => {
+            // If the next line would exceed the page, start a new page
+            pdf.addPage("a4", "p");
+            currentY = margin; // Reset Y position for the new page
+            pdf.setFillColor(color_scheme["bg"]);
+
+            if (pageWidth == 0 || pageHeight == 0) {
+                pageWidth = pdf.internal.pageSize.getWidth()
+                pageHeight = pdf.internal.pageSize.getHeight()
+            }
+
+            pdf.rect(0, 0, pageWidth, pageHeight, "F");
+            pdf.setTextColor(color_scheme["text"]);
+        }
+
+        // Helper function to calculate text height based on content and font size
+        const calculateTextHeight = (pdfDoc, text, fontSize) => {
+            pdfDoc.setFontSize(fontSize);
+            const lines = pdfDoc.splitTextToSize(text, contentMaxWidth());
+            return lines.length * fontSize * lineSpacing; // Each line takes up `lineHeight` space
+        };
+
+        for (let pr of prompts) {
+            // Create a new page for each new 'pr' object
+            addPage()
+            currentY -= headingFontSize * 2 / 3 // Add a small gap after the heading
+
+            for (let i = 0; i < pr.elems.length; i++) {
+                console.log(pr, i)
+                const el = pr.elems[i];
+                let ans = pr.answers[i] || "No response";
+
+                // Calculate the height for the heading and the body text
+                const headingHeight = calculateTextHeight(pdf, el.placeholder, headingFontSize);
+                const bodyHeight = calculateTextHeight(pdf, ans, bodyFontSize);
+
+                // Check if there's enough space left for both heading and some body body text, else start a new page
+                if (currentY + headingHeight + 0.1 * bodyHeight + headingFontSize / 2 > pageHeight - margin) {
+                    addPage()
+                    currentY -= headingFontSize * 2 / 3 // Add a small gap after the heading
+                }
+
+                // Write the heading
+                pdf.setTextColor(color_scheme["text"]);
+                pdf.setFontSize(headingFontSize);
+                const headingLines = pdf.splitTextToSize(el.placeholder, contentMaxWidth());
+                currentY += headingFontSize * 2 / 3 // Add a small gap after the heading
+                pdf.text(headingLines, margin, currentY, {
+                    baseline: "top",
+                    align: "left",
+                });
+
+                // Update current Y position after heading
+                currentY += headingHeight; // Add a small gap after the heading
+
+                // Write the body text
+                pdf.setFontSize(bodyFontSize);
+                const bodyLines = pdf.splitTextToSize(ans, contentMaxWidth());
+
+                // Write each line of the body text and handle overflow
+                for (let line of bodyLines) {
+                    if (currentY + bodyFontSize * lineSpacing > pageHeight - margin) {
+                        // If the next line would exceed the page, start a new page
+                        addPage()
+                    }
+                    // Write the line of text
+                    pdf.text(line, margin, currentY, {
+                        baseline: "top",
+                        align: "left",
+                    });
+                    currentY += bodyFontSize * lineSpacing; // Move Y position for the next line
+                }
+
+                // Add some spacing after each answer before the next element
+                currentY += 10;
+            }
+        }
+
+    } catch (error) {
+        alertify.error("An error ocurred while exporting your data")
+    } finally {
+    }
+
+    return pdf
+}
+async function savePDF() {
+    (await exportPDF()).save(`${getFilename()}.pdf`)
+}
+async function emailPDF() {
+    let b64data = (await exportPDF(1)).output('datauristring').split(',')[1]
+    alertify.success(`Sending your results to ${formData.email}`)
+    const _alert = alertify.success(`Please wait...`, 1000)
+
+    let resp = await send_to_email(
+        formData.email,
+        `${getFilename()}.pdf`,
+        b64data
     )
 
-    pdf.save("export.pdf")
+    _alert.dismiss()
+    alertify.success(`All done!`)
+
+    return resp
 }
 function openHB() {
     document.querySelectorAll("body *").forEach(el => el.style.display = "none")
@@ -1619,8 +1746,9 @@ Once complete, a report will be generated based on your results along with ${pro
             for (let i = 0; i < prompt.elems.length; i++) {
                 prompt.elems[i].style.marginTop = `${canvScale * height * (0.30 + 0.15 * i)}px` // 18 - 45
                 prompt.elems[i].style.marginLeft = `${canvScale * width * 0.64}px`
-                prompt.elems[i].style.scale = `${canvScale}`
-                prompt.elems[i].style.transformOrigin = `0 0`
+                prompt.elems[i].style.fontSize = `${canvScale * 14}px`
+                // prompt.elems[i].style.scale = `${canvScale}`
+                // prompt.elems[i].style.transformOrigin = `0 0`
             }
 
             draw_next_btn(0.95 * W, 0.95 * H);
@@ -1648,22 +1776,25 @@ Once complete, a report will be generated based on your results along with ${pro
             textSize(26);
             text("Ready to take action?",
                 (W - H) / 2,
-                H * 0.58,
+                H * 0.68,
                 (W - H) * 0.85
             )
 
             textSize(18);
             text("Let's discuss your personalized results and turn your insights into an actionable roadmap",
                 (W - H) / 2,
-                H * 0.655,
+                H * 0.755,
                 (W - H) * 0.85
             )
 
             save_img_btn.position(H + (W - H) / 2, H * 0.33)
-            save_img_btn.unhide()
-            save_pdf_btn.position(H + (W - H) / 2, H * 0.43)
+            // save_img_btn.unhide()
+            // save_pdf_btn.position(H + (W - H) / 2, H * 0.43)
+            save_pdf_btn.position(H + (W - H) / 2, H * 0.29) // temporary
             save_pdf_btn.unhide()
-            finish_WOF_btn.position(H + (W - H) / 2, H * 0.74)
+            email_pdf_btn.position(H + (W - H) / 2, H * 0.53)
+            // email_pdf_btn.unhide()
+            finish_WOF_btn.position(H + (W - H) / 2, H * 0.84)
             finish_WOF_btn.unhide()
 
             pop()
@@ -1703,6 +1834,7 @@ Once complete, a report will be generated based on your results along with ${pro
 
 // Canvas scaling
 let canvScale = 1;
+let fontScale = 1;
 function mX() {
     return mouseX / canvScale;
 }
@@ -1715,6 +1847,7 @@ function windowResized() {
     let parentBB = canv.elt.parentElement.getBoundingClientRect()
 
     canvScale = parentBB.width / width
+    fontScale = 1 / 2 + 1 / (1 + canvScale)
     canv.elt.style.scale = `${canvScale}`
     canv.elt.style.transformOrigin = "0 0"
 }

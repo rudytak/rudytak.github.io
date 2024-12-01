@@ -11,9 +11,16 @@
     <script src="sketch.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js" integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" integrity="sha512-IXuoq1aFd2wXs4NqGskwX2Vb+I8UJ+tGJEu/Dc0zwLNKeQ7CW3Sr6v0yU3z5OQWe3eScVIkER4J9L7byrgR/fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/themes/bootstrap.css" integrity="sha512-eSjlj23qCNm7hmEQiXiJGCxLVT3weZ47TdIESCNFm8LwNDBtmRAbdDXwkKLLA5HPQIR1yl9JYO0wQG6gIPJoRQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="Poppins-Regular-normal.js"></script>
 </head>
 
 <body style="margin: 0px !important; overflow: hidden;">
+
     <div id="start_form" class="on_center">
 
         <label for="name">Name:</label><br>
@@ -304,14 +311,36 @@
 
     <div id="canvWrap" class="on_center" style="
         display: none; 
-        width: fit-content; 
+        width: fit-content;
         box-shadow: black 0 0 10px;
-        max-width: 90vw;
-        max-height: calc(9/16 * 90vw);">
+        aspect-ratio: 16/9 !important;
+        max-width: min(90vw, calc(16/9 * 90dvh));
+        max-height: min(90dvh, calc(9/16 * 90vw), 700px);">
         <div id="textareas" style="z-index: 10;"></div>
+        <div id="mobile_reminder_overlay" onclick="document.getElementById('mobile_reminder_overlay').style.opacity = '0'">
+            <p style="color: #fcfcfc; max-width: 80vw; margin: 35vh auto auto auto;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 40px; fill: #fcfcfc;">
+                    <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path d="M463.5 224l8.5 0c13.3 0 24-10.7 24-24l0-128c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8l119.5 0z" />
+                </svg>
+                <br>
+                Please turn your phone into landscape mode for the best viewing experience.
+
+                <br>
+                <br>
+                <small>Click anywhere to dismiss this screen.</small>
+            </p>
+        </div>
     </div>
 
+
     <script>
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                window.scrollTo(0, 1);
+            }, 1)
+        })
+
         setInterval(() => {
             let all_required_filled = true
             document.querySelectorAll("#start_form *[required]").forEach((el) => {
@@ -350,6 +379,10 @@
         let formData;
 
         function submit(event) {
+            setTimeout(() => {
+                window.scrollTo(0, 1);
+            }, 1)
+
             let startBtn = document.getElementById("startBtn")
             if (startBtn.classList.contains("unready")) {
                 return
@@ -365,6 +398,22 @@
     </script>
 
     <style>
+        #mobile_reminder_overlay {
+            display: block;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            background-color: #000000bf;
+            position: fixed;
+            top: calc(50% - 50dvh);
+            left: calc(50% - 50vw);
+            width: 100vw;
+            height: 100dvh;
+            z-index: 100;
+            text-align: center;
+            vertical-align: middle;
+        }
+
         .on_center {
             position: fixed;
             top: 50%;
@@ -404,10 +453,16 @@
         /* Form container styling */
         form {
             background-color: #fff;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            /* Adjusts the form to fit within smaller screens */
+            max-width: 400px;
+            /* Limits the size on larger devices */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
         }
 
         label {
@@ -462,7 +517,86 @@
             pointer-events: hover;
             cursor: not-allowed !important;
         }
+
+        /* Ensure form remains centered on landscape mode */
+
+        @media ((orientation: landscape) and (max-height: 500px)) or (max-width: 768px) {
+
+            #start_form,
+            #start_form {
+                font-size: 14px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="date"],
+            select,
+            input[type="button"] {
+                padding: 4px;
+                margin: 4px 0;
+            }
+        }
+
+        @media ((orientation: portrait) and (max-width: 567px)) {
+            #mobile_reminder_overlay {
+                opacity: 1;
+                pointer-events: all;
+            }
+        }
     </style>
+
+    <!-- <style>
+        #start_form label {
+            width: 100%;
+            text-align: left;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        #start_form input,
+        #start_form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        #start_form input[type="button"] {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        #start_form input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Ensure form remains centered on landscape mode */
+        @media (orientation: landscape) and (max-height: 500px) {
+            #start_form {
+                width: 100%;
+                max-width: 90%;
+                /* Reduces the form size further for landscape view */
+            }
+        }
+
+        /* Further scaling for smaller devices */
+        @media (max-width: 768px) {
+            #start_form {
+                padding: 10px;
+            }
+
+            #start_form input,
+            #start_form select {
+                font-size: 12px;
+            }
+        }
+    </style> -->
+
 </body>
 
 </html>
