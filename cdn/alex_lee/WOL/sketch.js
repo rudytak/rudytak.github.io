@@ -1189,15 +1189,15 @@ function setup() {
         }
     }
 
-    // create the booking iframe
-    let iframe = document.createElement("iframe")
-    iframe.id = "booking_ifr"
-    iframe.setAttribute("src", booking_link)
-    iframe.style.width = "100%"
-    iframe.style.height = "100vh"
-    iframe.style.display = "none";
-    iframe.style.border = "none";
-    document.body.appendChild(iframe)
+    // // create the booking iframe
+    // let iframe = document.createElement("iframe")
+    // iframe.id = "booking_ifr"
+    // iframe.setAttribute("src", booking_link)
+    // iframe.style.width = "100%"
+    // iframe.style.height = "100vh"
+    // iframe.style.display = "none";
+    // iframe.style.border = "none";
+    // document.body.appendChild(iframe)
 }
 
 function touchStarted(event) {
@@ -1409,8 +1409,9 @@ async function emailPDF() {
     return resp
 }
 function openHB() {
-    document.querySelectorAll("body *").forEach(el => el.style.display = "none")
-    document.getElementById("booking_ifr").style.display = "block"
+    // document.querySelectorAll("body *").forEach(el => el.style.display = "none")
+    // document.getElementById("booking_ifr").style.display = "block"
+    window.open(booking_link, "_blank")
 }
 
 // HELPERS
