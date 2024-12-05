@@ -1690,7 +1690,7 @@ Complete this process for all 8 Pillars of Life`,
             textSize(20);
             text(
                 `
-Once complete, a report will be generated based on your results along with ${prompts.length} # of prompts
+Once complete, a report will be generated based on your results along with ${prompts.length} prompts
 `,
                 W * 0.8,
                 H * 0.5,
