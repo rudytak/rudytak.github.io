@@ -1850,7 +1850,7 @@ function windowResized() {
     canvScale = parentBB.width / width
     fontScale = 1 / 2 + 1 / (1 + canvScale)
     canv.elt.style.scale = `${canvScale}`
-    canv.elt.style.transformOrigin = "0 0"
+    canv.elt.style.transformOrigin = "0px 0px"
 }
 
 // SERVER SAVING

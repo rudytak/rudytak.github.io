@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin page</title>
+</head>
+
+<body>
+    <input id="email" type="text" placeholder="User email">
+    <input id="pass" type="text" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <br>
+    <button onclick="getData()">Get data</button>
+    <div id="data">
+
+    </div>
+
+    <script>
+        const WORKER_URL = "https://plugframe.rudytak.workers.dev"
+
+        async function login() {
+            let email = document.getElementById("email").value;
+            let pass = document.getElementById("pass").value;
+
+            let res = await fetch(`${WORKER_URL}/user/login`, {
+                method: "POST",
+                body: JSON.stringify({
+                    email: email,
+                    password: pass
+                })
+            })
+            let jsn = await res.json()
+
+            if (jsn.jwt  == undefined){
+                alert("Login unsuccessful")
+            }
+
+            localStorage.setItem("plugframe_JWT", jsn.jwt)
+            alert("Login successful")
+        }
+
+        async function getData() {
+            let jwt = localStorage.getItem("plugframe_JWT");
+
+            if(jwt == null){
+                alert("You are not logged in correctly")
+            }
+
+            let res = await fetch(`${WORKER_URL}/data/collected`, {
+                method: "GET",
+                headers: new Headers({
+                    'authorization': 'Bearer ' + jwt,
+                }),
+            })
+            let jsn = await res.json()
+            console.log(jsn)
+
+            const titles = [
+                "Career and Profession",
+                "Family and Parenting",
+                "Personal Development",
+                "Spiritual Awareness",
+                "Fun and Enjoyment",
+                "Intimate and Social",
+                "Health and Aging",
+                "Personal Finance",
+            ];
+            document.getElementById("data").innerHTML = `
+                ${jsn.data.map(entry=>{
+                    let data_json = JSON.parse(entry.data_json);
+                    let plugin_data_json = JSON.parse(entry.plugin_data_json);
+                    console.log(plugin_data_json)
+                    return `
+                        <b>${data_json.name}, ${data_json.email}</b> <br>
+                        ${
+                            titles.map((title, id)=> {
+                                return `${title}: ${plugin_data_json.pillars[id]["Your overall rating"]}`
+                            }).join("<br>")
+                        }
+                    `
+                }).join("<br><br>")}
+            `
+        }
+    </script>
+</body>
+
+</html>
