@@ -44,6 +44,10 @@ class Line {
     #StartTime = -1.0;
     #EndTime = 1e6;
 
+    get is_active(){
+        return !(this.#StartTime == this.#EndTime && this.#StartTime == -1)
+    }
+
     constructor(TextDef) {
         this.DOM_element = document.createElement("div");
         this.DOM_element.classList.add("line")
@@ -314,9 +318,8 @@ class Page {
 
     // Timings
     gen_auto_timings() {
-        let min_t = Math.min(...this.lines.map(l => l.StartTime))
-        let max_t = Math.max(...this.lines.map(l => l.EndTime))
-        console.log(min_t, max_t)
+        let min_t = Math.min(...this.lines.filter(l => l.is_active).map(l => l.StartTime))
+        let max_t = Math.max(...this.lines.filter(l => l.is_active).map(l => l.EndTime))
 
         this.StartTime = min_t - this.RampUpTime;
         this.EndTime = max_t + this.RampDownTime;
@@ -547,6 +550,8 @@ class XML_Lyrics_Handler {
             this.current_line.Voice = 0;
             this.current_line.StartTime = -1;
             this.current_line.EndTime = -1;
+
+            this.cursor_to(this.cursor_line_id + 1);
         }
 
         // key check
@@ -570,8 +575,6 @@ class XML_Lyrics_Handler {
 
         this.current_line.StartTime = this.voice_assign_start[key];
         this.current_line.Voice = XML_Lyrics_Handler.VOICE_TRIGGERS.indexOf(key)
-
-        console.log(this.current_line.Voice)
     }
 
     key_end_hold_callback(key) {
