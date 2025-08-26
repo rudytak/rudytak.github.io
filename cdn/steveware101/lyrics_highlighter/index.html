@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrics Highlighter</title>
+
+    <script src="./main.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+
+<body>
+    <script>
+        const sketch = (p) => {
+            let line = "Hello world this is timed";
+            let points = [];
+            let dragging = null;
+            let font;
+
+            const marginBottom = 60;
+            const minY = 20; // top constraint
+            const maxY = 250; // bottom constraint
+            let min_t = 0;
+            let max_t = 0;
+
+            p.preload = () => {
+                font = p.loadFont("https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Regular.otf");
+            };
+
+            p.setup = () => {
+                const cnv = p.createCanvas(800, 300);
+                cnv.parent("highlight_canvas_wrapper");
+                p.textFont(font);
+                p.textSize(20);
+
+                setLine(line, []); // initialize with default timings
+            };
+
+            function setLine(newLine, timings, start_t = 0, end_t = 0) {
+                line = newLine;
+                points = [];
+                p.textSize(20);
+
+                let totalWidth = p.textWidth(line);
+                p.resizeCanvas(p.max(totalWidth + 80, window.innerWidth / 2), p.height)
+                let startX = (p.width - totalWidth) / 2;
+
+                if (timings.length == 0) return
+
+                min_t = start_t;
+                max_t = end_t;
+
+                for (let tim of timings) {
+                    let char = line[tim.c];
+                    let charWidth = p.textWidth(char);
+
+                    let x = startX + 2 * p.textWidth(line.substring(0, tim.c));
+                    let y = p.map(tim.t, min_t, max_t, maxY, minY);
+
+                    points.push({ x, y, c: tim.c, type: tim.type });
+                }
+            }
+
+            p.draw = () => {
+                p.background(240);
+
+                // Draw characters
+                p.noStroke();
+                p.textSize(20);
+                p.fill(0);
+                let totalWidth = p.textWidth(line);
+                let startX = (p.width - totalWidth) / 2;
+                for (let i = 0; i < line.length; i++) {
+                    let char = line[i];
+                    let charWidth = p.textWidth(char);
+
+                    let x = startX + p.textWidth(line.substring(0, i));
+                    p.text(char, x, maxY + 35)
+                }
+
+                // Draw baseline
+                p.stroke(200);
+                p.line(0, maxY, p.width, maxY);
+                p.line(0, minY, p.width, minY);
+
+                p.textSize(10);
+                p.text(max_t.toFixed(2), 5, minY - 5)
+                p.text(min_t.toFixed(2), 5, maxY + 10 + 5)
+
+                // Draw timing line
+                p.stroke(0);
+                p.noFill();
+                p.beginShape();
+                for (let pt of points) {
+                    p.vertex(pt.x, pt.y);
+                }
+                p.endShape();
+
+                // Draw draggable points
+                for (let pt of points) {
+                    p.fill(100, 150, 255);
+                    p.noStroke();
+                    p.circle(pt.x, pt.y, 10);
+                }
+            };
+
+            p.mousePressed = () => {
+                for (let i = 0; i < points.length; i++) {
+                    let pt = points[i];
+                    if (p.dist(p.mouseX, p.mouseY, pt.x, pt.y) < 10) {
+                        dragging = i;
+                        break;
+                    }
+                }
+            };
+
+            p.mouseDragged = () => {
+                if (dragging !== null) {
+                    let prevY = dragging > 0 ? points[dragging - 1].y : maxY;
+                    let nextY = dragging < points.length - 1 ? points[dragging + 1].y : minY;
+
+                    points[dragging].y = -p.constrain(-p.mouseY, -prevY, -nextY);
+                }
+            };
+
+            p.mouseReleased = () => {
+                dragging = null;
+            };
+
+            // Export current timings normalized [0,1]
+            p.getTimings = () => {
+                return points.map(pt => ({ c: pt.c, t: p.map(pt.y, maxY, minY, min_t, max_t), type: pt.type }));
+            };
+
+            // Allow external update
+            p.setLine = setLine;
+        };
+
+        let editor = new p5(sketch);
+    </script>
+
+    <div style="position: sticky; top: 0; height: 0px; z-index: 100;">
+        <div id="editorOverlay" class="hidden">
+            <div id="editorOverlayPage1">
+                <button onclick="
+                    document.getElementById('editorOverlayPage1').classList.add('hidden'); 
+                    document.getElementById('editorOverlayPage2').classList.remove('hidden');
+                    document.getElementById('editLineText').value = LH.current_line.Text;
+                ">
+                    Edit line
+                </button>
+
+                <button onclick="
+                    document.getElementById('editorOverlayPage1').classList.add('hidden'); 
+                    document.getElementById('editorOverlayPage3').classList.remove('hidden');
+                    editor.setLine(LH.current_line.Text, LH.current_line.highligh_timings, LH.current_line.StartTime, LH.current_line.EndTime);
+                ">
+                    Highlight timings
+                </button>
+
+                <button onclick="LH.close_overlay()">Back</button>
+            </div>
+
+            <div id="editorOverlayPage2" class="hidden">
+                <!-- Edit page -->
+                <input type="text" id="editLineText" placeholder="New line text" style="width: 25vw;">
+
+                <button onclick="
+                    LH.close_overlay(); 
+                    LH.current_line.Text = document.getElementById('editLineText').value;
+                ">Back</button>
+            </div>
+
+            <div id="editorOverlayPage3" class="hidden">
+                <!-- Highlights page -->
+                <div id="highlight_canvas_wrapper">
+                </div>
+
+                <button onclick="
+                    LH.close_overlay()
+                    LH.current_line.highligh_timings = editor.getTimings();
+                ">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="meta_header" style="display: flex; flex-direction: row; padding: 1rem;">
+        <div>
+            <h2>Files</h2>
+            <h5>Audio file</h5>
+            <input type="file" accept="audio/*" id="files_Audio" autocomplete="on"> <br>
+            <h5>Lyrics file (.txt only)</h5>
+            <input type="file" accept=".txt" id="files_Lyrics" autocomplete="on">
+        </div>
+
+        <div>
+            <h2>Metadata</h2>
+            <input type="text" id="meta_Artist" placeholder="Artist"> <br>
+            <input type="text" id="meta_Copyright" placeholder="Copyright"> <br>
+            <input type="text" id="meta_Format" placeholder="Format"> <br>
+            <input type="text" id="meta_Genre" placeholder="Genre"> <br>
+            <input type="text" id="meta_Label" placeholder="Label"> <br>
+            <input type="text" id="meta_Title" placeholder="Title"> <br>
+            <input type="text" id="meta_Writers" placeholder="Writers"> <br>
+        </div>
+
+        <div>
+            <h2>Voices</h2>
+            <table id="voices_table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                        <th>Trigger Key</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>Spoken</td>
+                        <td></td>
+                        <td>A</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="voices_add">+</button>
+        </div>
+    </div>
+
+
+    <div style="padding: 0 3rem;">
+        <h2>Editor</h2>
+
+        <audio controls style="width: 100%;">
+            Your browser does not support the audio element.
+        </audio>
+
+        <select name="" autocomplete="off" id="audio_speed">
+            <option value="0.25">25%</option>
+            <option value="0.50">50%</option>
+            <option value="0.75">75%</option>
+            <option value="1.00" selected>100%</option>
+            <option value="1.50">150%</option>
+            <option value="2.00">200%</option>
+        </select>
+
+        <br>
+        <br>
+
+        <main>
+
+        </main>
+
+        <button onclick="LH.download_XML()">
+            Export XML
+        </button>
+
+        <br>
+        <br>
+    </div>
+
+    <style>
+        *{
+            font-family: "Roboto Mono";
+            color: rgb(230, 230, 230);
+        }
+
+        input[type=file]{
+            max-width: 25vw;
+        }
+
+        input, button, select{
+            background-color: #2a2a2a;
+            margin: 0.1rem;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+
+            background-color: rgb(104, 104, 104);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+            margin: auto;
+        }
+
+        main .page {
+            display: flex;
+
+            color: rgb(230, 230, 230);
+
+            background-color: #2a2a2a;
+            padding: .75rem 2.75rem .75rem 1.75rem;
+            border-radius: .75rem;
+            margin-bottom: .75rem;
+
+            flex-direction: column;
+        }
+
+        main .cursor {
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            margin-left: calc((1.75rem - 1rem) / 2 + 1px);
+            margin-top: calc(.75rem + (1rem - 1rem) / 2 + 2px);
+
+            /* FA Caret Right */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3C!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--%3E%3Cpath fill='%23ffffff' d='M224.5 160C224.5 147.1 232.3 135.4 244.3 130.4C256.3 125.4 270 128.2 279.1 137.4L439.1 297.4C451.6 309.9 451.6 330.2 439.1 342.7L279.1 502.7C269.9 511.9 256.2 514.6 244.2 509.6C232.2 504.6 224.5 492.9 224.5 480L224.5 160z'/%3E%3C/svg%3E");
+
+            transition: transform 0.25s ease-in-out;
+        }
+
+        .line::after {
+            content: attr(start_time) "\A" attr(end_time);
+            white-space: pre;
+            position: absolute;
+
+            font-size: 0.5rem;
+            padding-left: 1rem;
+
+            color: var(--col);
+        }
+
+        #editorOverlay {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(71, 71, 71, 0.75);
+            pointer-events: all;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #editorOverlay div {
+            display: flex;
+            width: fit-content;
+            margin: .5rem auto;
+            flex-direction: column;
+        }
+
+        #editorOverlay div * {
+            width: fit-content;
+            margin: .5rem auto;
+            flex-direction: column;
+        }
+
+        .hidden {
+            display: none !important;
+            pointer-events: none;
+        }
+
+        #meta_header div {
+            flex-grow: 1;
+            width: fit-content;
+            padding: 1rem;
+            overflow: hidden;
+        }
+    </style>
+
+    <script>
+        const LH = new XML_Lyrics_Handler();
+    </script>
+
+</body>
+
+</html>

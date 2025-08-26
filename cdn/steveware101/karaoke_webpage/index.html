@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karaoke</title>
+
+    <style>
+        @font-face {
+            font-family: Baloo;
+            src: url(./fonts/baloo.regular.ttf);
+        }
+
+        body {
+            margin: 0px;
+            overflow: hidden;
+            font-family: Baloo;
+        }
+
+        main {
+            overflow: hidden;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            background-color: #333;
+            color: white;
+        }
+
+        .audio-controls,
+        .mic-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        #audio-play, #audio-pause{
+            margin: 0% 47%
+        }
+
+        .audio-controls{
+            flex-wrap: wrap;
+        }
+
+        .mic-controls {
+            flex-wrap: wrap;
+            width: 160px;
+            position: absolute;
+            bottom: 2%;
+            left: 2%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"
+        integrity="sha512-3RlxD1bW34eFKPwj9gUXEWtdSMC59QqIqHnD8O/NoTwSJhgxRizdcFVQhUMFyTp5RwLTDL0Lbcqtl8b7bFAzog=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"
+        integrity="sha512-WzkwpdWEMAY/W8WvP9KS2/VI6zkgejR4/KTxTl4qHx0utqeyVE0JY+S1DlMuxDChC7x0oXtk/ESji6a0lP/Tdg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="sketch.js"></script>
+
+    <div class="topbar">
+        <div class="audio-controls">
+            <button class="play-pause-button" id="audio-play" onclick="toggle_play()"><i
+                    class="fa fa-play"></i></button>
+            <button class="play-pause-button" id="audio-pause" onclick="toggle_play()" style="display: none;"><i
+                    class="fa fa-pause"></i></button>
+
+            Volume:
+            <input id="audio-volume" type="range" min="0" max="1" step="0.01" value="1" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="mic-controls">
+        Record &nbsp;
+        <button class="recording-pause-button" id="recording-play" onclick="toggle_recording()"><i
+                class="fa fa-play"></i></button>
+        <button class="recording-pause-button" id="recording-pause" onclick="toggle_recording()"
+            style="display: none;"><i class="fa fa-pause"></i></button>
+
+        Reverb dry/wet:
+        <input id="mic-reverb-drywet" type="range" min="0" max="1" step="0.01" value="0.1" autocomplete="off">
+        Reverb intensity:
+        <input id="mic-reverb-int" type="range" min="0" max="1" step="0.01" value="0.5" autocomplete="off">
+        Mic volume:
+        <input id="mic-volume" type="range" min="0" max="1" step="0.01" value="0.5" autocomplete="off">
+    </div>
+
+    </div>
+</body>
+
+</html>

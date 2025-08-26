@@ -1,0 +1,4 @@
+syncedlyrics
+pytube
+moviepy
+textwrap

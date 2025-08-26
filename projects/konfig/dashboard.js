@@ -2168,6 +2168,7 @@ async function autoLogin() {
         }
     }
 
+    return;
     logout();
 }
 

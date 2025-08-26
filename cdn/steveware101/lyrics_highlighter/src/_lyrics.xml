@@ -1,0 +1,1436 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+<Karaoke xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Artist></Artist>
+  <Copyright></Copyright>
+  <Format></Format>
+  <Genre></Genre>
+  <Label></Label>
+  <Title></Title>
+  <Writers></Writers>
+
+  <Pages>
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Well this car is automatic, systematic, hydromatic</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Why it's greased lightnin'!</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Grease-eee greased lightnin'!</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Grease-eee greased lightnin'!</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Grease-eee greased lightnin'!</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Greased lightnin'!</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>I got chills</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>They're multiplyin'</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>And I'm losin' control</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Cause the power</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>You're supplyin'</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>It's electrifyin'!</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Sandy]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>You better shape up</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Cause I need a man</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>And my heart is set on you</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>You better shape up</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>You better understand</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>To my heart I must be true</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Nothin' left, nothin' left for me to do</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Both]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>You're the one that I want</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>o ,o ,oo , honey</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>The one that I want</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>o ,o ,oo , honey</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>The one that I want</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>o ,o , ooooo</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>The one I need</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Oh, yes indeed</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Why it's greased lightnin'!</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>(Greased lightnin'!)</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny/Guys]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>We'll get some overhead lifters, and some four barrel quads, oh yeah</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Keep talkin', whoah keep talkin'</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Fuel injection cut off, and chrome plated rods, oh yeah</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>I'll get the money, I'll kill to get the money</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>With a four-speed on the floor, they'll be waitin' at the door</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>You know that I ain't braggin', she's a real pussy wagon-greased lightnin'</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Chorus: Danny/Guys]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Go, greased lightnin', you're burnin' up the quarter mile</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Greased lightnin', go greased lightnin'</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Go, greased lightnin', you're coastin' through the heat lap trials</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Greased lightnin', go greased lightnin'</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>You are supreme, the chicks'll cream for greased lightnin'</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny/Guys]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>We'll get some purple French tail lights and thirty-inch fins, oh yeah</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>A palomino dashboard and duel muffler twins, oh yeah</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>With new pistons, plugs, and shocks, I can get off my rocks</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>You know that I ain't braggin', she's a real pussy wagon - greased lightnin</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Summer lovin', had me a blast</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Sandy]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Summer lovin', happened so fast</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>I met a girl crazy for me</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Sandy]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Met a boy cute as can be</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Both]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Summer days drifting away, to uh-oh those summer nights</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[All]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>O well-a well-a well-a huh</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Guys/Thunderbirds]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Tell me more, tell me more</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Guys/Doody]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Did you get very far?</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Girls/Pink Ladies]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Tell me more, tell me more</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Girls/Marty]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Like does he have a car?</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>She swam by me, she got a cramp</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Sandy]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>He ran by me, got my suit damp</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>I saved her life, she nearly drowned</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Sandy]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>He showed off, splashing around</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Both]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Summer sun, something's begun, but uh-oh those summer nights</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Girls/Pink Ladies]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Tell me more, tell me more</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Girls/Frenchy]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Was it love at first sight?</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Guys/Thunderbirds]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Tell me more, tell me more</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Guys/Kenickie]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Did she put up a fight?</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Sandy]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>It turned colder - that's where it ends</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>So I told her we'd still be friends</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Sandy]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Then we made our true love vow</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Danny]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Wonder what she's doing now</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+
+    <Page>
+      <Type>Lyrics</Type>
+      <StartTime>-1.5</StartTime>
+      <PresentTime>-1</PresentTime>
+      <ClearTime>1000000</ClearTime>
+      <EndTime>1000000</EndTime>
+
+      <Paragraphs>
+        <Block xsi:type="TextBlock">
+          <Lines>
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>[Both]</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>Summer dreams ripped at the seams</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+
+            <Line>
+              <Voice>0</Voice>
+              <Text>But, oh those summer nights (tell me more, tell me more, more)</Text>
+              <Highlights>
+
+              </Highlights>
+            </Line>
+
+          </Lines>
+        </Block>
+      </Paragraphs>
+    </Page>
+
+  </Pages>
+</Karaoke>
+        
