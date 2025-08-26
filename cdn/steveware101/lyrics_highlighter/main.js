@@ -380,6 +380,7 @@ class XML_Lyrics_Handler {
         this.cursor = document.createElement("div")
         this.cursor_line_id = 0;
         this.cursor.classList.add("cursor")
+        this.cursor.style.display = "none";
         this.DOM_element.appendChild(this.cursor)
 
         this.pages = []
@@ -608,6 +609,8 @@ class XML_Lyrics_Handler {
         if (!file) return;
         if (!file.name.endsWith(".txt")) return;
 
+        this.cursor.style.display = "block";
+
         this.lyrics_text = await file.text(); // works for txt and rtf
         this.parse_lyrics(this.lyrics_text)
     }
@@ -727,6 +730,37 @@ class XML_Lyrics_Handler {
             p.gen_auto_timings();
         }
 
+        // Start and end timings
+        if (this.pages[0].StartTime < 10) {
+            alert("First page must start at least 10s after the start of the song!")
+            return
+        }
+
+        if (this.pages[this.pages.length - 1].EndTime > this.player.duration - 10) {
+            alert("First last page must end at least 10s before the end of the song!")
+            return
+        }
+
+        // Line checks
+        for(let line of this.all_lines){
+            // ignored lines are okay
+            if (line.StartTime == line.EndTime && line.EndTime == -1) continue; 
+
+            // non-ignored lines that have not been filled are not okay
+            if (line.StartTime == -1 || line.EndTime == 1e6){
+                alert(`The line "${line.Text}" has not been correctly assigned!`)
+                return
+            }
+        }
+
+        // Page checks
+        for(var i = 0; i < this.pages.length - 1; i++) {
+            if (this.pages[i].EndTime > this.pages[i+1].StartTime){
+                alert(`The pages ${i} and ${i+1} are overlapping in time and should be more spread out!`)
+                return
+            }
+        }
+
         return `<?xml version="1.0" encoding="iso-8859-15"?> 
             <Karaoke xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                 <Artist>${document.getElementById("meta_Artist").value}</Artist>
@@ -738,7 +772,50 @@ class XML_Lyrics_Handler {
                 <Writers>${document.getElementById("meta_Writers").value}</Writers>
 
                 <Pages>
+                    <Page>
+                        <ClearTime>5.5</ClearTime>
+                        <PresentTime>3.5</PresentTime>
+                        <StartTime>0.5</StartTime>
+                        <EndTime>5.5</EndTime>
+                        <Paragraphs />
+                        <Type>Title</Type>
+                    </Page>
+                    <Page>
+                        <ClearTime>9</ClearTime>
+                        <PresentTime>7</PresentTime>
+                        <StartTime>6</StartTime>
+                        <EndTime>9</EndTime>
+                        <Paragraphs>
+                            <Block xsi:type="TextBlock">
+                            <Lines>
+                                ${
+                                    this.active_voices.map(
+                                        (text, id) => {
+                                            return `
+                                                <Line>
+                                                <Text>${text}</Text>
+                                                <Voice>${id}</Voice>
+                                                </Line>
+                                            `
+                                        }
+                                    )
+                                }
+                            </Lines>
+                            </Block>
+                        </Paragraphs>
+                        <Type>Instruction</Type>
+                    </Page>
+                    
                     ${this.pages.map(p => p.toXML()).join("\n")}
+
+                    <Page>
+                        <ClearTime>${LH.player.duration}</ClearTime>
+                        <PresentTime>${LH.player.duration - 7}</PresentTime>
+                        <StartTime>${LH.player.duration - 10}</StartTime>
+                        <EndTime>${LH.player.duration}</EndTime>
+                        <Paragraphs />
+                        <Type>Title</Type>
+                    </Page>
                 </Pages>
             </Karaoke>
         `
@@ -746,6 +823,8 @@ class XML_Lyrics_Handler {
 
     download_XML(data, filename, type = 'text/plain') {
         data = this.toXML()
+        if (data == undefined) return;
+
         filename = document.getElementById("meta_Title").value + "_lyrics.xml"
 
         var file = new Blob([data], { type: type });
