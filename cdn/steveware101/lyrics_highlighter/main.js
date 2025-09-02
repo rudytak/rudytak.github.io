@@ -44,7 +44,7 @@ class Line {
     #StartTime = -1.0;
     #EndTime = 1e6;
 
-    get is_active(){
+    get is_active() {
         return !(this.#StartTime == this.#EndTime && this.#StartTime == -1)
     }
 
@@ -56,7 +56,7 @@ class Line {
 
         // Dispatch click events to the handler
         this.DOM_element.addEventListener("click", (ev) => {
-            document.dispatchEvent(new CustomEvent("line_click"))
+            document.dispatchEvent(new CustomEvent("line_click", {detail: {target_line: this}}))
         })
 
         this.Text = TextDef;
@@ -203,7 +203,7 @@ class Line {
 class Page {
     // Private fields
     #StartTime = -1.0;
-    #RampUpTime = 0.5;
+    #RampUpTime = 0.0;
     #RampDownTime = 0.0;
     #EndTime = 1e6;
     #Type = "Lyrics" // Title/Instructions/Lyrics
@@ -411,7 +411,9 @@ class XML_Lyrics_Handler {
         })
 
         // Line events
-        document.addEventListener("line_click", this.handle_line_click.bind(this))
+        document.addEventListener("line_click",
+            this.handle_line_click.bind(this)
+        )
 
         // Voices
         document.getElementById("voices_add").addEventListener("click", this.add_voice.bind(this));
@@ -686,7 +688,7 @@ class XML_Lyrics_Handler {
     }
 
     handle_line_click(ev) {
-        let line = this.all_lines.filter(el => el.DOM_element == ev.explicitOriginalTarget)
+        let line = this.all_lines.filter(el => el.DOM_element == ev.detail.target_line.DOM_element)
         if (line.length != 1)
             return
 
@@ -734,32 +736,32 @@ class XML_Lyrics_Handler {
         }
 
         // Start and end timings
-        if (this.pages[0].StartTime < 10) {
-            alert("First page must start at least 10s after the start of the song!")
+        if (this.pages[0].StartTime < 5) {
+            alert("First page must start at least 5s after the start of the song!")
             return
         }
 
-        if (this.pages[this.pages.length - 1].EndTime > this.player.duration - 10) {
-            alert("First last page must end at least 10s before the end of the song!")
+        if (this.pages[this.pages.length - 1].EndTime > this.player.duration - 0) {
+            alert("Last page must end before the end of the song!")
             return
         }
 
         // Line checks
-        for(let line of this.all_lines){
+        for (let line of this.all_lines) {
             // ignored lines are okay
-            if (line.StartTime == line.EndTime && line.EndTime == -1) continue; 
+            if (line.StartTime == line.EndTime && line.EndTime == -1) continue;
 
             // non-ignored lines that have not been filled are not okay
-            if (line.StartTime == -1 || line.EndTime == 1e6){
+            if (line.StartTime == -1 || line.EndTime == 1e6) {
                 alert(`The line "${line.Text}" has not been correctly assigned!`)
                 return
             }
         }
 
         // Page checks
-        for(var i = 0; i < this.pages.length - 1; i++) {
-            if (this.pages[i].EndTime > this.pages[i+1].StartTime){
-                alert(`The pages ${i} and ${i+1} are overlapping in time and should be more spread out!`)
+        for (var i = 0; i < this.pages.length - 1; i++) {
+            if (this.pages[i].EndTime > this.pages[i + 1].StartTime) {
+                alert(`The pages ${i} and ${i + 1} are overlapping in time and should be more spread out!`)
                 return
             }
         }
@@ -776,33 +778,32 @@ class XML_Lyrics_Handler {
 
                 <Pages>
                     <Page>
-                        <ClearTime>5.5</ClearTime>
-                        <PresentTime>3.5</PresentTime>
+                        <ClearTime>2.25</ClearTime>
+                        <PresentTime>0.5</PresentTime>
                         <StartTime>0.5</StartTime>
-                        <EndTime>5.5</EndTime>
+                        <EndTime>2.25</EndTime>
                         <Paragraphs />
                         <Type>Title</Type>
                     </Page>
                     <Page>
-                        <ClearTime>9</ClearTime>
-                        <PresentTime>7</PresentTime>
-                        <StartTime>6</StartTime>
-                        <EndTime>9</EndTime>
+                        <ClearTime>5</ClearTime>
+                        <PresentTime>2.5</PresentTime>
+                        <StartTime>2.5</StartTime>
+                        <EndTime>5</EndTime>
                         <Paragraphs>
                             <Block xsi:type="TextBlock">
                             <Lines>
-                                ${
-                                    this.active_voices.map(
-                                        (text, id) => {
-                                            return `
+                                ${this.active_voices.map(
+            (text, id) => {
+                return `
                                                 <Line>
                                                 <Text>${text}</Text>
                                                 <Voice>${id}</Voice>
                                                 </Line>
                                             `
-                                        }
-                                    )
-                                }
+            }
+        )
+            }
                             </Lines>
                             </Block>
                         </Paragraphs>
@@ -811,14 +812,18 @@ class XML_Lyrics_Handler {
                     
                     ${this.pages.map(p => p.toXML()).join("\n")}
 
-                    <Page>
-                        <ClearTime>${LH.player.duration}</ClearTime>
-                        <PresentTime>${LH.player.duration - 7}</PresentTime>
-                        <StartTime>${LH.player.duration - 10}</StartTime>
-                        <EndTime>${LH.player.duration}</EndTime>
-                        <Paragraphs />
-                        <Type>Title</Type>
-                    </Page>
+                    ${
+                    // // END TITLE/CREDITS
+                    // <Page>
+                    //     <ClearTime>${LH.player.duration}</ClearTime>
+                    //     <PresentTime>${LH.player.duration - 7}</PresentTime>
+                    //     <StartTime>${LH.player.duration - 10}</StartTime>
+                    //     <EndTime>${LH.player.duration}</EndTime>
+                    //     <Paragraphs />
+                    //     <Type>Title</Type>
+                    // </Page>
+                    ""
+                    }
                 </Pages>
             </Karaoke>
         `

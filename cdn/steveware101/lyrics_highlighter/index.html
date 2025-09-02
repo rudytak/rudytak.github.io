@@ -30,7 +30,7 @@
 
             const marginBottom = 60;
             const minY = 20; // top constraint
-            const maxY = 250; // bottom constraint
+            const maxY = 220; // bottom constraint
             let min_t = 0;
             let max_t = 0;
 
@@ -55,6 +55,7 @@
                 let totalWidth = p.textWidth(line);
                 p.resizeCanvas(p.max(totalWidth + 80, window.innerWidth / 2), p.height)
                 let startX = (p.width - totalWidth) / 2;
+                let endX = (p.width + totalWidth) / 2;
 
                 if (timings.length == 0) return
 
@@ -65,7 +66,10 @@
                     let char = line[tim.c];
                     let charWidth = p.textWidth(char);
 
-                    let x = startX + 2 * p.textWidth(line.substring(0, tim.c));
+                    let k = (tim.c) / line.length
+                    // let k = p.textWidth(line.substring(0, tim.c)) / totalWidth
+                    // console.log(line.substring(0, tim.c), "/", line, k)
+                    let x = startX * (1-k) + k * endX;
                     let y = p.map(tim.t, min_t, max_t, maxY, minY);
 
                     points.push({ x, y, c: tim.c, type: tim.type });
@@ -74,6 +78,7 @@
 
             p.draw = () => {
                 p.background(240);
+                p.textAlign(p.LEFT, p.BOTTOM)
 
                 // Draw characters
                 p.noStroke();
@@ -112,6 +117,21 @@
                     p.fill(100, 150, 255);
                     p.noStroke();
                     p.circle(pt.x, pt.y, 10);
+                }
+
+                p.textSize(12);
+                p.textAlign(p.CENTER, p.BOTTOM)
+                for (let i = 0; i < points.length - 1; i++) {
+                    let pt1 = points[i]
+                    let pt2 = points[i + 1]
+
+                    if (pt2.type == "Empty") continue;
+                    
+                    let t1 = p.map(pt1.y, maxY, minY, min_t, max_t)
+                    let t2 = p.map(pt2.y, maxY, minY, min_t, max_t)
+
+                    x = (pt1.x + pt2.x) / 2
+                    p.text(((t2-t1)*1000).toFixed(0) + "ms", x, maxY + 60)
                 }
             };
 
@@ -272,16 +292,18 @@
     </div>
 
     <style>
-        *{
+        * {
             font-family: "Roboto Mono";
             color: rgb(230, 230, 230);
         }
 
-        input[type=file]{
+        input[type=file] {
             max-width: 25vw;
         }
 
-        input, button, select{
+        input,
+        button,
+        select {
             background-color: #2a2a2a;
             margin: 0.1rem;
         }
@@ -306,7 +328,7 @@
             color: rgb(230, 230, 230);
 
             background-color: #2a2a2a;
-            padding: .75rem 2.75rem .75rem 1.75rem;
+            padding: .75rem calc(.75rem + 2.5rem) .75rem 1.75rem;
             border-radius: .75rem;
             margin-bottom: .75rem;
 
