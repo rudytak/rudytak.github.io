@@ -198,6 +198,11 @@ class Line {
             </Line>
         `
     }
+
+    // destructor
+    destroy(){
+        this.DOM_element.remove()
+    }
 }
 
 class Page {
@@ -356,6 +361,12 @@ class Page {
                 </Paragraphs>
             </Page>
         `
+    }
+
+    // destructor
+    destroy(){
+        this.lines.forEach(l=>l.destroy())
+        this.DOM_element.remove()
     }
 
 }
@@ -523,12 +534,19 @@ class XML_Lyrics_Handler {
             }
         })
 
-
         if (key == "ESCAPE") {
             this.close_overlay();
         }
 
         if (this.overlay_opened) return
+
+        if (key == " "){
+            if (this.player.paused){
+                this.player.play()
+            }else{
+                this.player.pause()
+            }
+        }
 
         if (key == "ARROWDOWN") {
             // Skip line
@@ -617,7 +635,7 @@ class XML_Lyrics_Handler {
         this.cursor.style.display = "block";
 
         this.lyrics_text = await file.text(); // works for txt and rtf
-        this.parse_lyrics(this.lyrics_text)
+        this.parse_lyrics(this.lyrics_text.trim())
     }
 
     async audio_load(e) {
@@ -633,6 +651,10 @@ class XML_Lyrics_Handler {
     }
 
     parse_lyrics(lyrics_text) {
+        // clear old pages
+        this.pages.forEach(p=>p.destroy())
+        this.pages = []
+
         lyrics_text = lyrics_text.replaceAll("\r\n", "\n").replaceAll("\r", "\n")
         let page_texts = lyrics_text.split("\n\n")
 
@@ -735,34 +757,36 @@ class XML_Lyrics_Handler {
             p.gen_auto_timings();
         }
 
-        // Start and end timings
-        if (this.pages[0].StartTime < 5) {
-            alert("First page must start at least 5s after the start of the song!")
-            return
-        }
-
-        if (this.pages[this.pages.length - 1].EndTime > this.player.duration - 0) {
-            alert("Last page must end before the end of the song!")
-            return
-        }
-
-        // Line checks
-        for (let line of this.all_lines) {
-            // ignored lines are okay
-            if (line.StartTime == line.EndTime && line.EndTime == -1) continue;
-
-            // non-ignored lines that have not been filled are not okay
-            if (line.StartTime == -1 || line.EndTime == 1e6) {
-                alert(`The line "${line.Text}" has not been correctly assigned!`)
+        if (document.getElementById("rulecheck").checked){
+            // Start and end timings
+            if (this.pages[0].StartTime < 5) {
+                alert("First page must start at least 5s after the start of the song!")
                 return
             }
-        }
-
-        // Page checks
-        for (var i = 0; i < this.pages.length - 1; i++) {
-            if (this.pages[i].EndTime > this.pages[i + 1].StartTime) {
-                alert(`The pages ${i} and ${i + 1} are overlapping in time and should be more spread out!`)
+    
+            if (this.pages[this.pages.length - 1].EndTime > this.player.duration - 0) {
+                alert("Last page must end before the end of the song!")
                 return
+            }
+    
+            // Line checks
+            for (let line of this.all_lines) {
+                // ignored lines are okay
+                if (line.StartTime == line.EndTime && line.EndTime == -1) continue;
+    
+                // non-ignored lines that have not been filled are not okay
+                if (line.StartTime == -1 || line.EndTime == 1e6) {
+                    alert(`The line "${line.Text}" has not been correctly assigned!`)
+                    return
+                }
+            }
+    
+            // Page checks
+            for (var i = 0; i < this.pages.length - 1; i++) {
+                if (this.pages[i].EndTime > this.pages[i + 1].StartTime) {
+                    alert(`The pages ${i} and ${i + 1} are overlapping in time and should be more spread out!`)
+                    return
+                }
             }
         }
 
