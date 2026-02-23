@@ -1,7 +1,23 @@
 // Go on top of the page on load, unless there's a hash in the URL (e.g. from an anchor link)
-window.addEventListener('load', function () {
-    if (window.location.hash) return;
-    window.scrollTo(0, 0);
+window.addEventListener('load', function (e) {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
+    if (window.location.hash) {
+        const style = window.getComputedStyle(document.body)
+
+        this.setTimeout(() => {
+            // Remove the hash from the URL without affecting the browser history
+            const targetElement = document.getElementById("smooth-anchor-" + window.location.hash.substring(1)); // Remove the '#' prefix
+            console.log("smooth-anchor-" + window.location.hash.substring(1));
+
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100 + 1000 * (
+            (parseFloat(style.getPropertyValue('--page-transition-duration')) || 0)
+            + (parseFloat(style.getPropertyValue('--page-transition-pause')) || 0)
+        ));
+    }
 });
 
 // Smooth redirect link animation
