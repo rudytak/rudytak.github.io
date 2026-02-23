@@ -1,0 +1,145 @@
+/* Main gradient class */
+
+.gbg {
+    --gbg-col: attr(gbg-col color, var(--col-bg));
+    --gbg-strength: 15%;
+    --gbg-opacity: 100%;
+
+    @supports (type(<percentage>)) {
+        --gbg-strength: attr(gbg-str type(<percentage>), 15%);
+        --gbg-opacity: attr(gbg-opacity type(<percentage>), 100%);
+    }
+
+    background: radial-gradient(ellipse 100% 100% at top left,
+        /* lightened corner */
+        rgba(255, 255, 255, var(--gbg-strength)) 0%,
+        transparent 100%),
+    radial-gradient(ellipse 100% 100% at bottom right,
+        /* darkened corner */
+        rgba(0, 0, 0, var(--gbg-strength)) 0%,
+        transparent 100%);
+
+    background-color: rgba(var(--gbg-col), var(--gbg-opacity));
+}
+
+/* Text element styling */
+.gbg.text {
+    background-clip: text;
+    color: transparent;
+
+    width: fit-content;
+    height: fit-content;
+}
+
+/* #region Shorthand colors */
+.gbg.primary {
+    --gbg-col: var(--col-primary);
+}
+
+.gbg.secondary {
+    --gbg-col: var(--col-secondary);
+}
+
+.gbg.tertiary {
+    --gbg-col: var(--col-tertiary);
+}
+
+.gbg.accent {
+    --gbg-col: var(--col-accent);
+}
+
+/* #endregion */
+
+/* #region Shorthands for strength */
+
+.gbg.str-0 {
+    --gbg-strength: 0%;
+}
+
+.gbg.str-10 {
+    --gbg-strength: 10%;
+}
+
+.gbg.str-20 {
+    --gbg-strength: 20%;
+}
+
+.gbg.str-30 {
+    --gbg-strength: 30%;
+}
+
+.gbg.str-40 {
+    --gbg-strength: 40%;
+}
+
+.gbg.str-50 {
+    --gbg-strength: 50%;
+}
+
+.gbg.str-60 {
+    --gbg-strength: 60%;
+}
+
+.gbg.str-70 {
+    --gbg-strength: 70%;
+}
+
+.gbg.str-80 {
+    --gbg-strength: 80%;
+}
+
+.gbg.str-90 {
+    --gbg-strength: 90%;
+}
+
+.gbg.str-100 {
+    --gbg-strength: 100%;
+}
+
+/* #region Shorthands for opacity */
+
+.gbg.op-0 {
+    --gbg-opacity: 0%;
+}
+
+.gbg.op-10 {
+    --gbg-opacity: 10%;
+}
+
+.gbg.op-20 {
+    --gbg-opacity: 20%;
+}
+
+.gbg.op-30 {
+    --gbg-opacity: 30%;
+}
+
+.gbg.op-40 {
+    --gbg-opacity: 40%;
+}
+
+.gbg.op-50 {
+    --gbg-opacity: 50%;
+}
+
+.gbg.op-60 {
+    --gbg-opacity: 60%;
+}
+
+.gbg.op-70 {
+    --gbg-opacity: 70%;
+}
+
+.gbg.op-80 {
+    --gbg-opacity: 80%;
+}
+
+.gbg.op-90 {
+    --gbg-opacity: 90%;
+}
+
+.gbg.op-100 {
+    --gbg-opacity: 100%;
+}
+
+/* #endregion */

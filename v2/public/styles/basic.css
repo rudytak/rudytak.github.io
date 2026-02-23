@@ -1,0 +1,173 @@
+:root {
+    --col-text: 250, 249, 246;
+    --col-bg: 8, 11, 13;
+    --col-border: 43, 43, 44;
+
+    --col-primary: 13, 14, 18;
+    --col-secondary: 26, 29, 35;
+    --col-tertiary: 15, 39, 41;
+
+    --col-accent: 83, 207, 126;
+    --col-accent-dark: 28, 99, 53;
+}
+
+* {
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+
+    color: rgb(var(--col-text));
+}
+
+html {
+    background-color: rgb(var(--col-bg));
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: rgb(var(--col-bg));
+    background-repeat: repeat;
+    background-position: center top;
+    background-image:
+        linear-gradient(rgba(var(--col-border), .5) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(var(--col-border), .5) 1px, transparent 1px);
+    background-size: 60px 60px;
+    box-shadow: inset 0 0 200px #000;
+
+    min-height: 100vh;
+    scroll-behavior: smooth;
+}
+
+/* #region Central content */
+
+main {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    margin: 0 max(calc(50vw - 500px), 0px);
+}
+
+main .v-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+main *.centered {
+    align-items: center;
+    text-align: center;
+}
+
+main *.left {
+    align-items: left;
+    text-align: left;
+}
+
+main *.right {
+    align-items: right;
+    text-align: right;
+}
+
+main *,
+main *.justify {
+    text-align: justify;
+}
+
+/* #region Vertical gaps*/
+.v-gap-1vh {
+    height: 1vh;
+}
+
+.v-gap-2vh {
+    height: 2vh;
+}
+
+.v-gap-3vh {
+    height: 3vh;
+}
+
+.v-gap-5vh {
+    height: 5vh;
+}
+
+.v-gap-10vh {
+    height: 10vh;
+}
+
+.v-gap-15vh {
+    height: 15vh;
+}
+
+.v-gap-20vh {
+    height: 20vh;
+}
+
+.v-gap-30vh {
+    height: 30vh;
+}
+
+.v-gap-40vh {
+    height: 40vh;
+}
+
+.v-gap-50vh {
+    height: 50vh;
+}
+
+.v-gap-60vh {
+    height: 60vh;
+}
+
+/* #endregion */
+/* #endregion */
+
+/* #region Header styling */
+header {
+    padding: 1rem;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    background: rgba(var(--col-primary), .85);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-bottom: 1px solid rgba(var(--col-border), 1);
+}
+
+.smooth-link {
+    font-size: 1rem;
+    text-decoration: none;
+    color: rgba(var(--col-text), .5);
+    margin: .25rem 1rem;
+
+    transition: color .2s ease, font-weight .2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.smooth-link:first-child {
+    margin-right: auto;
+    color: rgba(var(--col-accent), .7);
+}
+
+.smooth-link:hover {
+    color: rgba(var(--col-accent), .95) !important;
+}
+
+.smooth-link.selected {
+    color: rgba(var(--col-accent), .7);
+    font-weight: 700;
+}
+
+/* #endregion */

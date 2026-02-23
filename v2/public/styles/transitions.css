@@ -1,0 +1,110 @@
+:root {
+    --page-transition-pause: .2s;
+    --page-transition-duration: .3s;
+
+    --element-transition-pause: .5s;
+    --element-transition-duration: 1s;
+
+    --element-easing: cubic-bezier(.22,.61,.36,1);
+}
+
+.page-transition-overlay {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 0px;
+
+    z-index: 100;
+}
+
+.page-transition-overlay::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+
+    background-color: rgb(var(--col-accent-dark));
+    pointer-events: none;
+}
+
+
+.page-transition-overlay.fade-in::after {
+    opacity: 0;
+    animation: fade-in var(--page-transition-duration) ease-out var(--page-transition-pause) forwards !important;
+}
+
+.page-transition-overlay.fade-out::after {
+    opacity: 1;
+    animation: fade-in var(--page-transition-duration) ease-out var(--page-transition-pause) reverse forwards !important;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+*:not(.page-transition-overlay).fade-in {
+    opacity: 0;
+    animation: fade-in var(--element-transition-duration) var(--element-easing) var(--element-transition-pause) forwards;
+}
+
+*:not(.page-transition-overlay).fade-out {
+    opacity: 1;
+    animation: fade-in var(--element-transition-duration) var(--element-easing) var(--element-transition-pause) reverse forwards;
+}
+
+@keyframes slide-in-left-fade {
+    from {
+        opacity: 0;
+        transform: translateX(-10rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-left-fade {
+    opacity: 0;
+    transform: translateX(-10rem);
+    animation: slide-in-left-fade var(--element-transition-duration) var(--element-easing) var(--element-transition-pause) forwards;
+}
+
+@keyframes slide-in-bottom-fade {
+    from {
+        opacity: 0;
+        transform: translateY(5rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in-bottom-fade {
+    opacity: 0;
+    transform: translateY(5rem);
+    animation: slide-in-bottom-fade var(--element-transition-duration) var(--element-easing) var(--element-transition-pause) forwards;
+}
+
+@keyframes random-jiggle {
+    0% { transform: rotate(0deg); }
+   80% { transform: rotate(0deg); }
+   85% { transform: rotate(5deg); }
+   95% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.jiggle-idle {
+    animation: random-jiggle 2.5s ease-in-out infinite;
+}

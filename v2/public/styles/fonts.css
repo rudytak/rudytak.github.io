@@ -1,0 +1,90 @@
+/* #region General font styling */
+
+/* Styles */
+
+.fs-1 {
+    font-size: 1rem !important;
+}
+
+.fs-1_25 {
+    font-size: 1.25rem !important;
+}
+
+.fs-1_5 {
+    font-size: 1.5rem !important;
+}
+
+.fs-1_75 {
+    font-size: 1.75rem !important;
+}
+
+.fs-2 {
+    font-size: 2rem !important;
+}
+
+.fs-3 {
+    font-size: 3rem !important;
+}
+
+.fs-4 {
+    font-size: 4rem !important;
+}
+
+.fs-5 {
+    font-size: 5rem !important;
+}
+
+.fs-8 {
+    font-size: 8rem !important;
+}
+
+.fs-10 {
+    font-size: 10rem !important;
+}
+
+/* Styles */
+
+.bold {
+    font-weight: 700 !important;
+}
+
+.italic {
+    font-style: italic !important;
+}
+
+/* Colors */
+
+.fc-primary {
+    color: rgb(var(--col-text)) !important;
+}
+
+.fc-secondary {
+    color: color-mix(in srgb, rgb(var(--col-text)) 100%, black 50%) !important;
+}
+
+.fc-tertiary {
+    color: color-mix(in srgb, rgb(var(--col-text)) 50%, black 100%) !important;
+}
+
+.fc-accent {
+    color: rgb(var(--col-accent)) !important;
+}
+
+/* #endregion */
+
+/* SPACE MONO */
+
+.space-mono {
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* FIRA CODE */
+
+.fira-code {
+    font-family: "Fira Code", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
