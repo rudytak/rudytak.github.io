@@ -1,5 +1,5 @@
 // Go on top of the page on load, unless there's a hash in the URL (e.g. from an anchor link)
-window.addEventListener('load', function (e) {
+window.addEventListener('pageshow', function (e) {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 
     if (window.location.hash) {
@@ -21,7 +21,7 @@ window.addEventListener('load', function (e) {
 });
 
 // Smooth redirect link animation
-window.addEventListener('load', function () {
+window.addEventListener('pageshow', function () {
     window.document.querySelectorAll('.smooth-link').forEach(el => {
         if (el.classList.contains('ignore')) return;
 
@@ -50,7 +50,7 @@ window.addEventListener('load', function () {
 });
 
 // Secondary infinite jiggle animation for icons with a delay after the initial fade-in
-window.addEventListener('load', () => {
+window.addEventListener('pageshow', () => {
     setTimeout(() => {
         const icons = document.querySelectorAll('.jiggle-after');
         icons.forEach(icon => {
@@ -83,7 +83,7 @@ const on_view_callback = function () {
         }
     });
 }
-window.addEventListener('load', function () {
+window.addEventListener('pageshow', function () {
     on_view_callback();
     window.addEventListener("scroll", on_view_callback, false);
 });
