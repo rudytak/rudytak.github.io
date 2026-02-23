@@ -38,8 +38,6 @@ body {
 
     min-height: 100vh;
     scroll-behavior: smooth;
-
-    overflow-x: hidden;
 }
 
 /* #region Central content */
