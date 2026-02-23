@@ -21,9 +21,7 @@
     <script src="./styles/transitions.js"></script>
 
     <!-- Fontawesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./images/fontawesome-free-7.2.0-web/css/all.min.css">
 
     <!-- Browser tab -->
     <title>Portfolio / Ondřej Sedláček</title>
@@ -84,12 +82,13 @@
 
         <div class="v-gap-3vh"></div>
 
-        <div class="box gbg primary str-10 op-80 slide-in-bottom-fade" style="animation-delay: 2s;">
+        <div class="box gbg primary str-10 op-80 slide-in-bottom-fade animate-on-view">
             <span class="fc-accent fs-1_5">Krátký úvod</span>
 
             <p class="fs-1_25">
                 Jsem freelancer s více než 10 lety zkušeností s programováním a více než 6 lety profesionální praxe.
-                Realizoval jsem přes 200 zakázek s hodnocením 4.9+ hvězd. Specializuji se na vývoj vysoce
+                Realizoval jsem přes <b class="fc-accent bold">200 zakázek</b> s hodnocením <b
+                    class="fc-accent bold">4.9+ hvězd</b>. Specializuji se na vývoj vysoce
                 specializovaných webových aplikací, konfigurátorů a interaktivních systémů, které propojují moderní
                 frontend, robustní backend a precizní uživatelské rozhraní.
 
@@ -99,7 +98,7 @@
 
         <div class="v-gap-5vh"></div>
 
-        <div class="box gbg primary str-10 op-80 slide-in-bottom-fade" style="animation-delay: 3s;">
+        <div class="box gbg primary str-10 op-80 slide-in-bottom-fade animate-on-view">
             <span class="fc-accent fs-1_5">Výběr projektů</span>
 
             <br>
@@ -108,8 +107,9 @@
             <div class="fs-1_25" style="padding: 2rem 3rem;">
                 <li>Interiérový konfigurátor pro portugalskou developerskou společnost MMEIRELES</li>
                 <br>
-                <li>Webový konfigurátor a optimalizér nizozemské vlakové infrastruktury (s použitím databáze ArcGIS)
-                <br>
+                <li>Webový konfigurátor a optimalizér investičních nemovitostí v Nizozemsku (s použitím databáze ArcGIS)
+                    <br>
+                    <br>
                 <li>3D konfigurátor střešních krytin s automatizovanou vizualizací</li>
                 </li>
             </div>
@@ -119,7 +119,7 @@
 
         <div class="v-gap-5vh"></div>
 
-        <div class="box gbg primary str-10 op-80 slide-in-bottom-fade" style="animation-delay: 4s;">
+        <div class="box gbg primary str-10 op-80 slide-in-bottom-fade animate-on-view">
             <span class="fc-accent fs-1_5">Kompletní Tech-stack</span>
 
             <br>
@@ -131,35 +131,38 @@
                             class="fa-solid fa-paintbrush"></i></b>
                     <br>
                     <br>
-                    <li>JavaScript</li>
-                    <li>Svelte</li>
-                    <li>React</li>
-                    <li>Vue</li>
-                    <li>p5.js</li>
-                    <li>Figma</li>
+                    <i style="color: #fcd942;" class="fa-brands fa-js"></i> JavaScript <br>
+                    <i style="color: #ff4308;" class="fa-brands fa-svelte"></i> Svelte <br>
+                    <i style="color: #08dcfc;" class="fa-brands fa-react"></i> React <br>
+                    <i style="color: #47ba87;" class="fa-brands fa-vuejs"></i> Vue <br>
+                    <img style="color: #ee1d5d; height: .8rem;" src="./images/p5js-logo.svg"></img> p5.js <br>
+                    <i style="color: #ff7667;" class="fa-brands fa-figma"></i> Figma <br>
                 </div>
                 <div class="box gbg secondary str-0" style="width: 20%; padding: 2rem 3rem;">
                     <b class="fc-accent fs-1_25">Backend <i style="color: var(--col-accent);"
                             class="fa-solid fa-laptop-code"></i></b>
                     <br>
                     <br>
-                    <li>Node.js</li>
-                    <li>Typescript</li>
-                    <li>Python</li>
-                    <li>Cloudflare</li>
-                    <li>ArcGIS API</li>
+                    <i style="color: #62af4c;" class="fa-brands fa-node-js"></i> Node.js <br>
+                    <i style="color: #f48527;" class="fa-brands fa-cloudflare"></i> Cloudflare <br>
+                    <i style="color: #377cc8;" class="fa-brands fa-typescript"></i> Typescript <br>
+                    <i style="color: #ea9008;" class="fa-solid fa-database"></i> SQL <br>
+                    <i style="color: #0a7bbe;" class="fa-brands fa-python"></i> Python <br>
+                    <img style="height: 1.2rem; translate: 2px 4px;" src="./images/arc-gis-logo.png"></img> ArcGIS API
+                    <br>
                 </div>
                 <div class="box gbg secondary str-0" style="width: 20%; padding: 2rem 3rem;">
                     <b class="fc-accent fs-1_25">Other <i style="color: var(--col-accent);"
                             class="fa-solid fa-gear"></i></b>
                     <br>
                     <br>
-                    <li>Wien2k</li>
-                    <li>C</li>
-                    <li>Blockchain</li>
-                    <li>Fusion 360</li>
-                    <li>Squarespace</li>
-                    <li>Wix</li>
+                    <i style="color: #6566d3;" class="fa-solid fa-atom"></i> Wien2k <br>
+                    <i style="color: #a0aadb;" class="fa-brands fa-ethereum"></i> Blockchain <br>
+                    <img style="height: 1rem; translate: 2px 4px;" src="./images/c-lang.svg"></img> C <br>
+                    <i style="color: #ffffff;" class="fa-brands fa-squarespace"></i> Squarespace <br>
+                    <i style="color: #fbbf74;" class="fa-brands fa-wix"></i> Wix <br>
+                    <img style="height: 1rem; translate: 2px 4px;" src="./images/Fusion360_Logo.svg"></img> Fusion 360
+                    <br>
                 </div>
             </div>
 
@@ -167,7 +170,7 @@
 
         <div class="v-gap-5vh"></div>
 
-        <p class="v-section centered fade-in" style="animation-delay: 5s;">
+        <div class="v-section centered fade-in animate-on-view">
             <span class="
                 space-mono bold fs-2  
                 gbg text accent str-50
@@ -175,9 +178,12 @@
             ">
                 Hledáte technicky náročné řešení <br> bez zbytečné složitosti?
             </span>
-        <p class="smooth-link centered fade-in fs-1_5" style="animation-delay: 5s;" href="./about.html#contacts">Pojďme
-            probrat váš projekt >></p>
-        </p>
+
+            <p class="smooth-link centered fade-in fs-1_5" href="./about.html#contacts">
+                Pojďme
+                probrat váš projekt >>
+            </p>
+        </div>
 
         <div class="v-gap-10vh"></div>
     </main>

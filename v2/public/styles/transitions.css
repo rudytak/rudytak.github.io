@@ -108,3 +108,8 @@
 .jiggle-idle {
     animation: random-jiggle 2.5s ease-in-out infinite;
 }
+
+.animate-on-view {
+    display: hidden;
+    animation: none !important;
+}
