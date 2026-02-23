@@ -40,6 +40,8 @@ window.addEventListener('pageshow', function () {
             const href = el.getAttribute('href');
             var style = window.getComputedStyle(document.body)
             setTimeout(() => {
+                overlay.classList.add('fade-out');
+                overlay.classList.remove('fade-in');
                 window.open(href, '_self');
             }, 1000 * (
                 (parseFloat(style.getPropertyValue('--page-transition-duration')) || 0)
