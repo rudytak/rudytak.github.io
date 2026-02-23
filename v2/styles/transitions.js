@@ -25,10 +25,24 @@ window.addEventListener('pageshow', function () {
     window.document.querySelectorAll('.smooth-link').forEach(el => {
         if (el.classList.contains('ignore')) return;
 
+        // Perform the fade-out animation
+        let overlay = window.document.querySelector('.page-transition-overlay')
+        if (!overlay.classList.contains('fade-out')) {
+            overlay.classList.add('fade-out');
+            overlay.classList.remove('fade-in');
+
+            // refresh animation
+            var newone = overlay.cloneNode(true);
+            overlay.parentNode.replaceChild(newone, overlay);
+        }
+
+        var newone = overlay.cloneNode(true);
+        overlay.parentNode.replaceChild(newone, overlay);
+
         el.addEventListener('click', (e) => {
             e.preventDefault();
 
-            // Perform the fade-out animation
+            // Perform the fade-in animation
             let overlay = window.document.querySelector('.page-transition-overlay')
             overlay.classList.remove('fade-out');
             overlay.classList.add('fade-in');
@@ -40,6 +54,8 @@ window.addEventListener('pageshow', function () {
             const href = el.getAttribute('href');
             var style = window.getComputedStyle(document.body)
             setTimeout(() => {
+                overlay.classList.add('fade-out');
+                overlay.classList.remove('fade-in');
                 window.open(href, '_self');
             }, 1000 * (
                 (parseFloat(style.getPropertyValue('--page-transition-duration')) || 0)
@@ -48,6 +64,7 @@ window.addEventListener('pageshow', function () {
         });
     });
 });
+
 
 // Secondary infinite jiggle animation for icons with a delay after the initial fade-in
 window.addEventListener('pageshow', () => {
